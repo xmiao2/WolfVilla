@@ -1,4 +1,11 @@
+# OSX
 .DS_Store
+
+# Intellij
 .idea/
 *.iml
 
+# Java + Maven
+target/
+*.class
+*.log
