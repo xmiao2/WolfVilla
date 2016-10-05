@@ -13,3 +13,4 @@ CSC440 Final Project
 ## Running/Debugging the project
 0. In Intellij, press `ctrl+shift+A`, type in `maven projects`. (Alternatively, you can click on `Maven Projects` tab on the upper right side of the IDE.)
 1. Right click on `WolfVilla Maven Webapp > Plugins > jetty > jetty:run`, select `debug`
+2. Open web browser, go to `localhost:8888/wolfvilla`
