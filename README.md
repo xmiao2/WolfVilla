@@ -14,3 +14,9 @@ CSC440 Final Project
 0. In Intellij, press `ctrl+shift+A`, type in `maven projects`. (Alternatively, you can click on `Maven Projects` tab on the upper right side of the IDE.)
 1. Right click on `WolfVilla Maven Webapp > Plugins > jetty > jetty:run`, select `debug`
 2. Open web browser, go to `localhost:8888/wolfvilla`
+
+## Pushing changes
+0. Organize and push changes to your origin dev branch
+1. Create a pull request from origin dev to upstream dev
+2. Assign others to review your code
+3. Whoever approves the review can merge it to upstream dev branch. (Let's be disciplined and not push unreviewed code.) 
