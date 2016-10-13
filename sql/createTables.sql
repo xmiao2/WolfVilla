@@ -103,8 +103,6 @@ CREATE TABLE checkin_information (
   CONSTRAINT fk_hotel_room FOREIGN KEY (hotel_id, room_number) REFERENCES rooms(hotel_id, room_number)
 );
 
-  CHECK(('presidential' = (SELECT category_name FROM rooms WHERE rooms.hotel_id = hotel_id & rooms.room_number = room_number) AND catering_staff_id IS NOT NULL AND room_service_staff IS NOT NULL) OR ('presidential' <> (SELECT category_name FROM rooms WHERE rooms.hotel_id = hotel_id & rooms.room_number = room_number) AND catering_staff_id IS NULL AND room_service_staff IS NULL))
-
 CREATE TABLE services (
   id int primary key, 
   description varchar(30), 
