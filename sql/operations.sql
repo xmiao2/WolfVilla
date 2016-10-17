@@ -41,7 +41,7 @@ VALUES(@hotel_id, @room_number, @category_name, @max_occupancy);
 /*updateRoom*/
 UPDATE rooms 
 SET category_name = @category_name, max_occupancy = @max_occupancy
-WHERE room_number = @room_number;
+WHERE hotel_id = @hotel_id AND room_number = @room_number;
 
 /*deleteRoom*/
 DELETE FROM rooms
@@ -58,7 +58,7 @@ WHERE category_name = @category_name AND max_occupancy = @max_occupancy;
 
 /*deleteRoomCategory*/
 DELETE FROM room_categories
-WHERE category_name = @category_name AND room_categories = @room_categories;
+WHERE category_name = @category_name AND max_occupancy  = @max_occupancy;
 
 /*getCustomer*/
 SELECT *
@@ -71,7 +71,7 @@ VALUES (@customer_id, @name, @gender, @phone_number, @email, @address);
 
 /*updateCustomer*/
 UPDATE customers
-SET name = @name, gender = @gender, phone_number = @phone_number, address = @address
+SET name = @name, gender = @gender, phone_number = @phone_number, email = @email, address = @address
 WHERE id = @customer_id;
 
 /*deleteCustomer*/
@@ -85,7 +85,7 @@ WHERE id = @hotel_id;
 
 /*createHotel*/
 INSERT INTO hotels 
-VALUES(100, @address, @name, @phone_number);
+VALUES(hotel_seq.nextval, @address, @name, @phone_number);
 
 /*updateHotel*/
 UPDATE hotels 
@@ -96,6 +96,12 @@ WHERE id = @hotel_id;
 DELETE FROM hotels 
 WHERE id = @hotel_id;
 
+/*createCheckingEvent*/
+INSERT INTO billing_information 
+VALUES(billing_information_seq.nextval,  @billing_address, @payer_ssn, @payment_type, @card_number, @expiration_date);
+
+INSERT INTO checkin_information VALUES(checkin_information_seq.nextval , @occupancy_number, @check_in_time, @checkout_time, 99, @hotel_id, @room_number, @customer_id, @catering_staff, @room_service_staff);
+
 /*getCheckingEvent*/
 SELECT *
 FROM checkin_information 
@@ -105,12 +111,6 @@ WHERE id = @checking_event_id;
 SELECT * 
 FROM checkin_information 
 WHERE hotel_id = @hotel_id;
-
-/*createCheckingEvent*/
-INSERT INTO billing_information 
-VALUES(99,  @billing_address, @payer_ssn, @payment_type, @card_number, @expiration_date);
-
-INSERT INTO checkin_information VALUES(100, @occupancy_number, @check_in_time, @checkout_time, 99, @hotel_id, @room_number, @customer_id, @catering_staff, @room_service_staff);
 
 /*updateCheckingEvent*/
 UPDATE checkin_information 
@@ -130,13 +130,12 @@ WHERE id = @checking_event_id;
 DELETE FROM manager
 WHERE hotel_id = @hotel_id;
 
-UPDATE manager
-SET hotel_id = @hotel_id
-WHERE id = @manager_id;
+INSERT INTO manager
+VALUES(@manager_id, @hotel_id);
 
 /* addService */
 INSERT INTO services
-VALUES (@id, @name, @price, @staff_id, @checking_event_id);
+VALUES (services_seq.nextval, @name, @price, @staff_id, @checking_event_id);
 
 /*deleteService*/
 DELETE FROM services
@@ -144,7 +143,7 @@ WHERE id = @service_id;
 
 /*updateService*/
 UPDATE services
-SET staff_id = @staff_id, description = @description, price = @price
+SET staff_id = @staff_id, description = @description, price = @price, checkin_id  = @checking_event_id 
 WHERE id = @service_id;
 
 /*totalServiceCosts*/
