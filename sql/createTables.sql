@@ -27,7 +27,7 @@ CREATE TABLE hotels (
 
 CREATE TABLE title_department(
   title varchar(32) PRIMARY KEY, 
-  department varchar(32) NOT NULL
+  department varchar(32) UNIQUE NOT NULL
 );
 
 CREATE TABLE staff (
