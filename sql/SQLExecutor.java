@@ -33,16 +33,15 @@ public class SQLExecutor {
 
     public void executeSQL(Connection conn, List<String> queries) throws SQLException {
         long start = System.currentTimeMillis();
+        Statement stmt = conn.createStatement();
         for (String sql : queries) {
-            Statement stmt = conn.createStatement();
             try {
                 stmt.execute(sql);
             } catch (SQLException e) {
-                throw new SQLException(e.getMessage() + " from executing: " + sql, e.getSQLState(), e.getErrorCode());
-            } finally {
-                stmt.close();
+                System.out.println(e.getMessage() + " from executing: " + sql);
             }
         }
+        stmt.close();
         conn.close();
     }
 
