@@ -18,7 +18,7 @@ public class DBConnection {
         connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
     }
 
-    public DBConnection getInstance() throws SQLException, ClassNotFoundException {
+    public synchronized DBConnection getInstance() throws SQLException, ClassNotFoundException {
         if (dbConnection == null) {
             dbConnection = new DBConnection();
         }
