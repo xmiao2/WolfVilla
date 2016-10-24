@@ -3,7 +3,7 @@ package edu.ncsu.csc440.teamk.wolfvilla.model;
 /**
  * Created by Edward on 10/24/16.
  */
-public class Services {
+public class Service {
 
     private long primaryKey;
     private String description;
@@ -12,7 +12,7 @@ public class Services {
     private long staffId;
     private long checkinID;
 
-    public Services(long primaryKey, String description, double price, long staffId, long checkinID) {
+    public Service(long primaryKey, String description, double price, long staffId, long checkinID) {
         this.primaryKey = primaryKey;
         this.description = description;
         this.price = price;

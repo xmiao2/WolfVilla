@@ -3,16 +3,16 @@ package edu.ncsu.csc440.teamk.wolfvilla.model;
 /**
  * Created by Joshua on 10/24/2016.
  */
-public class room_category {
+public class RoomCategory {
     private String categoryName;
     private Integer maxOccupancy;
-    private double nightly_rate;
+    private double nightlyRate;
 
-    public room_category(String categoryName, Integer maxOccupancy,
-                         double nightly_rate) {
+    public RoomCategory(String categoryName, Integer maxOccupancy,
+                        double nightly_rate) {
         this.categoryName = categoryName;
         this.maxOccupancy = maxOccupancy;
-        this.nightly_rate = nightly_rate;
+        this.nightlyRate = nightly_rate;
     }
 
     public String getCategoryName() {
@@ -23,11 +23,11 @@ public class room_category {
         return maxOccupancy;
     }
 
-    public double getNightly_rate() {
-        return nightly_rate;
+    public double getNightlyRate() {
+        return nightlyRate;
     }
 
-    public void setNightly_rate(double nightly_rate) {
-        this.nightly_rate = nightly_rate;
+    public void setNightlyRate(double nightlyRate) {
+        this.nightlyRate = nightlyRate;
     }
 }

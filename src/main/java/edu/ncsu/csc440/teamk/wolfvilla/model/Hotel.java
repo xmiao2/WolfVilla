@@ -3,14 +3,14 @@ package edu.ncsu.csc440.teamk.wolfvilla.model;
 /**
  * Created by Edward on 10/24/16.
  */
-public class Hotels {
+public class Hotel {
 
     private long primaryKey;
     private String address;
     private String name;
     private String phoneNumber;
 
-    public Hotels(long primaryKey, String address, String name, String phoneNumber) {
+    public Hotel(long primaryKey, String address, String name, String phoneNumber) {
         this.primaryKey = primaryKey;
         this.address = address;
         this.name = name;

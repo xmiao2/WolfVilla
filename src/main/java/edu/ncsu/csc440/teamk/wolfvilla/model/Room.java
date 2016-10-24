@@ -3,7 +3,7 @@ package edu.ncsu.csc440.teamk.wolfvilla.model;
 /**
  * Created by Adac on 10/24/2016.
  */
-public class Rooms {
+public class Room {
     private Long id;
     private Integer roomNumber;
     private String categoryName;
@@ -41,7 +41,7 @@ public class Rooms {
         this.maxOccupancy = maxOccupancy;
     }
 
-    public Rooms(Long id, Integer roomNumber, String categoryName, int maxOccupancy) {
+    public Room(Long id, Integer roomNumber, String categoryName, int maxOccupancy) {
         this.id = id;
         this.roomNumber = roomNumber;
         this.categoryName = categoryName;
