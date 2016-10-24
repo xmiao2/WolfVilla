@@ -16,7 +16,6 @@ public class TitleDepartment {
     }
 
     public String getTitle() {
-
         return title;
     }
 
