@@ -97,4 +97,35 @@ public class Staff {
         this.phoneNumber = phoneNumber;
         this.hotelId = hotelId;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Staff staff = (Staff) o;
+
+        if (hotelId != staff.hotelId) return false;
+        if (name != null ? !name.equals(staff.name) : staff.name != null) return false;
+        if (title != null ? !title.equals(staff.title) : staff.title != null) return false;
+        if (ssn != null ? !ssn.equals(staff.ssn) : staff.ssn != null) return false;
+        if (age != null ? !age.equals(staff.age) : staff.age != null) return false;
+        if (gender != null ? !gender.equals(staff.gender) : staff.gender != null) return false;
+        if (address != null ? !address.equals(staff.address) : staff.address != null) return false;
+        return phoneNumber != null ? phoneNumber.equals(staff.phoneNumber) : staff.phoneNumber == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (ssn != null ? ssn.hashCode() : 0);
+        result = 31 * result + (age != null ? age.hashCode() : 0);
+        result = 31 * result + (gender != null ? gender.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
+        result = 31 * result + (int) (hotelId ^ (hotelId >>> 32));
+        return result;
+    }
 }

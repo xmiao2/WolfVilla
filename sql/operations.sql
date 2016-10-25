@@ -19,7 +19,7 @@ WHERE hotel_id = @hotel_id AND title = @job_title;
 
 /*createStaff*/
 INSERT INTO staff 
-VALUES (100, @name, @job_title, @ssn, @age, @gender, @address, @phone_number, @hotel_id);
+VALUES (staff_seq.nextval, @name, @job_title, @ssn, @age, @gender, @address, @phone_number, @hotel_id);
 
 /*updateStaff*/
 UPDATE staff SET ssn = @ssn, name = @name, age=@age, gender=@gender,job_title=@job_title, phone_number=@phone_number, address=@address, hotel_id=@hotel_id
