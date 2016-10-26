@@ -89,7 +89,7 @@ VALUES(hotel_seq.nextval, @address, @name, @phone_number);
 
 /*updateHotel*/
 UPDATE hotels 
-SET name = @name, phone_number = @phone_number, address = @address 
+SET  address = @address, name = @name, phone_number = @phone_number
 WHERE id = @hotel_id;
 
 /*deleteHotel*/

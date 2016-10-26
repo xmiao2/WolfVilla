@@ -84,11 +84,11 @@ public class StaffDAO {
     }
 
 
-    public static List<Staff> retrieveStaffByTitle(long hotelID, long title) throws SQLException, ClassNotFoundException {
+    public static List<Staff> retrieveStaffByTitle(long hotelID, String title) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
                 PreparedStatement stmt = connection.prepareStatement("SELECT * FROM staff WHERE hotel_id = ? AND title = ?")) {
             stmt.setLong(1, hotelID);
-            stmt.setLong(2, title);
+            stmt.setString(2, title);
             try (ResultSet rs = stmt.executeQuery()) {
                 return convertStaffList(rs);
             }

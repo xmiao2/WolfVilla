@@ -53,7 +53,7 @@ CREATE TABLE room_categories (
 );
 
 CREATE TABLE rooms (
-  hotel_id int REFERENCES hotels(id),
+  hotel_id int REFERENCES hotels(id) ON DELETE CASCADE,
   room_number int,
   category_name varchar(32) NOT NULL,
   max_occupancy int NOT NULL,
@@ -84,7 +84,7 @@ CREATE TABLE checkin_information (
   current_occupancy int,
   checkin_time TIMESTAMP(0) NOT NULL,
   checkout_time TIMESTAMP(0),
-  billing_information_id int UNIQUE NOT NULL REFERENCES billing_information(id),
+  billing_information_id int UNIQUE NOT NULL REFERENCES billing_information(id) ON DELETE CASCADE,
   hotel_id int NOT NULL,
   room_number int NOT NULL,
   customer_id int NOT NULL REFERENCES customers(id),
