@@ -19,9 +19,9 @@ public class TestEnvironmentSetter {
         TestEnvironmentSetter sqlExecutor = new TestEnvironmentSetter();
         List<String> queries = sqlExecutor.parseSQLFile("sql/createTables.sql");
 
-        Connection conn = DBConnection.getConnection();
-
-        sqlExecutor.executeSQL(conn, queries);
+        try (Connection conn = DBConnection.getConnection()) {
+            sqlExecutor.executeSQL(conn, queries);
+        }
     }
 
     public void executeSQL(Connection conn, List<String> queries) throws SQLException {

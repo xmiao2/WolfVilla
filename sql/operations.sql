@@ -22,7 +22,7 @@ INSERT INTO staff
 VALUES (staff_seq.nextval, @name, @job_title, @ssn, @age, @gender, @address, @phone_number, @hotel_id);
 
 /*updateStaff*/
-UPDATE staff SET ssn = @ssn, name = @name, age=@age, gender=@gender,job_title=@job_title, phone_number=@phone_number, address=@address, hotel_id=@hotel_id
+UPDATE staff SET ssn = @ssn, name = @name, age=@age, gender=@gender, title=@job_title, phone_number=@phone_number, address=@address, hotel_id=@hotel_id
 WHERE id = @staff_id;
 
 /*deleteStaff*/
