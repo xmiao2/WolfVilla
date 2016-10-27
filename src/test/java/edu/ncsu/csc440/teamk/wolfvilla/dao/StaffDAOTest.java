@@ -43,7 +43,7 @@ public class StaffDAOTest {
             assertEquals(2, staffList.size());
             for (Staff s : staffList) {
                 has1 = has1 || (s.getName().equals("Tim"));
-                has2 = has2 || (s.getName().equals("Jim"));
+                has2 = has2 || (s.getName().equals("Kim"));
             }
             assertTrue(has1 && has2);
         }
