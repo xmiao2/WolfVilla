@@ -1,5 +1,9 @@
 package edu.ncsu.csc440.teamk.wolfvilla.util;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Types;
+
 /**
  * Created by Joshua on 10/25/2016.
  */
@@ -15,5 +19,10 @@ public class SQLTypeTranslater {
             return null;
         }
         return c.toString();
+    }
+
+    public static void safeIntSet(PreparedStatement ps, int index, Long value) throws SQLException {
+        if (value == null) ps.setNull(index, Types.INTEGER);
+        else ps.setLong(index, value);
     }
 }

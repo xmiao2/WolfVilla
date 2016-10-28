@@ -1,6 +1,6 @@
 package edu.ncsu.csc440.teamk.wolfvilla.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * Created by Joshua on 10/24/2016.

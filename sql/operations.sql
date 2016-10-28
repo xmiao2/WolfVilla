@@ -135,7 +135,7 @@ VALUES(@manager_id, @hotel_id);
 
 /* addService */
 INSERT INTO services
-VALUES (services_seq.nextval, @name, @price, @staff_id, @checking_event_id);
+VALUES (services_seq.nextval, @description, @price, @staff_id, @checking_event_id);
 
 /*deleteService*/
 DELETE FROM services

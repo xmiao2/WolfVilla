@@ -15,6 +15,8 @@ public class HotelDAOTest {
         long id = HotelDAO.createHotel(h1);
 
         Hotel h2 = new Hotel(id, "Test room", "proof", "3336668888");
+        //Just make sure the function does not crash anything.
+        HotelDAO.getHotels();
         HotelDAO.updateHotel(h2);
         HotelDAO.deleteHotel(id);
     }
