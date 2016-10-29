@@ -57,6 +57,15 @@ public class HotelDAO {
             return convertHotelList(rs);
         }
     }
+
+    public static Hotel getHotelById(long id) throws SQLException, ClassNotFoundException {
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM hotels WHERE id = " + id);
+             ResultSet rs = stmt.executeQuery()) {
+            return convertToHotel(rs);
+        }
+    }
+
     private static List<Hotel> convertHotelList(ResultSet rs) throws SQLException {
         ArrayList<Hotel> toReturn = new ArrayList<Hotel>();
         while(rs.next()) {
