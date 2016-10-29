@@ -14,8 +14,8 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th>Address</th>
             <th>Name</th>
+            <th>Address</th>
             <th>Phone Number</th>
             <th>Actions</th>
         </tr>
@@ -23,8 +23,8 @@
         <tbody>
         <tr th:each="hotel : ${hotels}">
             <td th:text="${hotel.primaryKey}"></td>
-            <td th:text="${hotel.address}">test</td>
             <td th:text="${hotel.name}">test</td>
+            <td th:text="${hotel.address}">test</td>
             <td th:text="${hotel.phoneNumber}">test</td>
             <td><a th:href="@{|/hotels/${hotel.primaryKey}|}" th:text="Edit"></a><br/>
                 <a th:href="@{|/hotels/delete/${hotel.primaryKey}|}" th:text="Delete"></a></td>
