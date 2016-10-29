@@ -10,6 +10,14 @@ public class Hotel {
     private String name;
     private String phoneNumber;
 
+    public Hotel() {
+        this("", "", "");
+    }
+
+    public Hotel(String address, String name, String phoneNumber) {
+        this(-1L, address, name, phoneNumber);
+    }
+
     public Hotel(long primaryKey, String address, String name, String phoneNumber) {
         this.primaryKey = primaryKey;
         this.address = address;

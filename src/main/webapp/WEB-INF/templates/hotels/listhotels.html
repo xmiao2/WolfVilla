@@ -3,8 +3,13 @@
       layout:decorator="layouts/layout">
 
 <title layout:fragment="page-title">WolfVilla | Hotels</title>
+
 <section layout:fragment="page-content">
-    <h1>View Hotels</h1>
+    <h1>
+        Hotels
+        <a th:href="@{/hotels/new}" class="btn btn-success btn-xs">Add New Hotel</a>
+    </h1>
+
     <table class="cell-border stripe" cellspacing="0" width="100%">
         <thead>
         <tr>

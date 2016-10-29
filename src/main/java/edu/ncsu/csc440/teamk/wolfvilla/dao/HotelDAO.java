@@ -60,9 +60,13 @@ public class HotelDAO {
 
     public static Hotel getHotelById(long id) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM hotels WHERE id = " + id);
-             ResultSet rs = stmt.executeQuery()) {
-            return convertToHotel(rs);
+             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM hotels WHERE id = ?");) {
+            stmt.setLong(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                return convertToHotel(rs);
+            }
         }
     }
 

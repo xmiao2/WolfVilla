@@ -1,0 +1,22 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<title layout:fragment="page-title">WolfVilla | Delete Hotel</title>
+<section layout:fragment="page-content">
+    <h1>Delete Hotel <small>ID: <span th:text="${hotel.primaryKey}"></span></small></h1>
+    <h3>Are you sure you want to delete the follow hotel?</h3>
+    <form method="POST" action="@{|/hotels/delete/${hotel.primaryKey}|}">
+        <section th:include="hotels/_hotelform :: hotelform"></section>
+        <a th:href="@{/hotels}" class="btn btn-danger">Yes</a>
+        <a th:href="@{/hotels}" class="btn btn-info">Cancel</a>
+    </form>
+</section>
+
+<section layout:fragment="page-scripts">
+    <script>
+        $("input[type='text']").prop("disabled", "disabled");
+    </script>
+</section>
+
+</html>
