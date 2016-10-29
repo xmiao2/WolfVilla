@@ -1,3 +1,49 @@
+@sidebar-width: 30rem;
+
 body {
-    color: @darkred;
+    font-family: 'Nunito', sans-serif;
+}
+
+a, a:hover {
+    text-decoration: none;
+}
+
+#sidebar-wrapper {
+    position: fixed;
+    left: 0;
+    width: @sidebar-width;
+    top: 0;
+    bottom: 0;
+    background-color: @grey;
+    overflow-y: auto;
+    padding: 1rem 0;
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+    li {
+        margin: 1rem 3rem;
+    }
+    li + li {
+        border-bottom: 1px solid @darkgrey;
+        font-variant: small-caps;
+    }
+}
+
+#sidebar-brand {
+    color: @red;
+    border-bottom: 0px;
+}
+
+#page-content {
+    padding: 1rem 3rem;
+}
+
+#page-content {
+    position: fixed;
+    left: @sidebar-width;
+    right: 0;
+    top: 0;
+    bottom: 0;
 }

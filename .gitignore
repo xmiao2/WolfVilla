@@ -9,3 +9,6 @@
 target/
 *.class
 *.log
+
+# LESS
+app.css
