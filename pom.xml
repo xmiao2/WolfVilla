@@ -99,6 +99,30 @@
                     <target>${jdk.version}</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>biz.gabrys.maven.plugins</groupId>
+                <artifactId>lesscss-maven-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <id>default-compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirectory>${project.basedir}/src/main/webapp/resources/less</sourceDirectory>
+                            <outputDirectory>${project.basedir}/src/main/webapp/resources/css</outputDirectory>
+                            <compress>true</compress>
+                            <includes>
+                                <include>**/app.less</include>
+                            </includes>
+                            <excludes>
+                                <exclude>vendors/**/*.*</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
