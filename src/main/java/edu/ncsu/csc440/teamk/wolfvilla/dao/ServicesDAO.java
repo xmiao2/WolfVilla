@@ -66,4 +66,20 @@ public class ServicesDAO {
             }
         }
     }
+
+    public static Service retrieveService (long id) throws SQLException, ClassNotFoundException {
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(
+                     "SELECT * FROM services WHERE id = ?")) {
+            stmt.setLong(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Service(rs.getLong(1), rs.getString(2), rs.getDouble(3), rs.getLong(4), rs.getLong(5));
+                } else {
+                    return null;
+                }
+            }
+        }
+    }
+
 }

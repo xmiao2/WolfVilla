@@ -2,6 +2,7 @@ package edu.ncsu.csc440.teamk.wolfvilla.dao;
 
 import edu.ncsu.csc440.teamk.wolfvilla.model.BillingInformation;
 import edu.ncsu.csc440.teamk.wolfvilla.model.CheckInInformation;
+import edu.ncsu.csc440.teamk.wolfvilla.model.Customer;
 import edu.ncsu.csc440.teamk.wolfvilla.util.DBConnection;
 import edu.ncsu.csc440.teamk.wolfvilla.util.SQLTypeTranslater;
 
@@ -13,6 +14,23 @@ import java.util.List;
  * Created by Joshua on 10/27/2016.
  */
 public class CheckInDAO {
+
+    public static List<Customer> listOccupants(Date startDate, Date endDate, long hotelID) throws SQLException, ClassNotFoundException {
+        try (Connection connection = DBConnection.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(
+                "SELECT customer_id " +
+                "FROM checkin_information " +
+                "WHERE (date_end IS NULL OR ? < date_end) AND " +
+                "date_start < ? AND hotel_id = ?")) {
+            stmt.setDate(1, startDate);
+            stmt.setDate(2, endDate);
+            stmt.setLong(3, hotelID);
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                return convertCustomerList(rs);
+            }
+        }
+    }
 
     public static void deleteCheckIn(long checkInID) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
@@ -115,6 +133,16 @@ public class CheckInDAO {
         ArrayList<CheckInInformation> toReturn = new ArrayList<CheckInInformation>();
         while(rs.next()) {
             toReturn.add(convertToCheckIn(rs));
+        }
+        return toReturn;
+    }
+
+    private static List<Customer> convertCustomerList(ResultSet rs) throws SQLException {
+        ArrayList<Customer> toReturn = new ArrayList<Customer>();
+        while(rs.next()) {
+            toReturn.add(new Customer(rs.getLong(1), rs.getString(2),
+                    SQLTypeTranslater.stringToChar(rs.getString(3)), rs.getString(4),
+                    rs.getString(5), rs.getString(6)));
         }
         return toReturn;
     }
