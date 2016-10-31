@@ -18,17 +18,17 @@ public class CustomerDAO {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
                      "INSERT INTO customers VALUES(customer_seq.nextval, ?, ?, ?, ?, ?)",  new int[]{1})) {
-            stmt.setString(1, customer.getName());
-            stmt.setString(2, SQLTypeTranslater.charToString(customer.getGender()));
-            stmt.setString(3, customer.getPhoneNumber());
-            stmt.setString(4, customer.getEmail());
-            stmt.setString(5, customer.getAddress());
+             stmt.setString(1, customer.getName());
+             stmt.setString(2, SQLTypeTranslater.charToString(customer.getGender()));
+             stmt.setString(3, customer.getPhoneNumber());
+             stmt.setString(4, customer.getEmail());
+             stmt.setString(5, customer.getAddress());
 
-            stmt.executeUpdate();
-            try (ResultSet ID = stmt.getGeneratedKeys()) {
-                ID.next();
-                return ID.getLong(1);
-            }
+             stmt.executeUpdate();
+             try (ResultSet ID = stmt.getGeneratedKeys()) {
+                 ID.next();
+                 return ID.getLong(1);
+             }
         }
     }
 
