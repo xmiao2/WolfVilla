@@ -116,7 +116,7 @@ INSERT INTO hotels VALUES (hotel_seq.nextval, '166 E. Wolfvilla Ave. Wilmington 
 
 INSERT INTO title_department VALUES('manager', 'management');
 INSERT INTO title_department VALUES('caterer', 'catering');
-INSERT INTO title_department VALUES('♦', 'service');
+INSERT INTO title_department VALUES('service staff', 'service');
 INSERT INTO title_department VALUES('front desk representatives', 'clerical');
 
 INSERT INTO staff VALUES (staff_seq.nextval, 'Will George', 'manager', '523122111', 57, 'M', '200 Washington Sq. Greensboro NC, 27613', '9192013041', 0);
