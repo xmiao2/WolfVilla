@@ -3,6 +3,7 @@ package edu.ncsu.csc440.teamk.wolfvilla.dao;
 import edu.ncsu.csc440.teamk.wolfvilla.model.Hotel;
 import edu.ncsu.csc440.teamk.wolfvilla.model.Staff;
 import edu.ncsu.csc440.teamk.wolfvilla.util.DBConnection;
+import edu.ncsu.csc440.teamk.wolfvilla.util.TestEnvironmentSetter;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -15,6 +16,7 @@ public class StaffDAOTest {
     @BeforeClass
     public void setupClass() throws Exception {
         DBConnection.enableTestMode();
+        TestEnvironmentSetter.setUp();
     }
 
     @Test
