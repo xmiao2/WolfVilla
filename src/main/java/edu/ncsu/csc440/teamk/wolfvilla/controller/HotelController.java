@@ -31,7 +31,7 @@ public class HotelController {
         Hotel hotel = new Hotel(address, name, phoneNumber);
         HotelDAO.createHotel(hotel);
         //TODO: print message
-        return index();
+        return new ModelAndView("redirect:/hotels");
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "{id}")
@@ -48,7 +48,7 @@ public class HotelController {
         Hotel hotel = new Hotel(id, address, name, phoneNumber);
         HotelDAO.updateHotel(hotel);
         // TODO: Print message
-        return index();
+        return new ModelAndView("redirect:/hotels");
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "delete/{id}")
@@ -61,6 +61,6 @@ public class HotelController {
     public ModelAndView deleteHotelById(@PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
         HotelDAO.deleteHotel(id);
         // TODO: Print message
-        return index();
+        return new ModelAndView("redirect:/hotels");
     }
 }
