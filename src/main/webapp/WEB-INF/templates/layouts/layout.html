@@ -6,41 +6,48 @@
     <!-- Bootstrap 3 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-          crossorigin="anonymous" />
+          crossorigin="anonymous"/>
     <!-- Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Permanent+Marker" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Permanent+Marker"/>
     <!-- Datatable -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" th:href="@{/resources/css/app.css}"/>
     <section layout:fragment="page-style"></section>
 </head>
-    <body>
-        <div id="wrapper">
-            <div id="sidebar-wrapper">
-                <ul>
-                    <li id="sidebar-brand"><h1>WolfVilla</h1></li>
-                    <li><a th:href="@{/}">Home</a></li>
-                    <li><a th:href="@{/hotels}">Manage Hotels</a></li>
-                </ul>
-            </div>
+<body>
+<div id="wrapper">
+    <div id="sidebar-wrapper">
+        <ul>
+            <li id="sidebar-brand"><h1>WolfVilla</h1></li>
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/hotels}">Manage Hotels</a></li>
+        </ul>
 
-            <section id="page-content" layout:fragment="page-content">Place Content Here</section>
+    </div>
+
+    <section id="page-content">
+        <div th:if="${message != null}" id="message-container" th:class="${'alert alert-'+message.messageType.name}">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong><span th:text="${message.header}"></span></strong> <span th:text="${message.content}"></span>
         </div>
+        <section layout:fragment="page-content">Place Content Here</section>
+    </section>
+</div>
 
-        <section layout:fragment="scripts">
-            <!-- jQuery 1.12.4 -->
-            <script src="https://code.jquery.com/jquery-1.12.4.min.js"
-                    integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-                    crossorigin="anonymous"></script>
-            <!-- Bootstrap 3 -->
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-                    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-                    crossorigin="anonymous"></script>
-            <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-            <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-            <script th:src="@{/resources/js/app.js}"></script>
-            <section layout:fragment="page-scripts"></section>
-        </section>
-    </body>
+<section layout:fragment="scripts">
+    <!-- jQuery 1.12.4 -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+            crossorigin="anonymous"></script>
+    <!-- Bootstrap 3 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    <script th:src="@{/resources/js/app.js}"></script>
+    <section layout:fragment="page-scripts"></section>
+</section>
+</body>
 </html>

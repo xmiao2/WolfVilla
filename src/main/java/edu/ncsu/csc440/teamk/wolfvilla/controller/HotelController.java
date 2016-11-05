@@ -2,13 +2,17 @@ package edu.ncsu.csc440.teamk.wolfvilla.controller;
 
 import edu.ncsu.csc440.teamk.wolfvilla.dao.HotelDAO;
 import edu.ncsu.csc440.teamk.wolfvilla.model.Hotel;
+import edu.ncsu.csc440.teamk.wolfvilla.util.FlashMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static edu.ncsu.csc440.teamk.wolfvilla.util.FlashMessage.MESSAGE;
 
 @Controller
 @RequestMapping("/hotels")
@@ -25,13 +29,15 @@ public class HotelController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/new")
-    public ModelAndView addHotel(@RequestParam("name") String name,
+    public ModelAndView addHotel(RedirectAttributes redir,
+                                 @RequestParam("name") String name,
                                  @RequestParam("phoneNumber") String phoneNumber,
                                  @RequestParam("address") String address) throws SQLException, ClassNotFoundException {
         Hotel hotel = new Hotel(address, name, phoneNumber);
-        HotelDAO.createHotel(hotel);
-        //TODO: print message
-        return new ModelAndView("redirect:/hotels");
+        long id = HotelDAO.createHotel(hotel);
+        ModelAndView mv = new ModelAndView("redirect:/hotels");
+        redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Added Hotel (ID=%d)", id)));
+        return mv;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "{id}")
@@ -41,13 +47,14 @@ public class HotelController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "edit/{id}")
-    public ModelAndView editHotelById(@PathVariable("id") Long id,
+    public ModelAndView editHotelById(RedirectAttributes redir,
+                                      @PathVariable("id") Long id,
                                       @RequestParam("name") String name,
                                       @RequestParam("phoneNumber") String phoneNumber,
                                       @RequestParam("address") String address) throws SQLException, ClassNotFoundException {
         Hotel hotel = new Hotel(id, address, name, phoneNumber);
         HotelDAO.updateHotel(hotel);
-        // TODO: Print message
+        redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Edited Hotel (ID=%d)", hotel.getPrimaryKey())));
         return new ModelAndView("redirect:/hotels");
     }
 
@@ -58,9 +65,9 @@ public class HotelController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "delete/{id}")
-    public ModelAndView deleteHotelById(@PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
+    public ModelAndView deleteHotelById(RedirectAttributes redir, @PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
         HotelDAO.deleteHotel(id);
-        // TODO: Print message
+        redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Deleted Hotel (ID=%d)", id)));
         return new ModelAndView("redirect:/hotels");
     }
 }
