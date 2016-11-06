@@ -22,12 +22,12 @@
         </thead>
         <tbody>
         <tr th:each="hotel : ${hotels}">
-            <td th:text="${hotel.primaryKey}"></td>
+            <td th:text="${hotel.id}"></td>
             <td th:text="${hotel.name}">test</td>
             <td th:text="${hotel.address}">test</td>
             <td th:text="${hotel.phoneNumber}">test</td>
-            <td><a th:href="@{|/hotels/${hotel.primaryKey}|}" th:text="Edit"></a><br/>
-                <a th:href="@{|/hotels/delete/${hotel.primaryKey}|}" th:text="Delete"></a></td>
+            <td><a th:href="@{|/hotels/${hotel.id}|}" th:text="Edit"></a><br/>
+                <a th:href="@{|/hotels/delete/${hotel.id}|}" th:text="Delete"></a></td>
         </tr>
         </tbody>
     </table>

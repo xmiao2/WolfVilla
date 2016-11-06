@@ -9,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static edu.ncsu.csc440.teamk.wolfvilla.util.FlashMessage.MESSAGE;
@@ -54,7 +53,7 @@ public class HotelController {
                                       @RequestParam("address") String address) throws SQLException, ClassNotFoundException {
         Hotel hotel = new Hotel(id, address, name, phoneNumber);
         HotelDAO.updateHotel(hotel);
-        redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Edited Hotel (ID=%d)", hotel.getPrimaryKey())));
+        redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Edited Hotel (ID=%d)", hotel.getId())));
         return new ModelAndView("redirect:/hotels");
     }
 

@@ -5,7 +5,7 @@ package edu.ncsu.csc440.teamk.wolfvilla.model;
  */
 public class Hotel {
 
-    private long primaryKey;
+    private long id;
     private String address;
     private String name;
     private String phoneNumber;
@@ -18,19 +18,19 @@ public class Hotel {
         this(-1L, address, name, phoneNumber);
     }
 
-    public Hotel(long primaryKey, String address, String name, String phoneNumber) {
-        this.primaryKey = primaryKey;
+    public Hotel(long id, String address, String name, String phoneNumber) {
+        this.id = id;
         this.address = address;
         this.name = name;
         this.phoneNumber = phoneNumber;
     }
 
-    public long getPrimaryKey() {
-        return primaryKey;
+    public long getId() {
+        return id;
     }
 
-    public void setPrimaryKey(long primaryKey) {
-        this.primaryKey = primaryKey;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getAddress() {
