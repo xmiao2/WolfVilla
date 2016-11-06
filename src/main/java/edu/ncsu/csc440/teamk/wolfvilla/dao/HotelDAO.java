@@ -45,7 +45,7 @@ public class HotelDAO {
             stmt.setString(1, hotel.getAddress());
             stmt.setString(2, hotel.getName());
             stmt.setString(3, hotel.getPhoneNumber());
-            stmt.setLong(4, hotel.getPrimaryKey());
+            stmt.setLong(4, hotel.getId());
             stmt.executeUpdate();
         }
     }

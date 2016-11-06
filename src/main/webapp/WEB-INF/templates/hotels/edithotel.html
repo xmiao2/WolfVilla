@@ -4,8 +4,8 @@
 
 <title layout:fragment="page-title">WolfVilla | Edit Hotel</title>
 <section layout:fragment="page-content">
-    <h1>Edit Hotel <small>ID: <span th:text="${hotel.primaryKey}"></span></small></h1>
-    <form method="post" th:action="@{|/hotels/edit/${hotel.primaryKey}|}">
+    <h1>Edit Hotel <small>ID: <span th:text="${hotel.id}"></span></small></h1>
+    <form method="post" th:action="@{|/hotels/edit/${hotel.id}|}">
         <section th:include="hotels/_hotelform :: hotelform"></section>
         <button type="submit" class="btn btn-primary">Submit</button>
         <a th:href="@{/hotels}" class="btn btn-info">Cancel</a>

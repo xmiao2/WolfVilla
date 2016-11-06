@@ -2,6 +2,9 @@ package edu.ncsu.csc440.teamk.wolfvilla.dao;
 
 import edu.ncsu.csc440.teamk.wolfvilla.model.Hotel;
 import edu.ncsu.csc440.teamk.wolfvilla.model.Staff;
+import edu.ncsu.csc440.teamk.wolfvilla.util.DBConnection;
+import edu.ncsu.csc440.teamk.wolfvilla.util.TestEnvironmentSetter;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.List;
@@ -9,6 +12,13 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class StaffDAOTest {
+
+    @BeforeClass
+    public void setupClass() throws Exception {
+        DBConnection.enableTestMode();
+        TestEnvironmentSetter.setUp();
+    }
+
     @Test
     public void retrieveStaff() throws Exception {
         long id = HotelDAO.createHotel( new Hotel(-1L, "Test room", "test", "3336668888"));

@@ -5,15 +5,15 @@ package edu.ncsu.csc440.teamk.wolfvilla.model;
  */
 public class Customer {
 
-    private long primaryKey;
+    private long id;
     private String name;
     private Character gender;
     private String phoneNumber;
     private String email;
     private String address;
 
-    public Customer(long primaryKey, String name, Character gender, String phoneNumber, String email, String address) {
-        this.primaryKey = primaryKey;
+    public Customer(long id, String name, Character gender, String phoneNumber, String email, String address) {
+        this.id = id;
         this.name = name;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
@@ -21,12 +21,12 @@ public class Customer {
         this.address = address;
     }
 
-    public long getPrimaryKey() {
-        return primaryKey;
+    public long getId() {
+        return id;
     }
 
-    public void setPrimaryKey(long primaryKey) {
-        this.primaryKey = primaryKey;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {

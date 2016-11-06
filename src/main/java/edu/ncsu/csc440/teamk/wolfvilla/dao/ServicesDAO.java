@@ -31,7 +31,7 @@ public class ServicesDAO {
             stmt.setString(2, service.getDescription());
             stmt.setDouble(3, service.getPrice());
             stmt.setLong(4, service.getCheckinID());
-            stmt.setLong(5, service.getPrimaryKey());
+            stmt.setLong(5, service.getId());
 
             stmt.executeUpdate();
         }

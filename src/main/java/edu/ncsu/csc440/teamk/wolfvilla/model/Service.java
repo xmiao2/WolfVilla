@@ -5,27 +5,27 @@ package edu.ncsu.csc440.teamk.wolfvilla.model;
  */
 public class Service {
 
-    private long primaryKey;
+    private long id;
     private String description;
     private double price;
 
     private long staffId;
     private long checkinID;
 
-    public Service(long primaryKey, String description, double price, long staffId, long checkinID) {
-        this.primaryKey = primaryKey;
+    public Service(long id, String description, double price, long staffId, long checkinID) {
+        this.id = id;
         this.description = description;
         this.price = price;
         this.staffId = staffId;
         this.checkinID = checkinID;
     }
 
-    public long getPrimaryKey() {
-        return primaryKey;
+    public long getId() {
+        return id;
     }
 
-    public void setPrimaryKey(long primaryKey) {
-        this.primaryKey = primaryKey;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getDescription() {
