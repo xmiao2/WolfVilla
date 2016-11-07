@@ -3,13 +3,13 @@ package edu.ncsu.csc440.teamk.wolfvilla.dao;
 import edu.ncsu.csc440.teamk.wolfvilla.model.Customer;
 import edu.ncsu.csc440.teamk.wolfvilla.util.DBConnection;
 import edu.ncsu.csc440.teamk.wolfvilla.util.SQLTypeTranslater;
+import edu.ncsu.csc440.teamk.wolfvilla.util.TestEnvironmentSetter;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+
 /**
  * Created by Adam on 10/31/2016.
  */
@@ -49,7 +49,7 @@ public class CustomerDAO {
             stmt.setString(3, customer.getPhoneNumber());
             stmt.setString(4, customer.getEmail());
             stmt.setString(5, customer.getAddress());
-            stmt.setLong(6, customer.getPrimaryKey());
+            stmt.setLong(6, customer.getId());
             stmt.executeUpdate();
         }
     }
@@ -69,7 +69,7 @@ public class CustomerDAO {
 
     private static Customer convertToCustomer(ResultSet rs) throws SQLException {
         //Check to make sure it works
-        return new Customer(rs.getLong(1), rs.getString(2), rs.getString(3).charAt(0), rs.getString(4), rs.getString(5), rs.getString(6));
+        return new Customer(rs.getLong(1), rs.getString(2), SQLTypeTranslater.stringToChar(rs.getString(3)), rs.getString(4), rs.getString(5), rs.getString(6));
     }
 
 }
