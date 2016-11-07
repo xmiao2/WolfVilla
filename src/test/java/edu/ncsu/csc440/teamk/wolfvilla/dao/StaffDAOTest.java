@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 public class StaffDAOTest {
 
     @BeforeClass
-    public void setupClass() throws Exception {
+    public static void setupClass() throws Exception {
         DBConnection.enableTestMode();
         TestEnvironmentSetter.setUp();
     }
