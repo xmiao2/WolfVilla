@@ -114,19 +114,22 @@ INSERT INTO hotels VALUES (hotel_seq.nextval, '900 W. WolfVilla St. Charlotte NC
 INSERT INTO hotels VALUES (hotel_seq.nextval, '301 Wolfvilla Rd. Greensboro NC, 27613', 'WolfVilla Greensboro', '3365550102');
 INSERT INTO hotels VALUES (hotel_seq.nextval, '166 E. Wolfvilla Ave. Wilmington NC, 27613', 'WolfVilla Wilmington', '9105550103');
 
+INSERT INTO title_department VALUES('admin', 'admin');
 INSERT INTO title_department VALUES('manager', 'management');
-INSERT INTO title_department VALUES('caterer', 'catering');
+INSERT INTO title_department VALUES('catering staff', 'catering');
 INSERT INTO title_department VALUES('service staff', 'service');
-INSERT INTO title_department VALUES('front desk representatives', 'clerical');
+INSERT INTO title_department VALUES('front desk representative', 'clerical');
 
+INSERT INTO staff VALUES (staff_seq.nextval, 'Admin Power', 'admin', '523122111', 57, 'M', '200 Washington Sq. Greensboro NC, 27613', '9192013041', 0);
+INSERT INTO staff VALUES (staff_seq.nextval, 'Antaua Flanko', 'front desk representative', '523122111', 57, 'M', '200 Washington Sq. Greensboro NC, 27613', '9192013041', 0);
 INSERT INTO staff VALUES (staff_seq.nextval, 'Will George', 'manager', '523122111', 57, 'M', '200 Washington Sq. Greensboro NC, 27613', '9192013041', 0);
 INSERT INTO staff VALUES (staff_seq.nextval, 'Jeff Thomason', 'manager', '349302932', 58, 'M', '301 Anderson Ct. Raleigh NC, 27613', '7045663088', 1);
 INSERT INTO staff VALUES (staff_seq.nextval, 'Rose Teddi', 'manager', '340902304', 30, 'F', '404 Anderson Ct. Raleigh NC, 27613', '9101236125', 2);
 INSERT INTO staff VALUES (staff_seq.nextval, 'Linda Abrams', 'manager', '604859301', 40, 'F', '500 Anderson Ct. Raleigh NC, 27613', '9191232041', 3);
-INSERT INTO staff VALUES (staff_seq.nextval, 'Namy Notlikely', 'caterer', '523122111', 37, 'M', '115 Washington Sq. Greensboro NC, 27613', '000000000', 0);
-INSERT INTO staff VALUES (staff_seq.nextval, 'Hack Stabber', 'caterer', '349302932', 29, 'M', '301 Anderson Ct. Raleigh NC, 27613', '7045663087', 1);
-INSERT INTO staff VALUES (staff_seq.nextval, 'Unique Person', 'caterer', '333224444', 31, 'F', '402 Anderson Ct. Raleigh NC, 27613', '9101236124', 2);
-INSERT INTO staff VALUES (staff_seq.nextval, 'Another Name', 'caterer', '011100100', 23, 'F', '400 Anderson Ct. Raleigh NC, 27613', '9191232040', 3);
+INSERT INTO staff VALUES (staff_seq.nextval, 'Namy Notlikely', 'catering staff', '523122111', 37, 'M', '115 Washington Sq. Greensboro NC, 27613', '000000000', 0);
+INSERT INTO staff VALUES (staff_seq.nextval, 'Hack Stabber', 'catering staff', '349302932', 29, 'M', '301 Anderson Ct. Raleigh NC, 27613', '7045663087', 1);
+INSERT INTO staff VALUES (staff_seq.nextval, 'Unique Person', 'catering staff', '333224444', 31, 'F', '402 Anderson Ct. Raleigh NC, 27613', '9101236124', 2);
+INSERT INTO staff VALUES (staff_seq.nextval, 'Another Name', 'catering staff', '011100100', 23, 'F', '400 Anderson Ct. Raleigh NC, 27613', '9191232040', 3);
 INSERT INTO staff VALUES (staff_seq.nextval, 'Jay Perry', 'service staff', '987654321', 45, 'M', '1502 Perrywinkle Way, Raleigh, NC 27614',  '9191232041',0);
 INSERT INTO staff VALUES (staff_seq.nextval, 'Veronica Vinkle', 'service staff', '273487628', 34, 'F', '666 Magical Ct, Raleigh, NC 27615',  '9191232042',1);
 INSERT INTO staff VALUES (staff_seq.nextval, 'Robert Anderson', 'service staff', '001398250', 29, 'M', '135 Zipster Rd, Raleigh, NC 27613',  '9191232043',2);

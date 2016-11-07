@@ -13,17 +13,29 @@
     <!-- Datatable -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" th:href="@{/resources/css/app.css}"/>
-    <section layout:fragment="page-style"></section>
+    <section layout:fragment="page-style" th:remove="tag"></section>
 </head>
 <body>
 <div id="wrapper">
     <div id="sidebar-wrapper">
+        <h1 id="sidebar-brand">WolfVilla</h1>
+        <div id="current-user" th:if="${session.user}">
+            <span class="glyphicon glyphicon-user"></span> <span class="current-user-name"
+                                                                 th:text="${session.user.name}"></span> -
+            <span class="current-user-title" th:text="${session.user.title}"></span>
+        </div>
         <ul>
-            <li id="sidebar-brand"><h1>WolfVilla</h1></li>
-            <li><a th:href="@{/}">Home</a></li>
-            <li><a th:href="@{/hotels}">Manage Hotels</a></li>
+            <li th:if="${session.user == null}"><a th:href="@{/}">Login</a></li>
+            <section th:if="${session.user}" th:remove="tag">
+                <section th:if="${session.user.title == 'admin'}" th:include="sidebar/_admin-menu :: sidebar-content"
+                         th:remove="tag"></section>
+                <section th:if="${session.user.title == 'front desk representative'}" th:include="sidebar/_frontdesk-menu :: sidebar-content" th:remove="tag"></section>
+                <section th:if="${session.user.title == 'manager'}" th:include="sidebar/_manager-menu :: sidebar-content" th:remove="tag"></section>
+                <section th:if="${session.user.title == 'service staff'}" th:include="sidebar/_roomservice-menu :: sidebar-content" th:remove="tag"></section>
+                <section th:if="${session.user.title == 'catering staff'}" th:include="sidebar/_caterservice-menu :: sidebar-content" th:remove="tag"></section>
+                <li><a th:href="@{/logout}">Logout</a></li>
+            </section>
         </ul>
-
     </div>
 
     <section id="page-content">
@@ -31,11 +43,11 @@
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <strong><span th:text="${message.header}"></span></strong> <span th:text="${message.content}"></span>
         </div>
-        <section layout:fragment="page-content">Place Content Here</section>
+        <section layout:fragment="page-content" th:remove="tag">Place Content Here</section>
     </section>
 </div>
 
-<section layout:fragment="scripts">
+<section layout:fragment="scripts" th:remove="tag">
     <!-- jQuery 1.12.4 -->
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"
             integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
