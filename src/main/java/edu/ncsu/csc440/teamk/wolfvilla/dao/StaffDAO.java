@@ -73,6 +73,15 @@ public class StaffDAO {
         }
     }
 
+    public static List<Staff> retrieveAllStaff() throws SQLException, ClassNotFoundException {
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM staff")) {
+            try (ResultSet rs = stmt.executeQuery()) {
+                return convertStaffList(rs);
+            }
+        }
+    }
+
     public static List<Staff> retrieveStaffByHotel(long hotelID) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
                 PreparedStatement stmt = connection.prepareStatement("SELECT * FROM staff WHERE hotel_id = ?")) {

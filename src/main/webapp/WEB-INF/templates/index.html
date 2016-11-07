@@ -1,36 +1,38 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layouts/layout">
-    <title layout:fragment="pageTitle">WolfVilla | Home</title>
-    <section layout:fragment="page-content">
-        <h1>Welcome to WolfVilla!</h1>
-        <div id="login-content">
-            <h3>Login as:</h3>
-            <div class="row">
-                <div class="col-xs-6">
-                    <a href="#" class="btn btn-default btn-lg btn-danger">Admin</a>
-                </div>
-                <div class="col-xs-6">
-                    <a href="#" class="btn btn-default btn-lg btn-primary">Manager</a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6">
-                    <a href="#" class="btn btn-default btn-lg btn-info">Front-Desk Representative</a>
-                </div>
-                <div class="col-xs-6">
-                    <a href="#" class="btn btn-default btn-lg btn-success">Billing Staff</a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6">
-                    <a href="#" class="btn btn-default btn-lg btn-warning">Catering Staff</a>
-                </div>
-                <div class="col-xs-6">
-                    <a href="#" class="btn btn-default btn-lg btn-warning">Room Service Staff</a>
-                </div>
-            </div>
-        </div>
-    </section>
+<title layout:fragment="pageTitle">WolfVilla | Home</title>
+<section layout:fragment="page-content">
+    <h1>Welcome to WolfVilla!</h1>
+    <div id="login-content">
+        <h3>Login as:</h3>
+        <table class="cell-border stripe" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Title</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}">ID</td>
+                <td th:text="${user.name}">name</td>
+                <td th:text="${user.title}">title</td>
+                <td><a th:href="@{|/login/${user.id}|}">Login</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section layout:fragment="page-scripts">
+    <script>
+        $(function(){
+            $("table").dataTable();
+        });
+    </script>
+</section>
 
 </html>

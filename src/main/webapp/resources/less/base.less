@@ -20,19 +20,20 @@ a, a:hover {
     bottom: 0;
     background-color: @grey;
     overflow-y: auto;
-    padding: 1rem 0;
+    padding: 1rem 3rem;
     ul {
         list-style-type: none;
         margin: 0;
         padding: 0;
     }
-    li {
-        margin: 1rem 3rem;
-        font-size: 1.75rem;
+    li:first-child {
+        margin-top: 3rem;
     }
-    li + li {
+    li {
+        font-size: 1.75rem;
         border-bottom: 1px solid @darkgrey;
         font-variant: small-caps;
+        margin-top: 1rem;
     }
 }
 
@@ -40,7 +41,6 @@ a, a:hover {
     color: @red;
     border-bottom: 0px;
     font-family: 'Permanent Marker', cursive;
-    padding-bottom: 2rem;
 }
 
 #page-content {
