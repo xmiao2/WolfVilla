@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.Date;
 
+import static edu.ncsu.csc440.teamk.wolfvilla.dao.StaffDAO.convertToStaff;
+
 
 /**
  * Created by Adam on 10/31/2016.
@@ -196,10 +198,4 @@ public class ReportDAO {
         }
         return toReturn;
     }
-
-    private static Staff convertToStaff(ResultSet rs) throws SQLException {
-        return new Staff(rs.getLong(1), rs.getString(2), rs.getString(3),
-            rs.getString(4), rs.getInt(5), SQLTypeTranslater.stringToChar(rs.getString(6)),
-            rs.getString(7), rs.getString(8), rs.getLong(9));
-        }
 }
