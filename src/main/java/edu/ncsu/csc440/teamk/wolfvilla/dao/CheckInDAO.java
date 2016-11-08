@@ -71,8 +71,8 @@ public class CheckInDAO {
                 stmt2.setLong(5, checkIn.getHotelId());
                 stmt2.setLong(6, checkIn.getRoomNumber());
                 stmt2.setLong(7, checkIn.getCustomerId());
-                SQLTypeTranslater.safeIntSet(stmt2, 8, checkIn.getCateringStaffId());
-                SQLTypeTranslater.safeIntSet(stmt2, 9, checkIn.getRoomServiceStaffId());
+                SQLTypeTranslater.setLongOrNull(stmt2, 8, checkIn.getCateringStaffId());
+                SQLTypeTranslater.setLongOrNull(stmt2, 9, checkIn.getRoomServiceStaffId());
 
                 stmt2.executeUpdate();
                 try (ResultSet ID = stmt2.getGeneratedKeys()) {
@@ -105,8 +105,8 @@ public class CheckInDAO {
             stmt.setInt(3, checkIn.getCurrentOcupancy());
             stmt.setDate(4, checkIn.getCheckinTime());
             stmt.setDate(5, checkIn.getCheckoutTime());
-            SQLTypeTranslater.safeIntSet(stmt, 6, checkIn.getCateringStaffId());
-            SQLTypeTranslater.safeIntSet(stmt, 7, checkIn.getRoomServiceStaffId());
+            SQLTypeTranslater.setLongOrNull(stmt, 6, checkIn.getCateringStaffId());
+            SQLTypeTranslater.setLongOrNull(stmt, 7, checkIn.getRoomServiceStaffId());
 
             stmt.setLong(8, checkIn.getId());
 

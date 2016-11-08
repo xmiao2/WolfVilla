@@ -24,7 +24,7 @@ public class StaffDAO {
             stmt.setString(1, staff.getName());
             stmt.setString(2, staff.getTitleDepartment().getTitle());
             stmt.setString(3, staff.getSsn());
-            SQLTypeTranslater.safeIntSet(stmt, 4, staff.getAge());
+            SQLTypeTranslater.setIntOrNull(stmt, 4, staff.getAge());
             stmt.setString(5, SQLTypeTranslater.charToString(staff.getGender()));
             stmt.setString(6, staff.getAddress());
             stmt.setString(7, staff.getPhoneNumber());
@@ -42,7 +42,7 @@ public class StaffDAO {
             stmt.setString(1, staff.getName());
             stmt.setString(2, staff.getTitleDepartment().getTitle());
             stmt.setString(3, staff.getSsn());
-            SQLTypeTranslater.safeIntSet(stmt, 4, staff.getAge());
+            SQLTypeTranslater.setIntOrNull(stmt, 4, staff.getAge());
             stmt.setString(5, SQLTypeTranslater.charToString(staff.getGender()));
             stmt.setString(6, staff.getAddress());
             stmt.setString(7, staff.getPhoneNumber());
