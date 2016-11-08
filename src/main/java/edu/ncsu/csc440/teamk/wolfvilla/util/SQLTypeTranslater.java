@@ -22,16 +22,26 @@ public class SQLTypeTranslater {
         return c.toString();
     }
 
+    public static void safeIntSet(PreparedStatement ps, int index, Integer value) throws SQLException {
+        if (value == null) ps.setNull(index, Types.INTEGER);
+        else ps.setInt(index, value);
+    }
+
     public static void safeIntSet(PreparedStatement ps, int index, Long value) throws SQLException {
         if (value == null) ps.setNull(index, Types.INTEGER);
         else ps.setLong(index, value);
     }
 
-    public static Long safeGetLong(ResultSet rs, int index) throws SQLException {
+    public static Long getLongOrNull(ResultSet rs, int index) throws SQLException {
         long l = rs.getLong(index);
         if (rs.wasNull()) {
             return null;
         }
         return l;
+    }
+
+    public static Integer getIntOrNull(ResultSet rs, int index) throws SQLException {
+        Integer ret = rs.getInt(index);
+        return (rs.wasNull()) ? null : ret;
     }
 }

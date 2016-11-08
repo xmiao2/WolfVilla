@@ -157,6 +157,6 @@ public class CheckInDAO {
     private static CheckInInformation convertToCheckIn(ResultSet rs) throws SQLException {
         return new CheckInInformation(rs.getLong(1), rs.getInt(2), rs.getDate(3), rs.getDate(4),
         rs.getLong(5), rs.getLong(6), rs.getLong(7), rs.getLong(8),
-        SQLTypeTranslater.safeGetLong(rs, 9), SQLTypeTranslater.safeGetLong(rs, 10));
+        SQLTypeTranslater.getLongOrNull(rs, 9), SQLTypeTranslater.getLongOrNull(rs, 10));
     }
 }
