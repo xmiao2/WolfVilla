@@ -96,7 +96,7 @@ CREATE TABLE checkin_information (
 
 CREATE TABLE services (
   id int primary key,
-  description varchar(30),
+  description varchar(64),
   price binary_float,
   staff_id int NOT NULL CONSTRAINT fk_services_staff_id REFERENCES staff(id),
   checkin_id NOT NULL CONSTRAINT fk_services_checkin_id REFERENCES checkin_information(id)

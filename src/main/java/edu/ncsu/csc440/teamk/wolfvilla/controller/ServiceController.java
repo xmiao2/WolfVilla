@@ -4,6 +4,7 @@ import edu.ncsu.csc440.teamk.wolfvilla.dao.HotelDAO;
 import edu.ncsu.csc440.teamk.wolfvilla.dao.ServicesDAO;
 import edu.ncsu.csc440.teamk.wolfvilla.model.Hotel;
 import edu.ncsu.csc440.teamk.wolfvilla.model.Service;
+import edu.ncsu.csc440.teamk.wolfvilla.model.Staff;
 import edu.ncsu.csc440.teamk.wolfvilla.util.FlashMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -31,8 +33,9 @@ public class ServiceController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/new")
-    public ModelAndView requestAddService() throws SQLException, ClassNotFoundException {
-        return new ModelAndView("services/addservice", "service", new Service());
+    public ModelAndView requestAddService(HttpServletRequest request) throws SQLException, ClassNotFoundException {
+        Staff user = (Staff)request.getSession().getAttribute("user");
+        return new ModelAndView("services/addservice", "service", new Service(-1, "", 0, user.getId(), -1));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/new")
@@ -75,7 +78,7 @@ public class ServiceController {
 
     @RequestMapping(method = RequestMethod.POST, value = "delete/{id}")
     public ModelAndView deleteServiceById(RedirectAttributes redir, @PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
-        HotelDAO.deleteHotel(id);
+        ServicesDAO.deleteService(id);
         redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Deleted Service (ID=%d)", id)));
         return new ModelAndView("redirect:/services");
     }

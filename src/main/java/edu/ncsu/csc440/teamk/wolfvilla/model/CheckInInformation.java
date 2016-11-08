@@ -18,7 +18,7 @@ public class CheckInInformation {
     private Long roomServiceStaffId;
 
     public CheckInInformation() {
-        this(-1, 0, null, null, -1, -1, -1, -1, null, null);
+        this(-1, 0, new Date(new java.util.Date().getTime()), null, -1, -1, -1, -1, null, null);
     }
 
     public CheckInInformation(long id, Integer currentOcupancy, Date checkinTime, Date checkoutTime,

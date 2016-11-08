@@ -49,12 +49,12 @@ public class CheckinController {
     public ModelAndView addCheckin(RedirectAttributes redir,
                                    @RequestParam("currentOcupancy") Integer currentOcupancy,
                                    @RequestParam("checkinTime") Date checkinTime,
-                                   @RequestParam("checkoutTime") Date checkoutTime,
+                                   @RequestParam(value = "checkoutTime", required = false) Date checkoutTime,
                                    @RequestParam("hotelId") long hotelId,
                                    @RequestParam("roomNumber") long roomNumber,
                                    @RequestParam("customerId") long customerId,
-                                   @RequestParam("cateringStaffId") Long cateringStaffId,
-                                   @RequestParam("roomServiceStaffId") Long roomServiceStaffId,
+                                   @RequestParam(value = "cateringStaffId", required = false) Long cateringStaffId,
+                                   @RequestParam(value = "roomServiceStaffId", required = false) Long roomServiceStaffId,
                                    @RequestParam("billingAddress") String billingAddress,
                                    @RequestParam("ssn") String ssn,
                                    @RequestParam("paymentMethod") String paymentMethod,
@@ -90,12 +90,12 @@ public class CheckinController {
                                         @PathVariable("id") Long id,
                                         @RequestParam("currentOcupancy") Integer currentOcupancy,
                                         @RequestParam("checkinTime") Date checkinTime,
-                                        @RequestParam("checkoutTime") Date checkoutTime,
+                                        @RequestParam(value = "checkoutTime", required = false) Date checkoutTime,
                                         @RequestParam("hotelId") long hotelId,
                                         @RequestParam("roomNumber") long roomNumber,
                                         @RequestParam("customerId") long customerId,
-                                        @RequestParam("cateringStaffId") Long cateringStaffId,
-                                        @RequestParam("roomServiceStaffId") Long roomServiceStaffId) throws SQLException, ClassNotFoundException {
+                                        @RequestParam(value = "cateringStaffId", required = false) Long cateringStaffId,
+                                        @RequestParam(value = "roomServiceStaffId", required = false) Long roomServiceStaffId) throws SQLException, ClassNotFoundException {
         CheckInInformation checkin = new CheckInInformation(id, currentOcupancy, checkinTime, checkoutTime, -1,
                 hotelId,roomNumber,customerId,cateringStaffId,roomServiceStaffId);
         CheckInDAO.updateCheckIn(checkin);
