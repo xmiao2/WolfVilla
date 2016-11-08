@@ -23,6 +23,10 @@ public class TitleDepartment {
         return department;
     }
 
+    public TitleDepartment(String title) {
+        this(title, "");
+    }
+
     public TitleDepartment(String title, String department) {
         this.title = title;
         this.department = department;
