@@ -1,0 +1,15 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<title layout:fragment="page-title">WolfVilla | Add Service</title>
+<section layout:fragment="page-content">
+    <h1>Add New Service</h1>
+    <form method="post" th:action="@{/services/new}">
+        <section th:include="services/_serviceform :: serviceform"></section>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a th:href="@{/services}" class="btn btn-info">Cancel</a>
+    </form>
+</section>
+
+</html>

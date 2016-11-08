@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Joshua on 10/27/2016.
@@ -67,14 +69,14 @@ public class ServicesDAO {
         }
     }
 
-    public static Service retrieveService (long id) throws SQLException, ClassNotFoundException {
+    public static Service getService (long id) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
                      "SELECT * FROM services WHERE id = ?")) {
             stmt.setLong(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new Service(rs.getLong(1), rs.getString(2), rs.getDouble(3), rs.getLong(4), rs.getLong(5));
+                    return covertToService(rs);
                 } else {
                     return null;
                 }
@@ -82,4 +84,23 @@ public class ServicesDAO {
         }
     }
 
+    public static List<Service> getAllServices() throws SQLException, ClassNotFoundException {
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(
+                     "SELECT * FROM services")) {
+            return covertToServiceList(stmt.executeQuery());
+        }
+    }
+
+    private static List<Service> covertToServiceList(ResultSet rs) throws SQLException {
+        List<Service> toReturn = new ArrayList<Service>();
+        while (rs.next()) {
+            toReturn.add(covertToService(rs));
+        }
+        return toReturn;
+    }
+
+    private static Service covertToService(ResultSet rs) throws SQLException {
+        return new Service(rs.getLong(1), rs.getString(2), rs.getDouble(3), rs.getLong(4), rs.getLong(5));
+    }
 }

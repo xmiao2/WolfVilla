@@ -1,0 +1,15 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<title layout:fragment="page-title">WolfVilla | Edit billing</title>
+<section layout:fragment="page-content">
+    <h1>Edit Billing <small>ID: <span th:text="${checkinId}"></span></small></h1>
+    <form method="post" th:action="@{|/checkin/editbilling/${checkinId}|}">
+        <section th:include="checkin/_billingform :: billingform"></section>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a th:href="@{/checkin}" class="btn btn-info">Cancel</a>
+    </form>
+</section>
+
+</html>

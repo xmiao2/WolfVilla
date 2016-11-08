@@ -42,44 +42,51 @@ public class CheckInDAO {
     }
 
     public static long addCheckIn(CheckInInformation checkIn, BillingInformation billing) throws SQLException, ClassNotFoundException {
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement stmt1 = connection.prepareStatement(
+        try (Connection connection = DBConnection.getConnection()) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement stmt1 = connection.prepareStatement(
                      "INSERT INTO billing_information \n" +
                              "VALUES(billing_information_seq.nextval, ?, ?, ?, ?, ?)",
                      new int[]{1});
              PreparedStatement stmt2 = connection.prepareStatement(
                      "INSERT INTO checkin_information VALUES(checkin_information_seq.nextval , ?, " +
                              "?, ?, ?, ?, ?, ?, ?, ?)",  new int[]{1})) {
-            connection.setAutoCommit(false);
-            stmt1.setString(1, billing.getBillingAddress());
-            stmt1.setString(2, billing.getSsn());
-            stmt1.setString(3, billing.getPaymentMethod());
-            stmt1.setString(4, billing.getCardNumber());
-            stmt1.setDate(5, billing.getExpirationDate());
-            stmt1.executeUpdate();
+                stmt1.setString(1, billing.getBillingAddress());
+                stmt1.setString(2, billing.getSsn());
+                stmt1.setString(3, billing.getPaymentMethod());
+                stmt1.setString(4, billing.getCardNumber());
+                stmt1.setDate(5, billing.getExpirationDate());
+                stmt1.executeUpdate();
 
-            long billingId = 0L;
-            try (ResultSet ID = stmt1.getGeneratedKeys()) {
-                ID.next();
-                billingId = ID.getLong(1);
-            }
+                long billingId = 0L;
+                try (ResultSet ID = stmt1.getGeneratedKeys()) {
+                    ID.next();
+                    billingId = ID.getLong(1);
+                }
 
-            stmt2.setInt(1, checkIn.getCurrentOcupancy());
-            stmt2.setDate(2, checkIn.getCheckinTime());
-            stmt2.setDate(3, checkIn.getCheckoutTime());
-            stmt2.setLong(4, billingId);
-            stmt2.setLong(5, checkIn.getHotelId());
-            stmt2.setLong(6, checkIn.getRoomNumber());
-            stmt2.setLong(7, checkIn.getCustomerId());
-            SQLTypeTranslater.safeIntSet(stmt2, 8, checkIn.getCateringStaffId());
-            SQLTypeTranslater.safeIntSet(stmt2, 9, checkIn.getRoomServiceStaffId());
+                stmt2.setInt(1, checkIn.getCurrentOcupancy());
+                stmt2.setDate(2, checkIn.getCheckinTime());
+                stmt2.setDate(3, checkIn.getCheckoutTime());
+                stmt2.setLong(4, billingId);
+                stmt2.setLong(5, checkIn.getHotelId());
+                stmt2.setLong(6, checkIn.getRoomNumber());
+                stmt2.setLong(7, checkIn.getCustomerId());
+                SQLTypeTranslater.safeIntSet(stmt2, 8, checkIn.getCateringStaffId());
+                SQLTypeTranslater.safeIntSet(stmt2, 9, checkIn.getRoomServiceStaffId());
 
-            stmt2.executeUpdate();
-            connection.commit();
-            connection.setAutoCommit(true);
-            try (ResultSet ID = stmt2.getGeneratedKeys()) {
-                ID.next();
-                return ID.getLong(1);
+                stmt2.executeUpdate();
+                try (ResultSet ID = stmt2.getGeneratedKeys()) {
+                    ID.next();
+                    long newId = ID.getLong(1);
+
+                    connection.commit();
+                    return newId;
+                }
+            } catch (Exception e) {
+                connection.rollback();
+                throw e;
+            } finally {
+                connection.setAutoCommit(true);
             }
         }
     }
@@ -150,6 +157,6 @@ public class CheckInDAO {
     private static CheckInInformation convertToCheckIn(ResultSet rs) throws SQLException {
         return new CheckInInformation(rs.getLong(1), rs.getInt(2), rs.getDate(3), rs.getDate(4),
         rs.getLong(5), rs.getLong(6), rs.getLong(7), rs.getLong(8),
-        rs.getLong(9), rs.getLong(10));
+        SQLTypeTranslater.safeGetLong(rs, 9), SQLTypeTranslater.safeGetLong(rs, 10));
     }
 }

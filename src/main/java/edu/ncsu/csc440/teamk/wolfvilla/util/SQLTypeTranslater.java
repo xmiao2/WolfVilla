@@ -1,6 +1,7 @@
 package edu.ncsu.csc440.teamk.wolfvilla.util;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
@@ -24,5 +25,13 @@ public class SQLTypeTranslater {
     public static void safeIntSet(PreparedStatement ps, int index, Long value) throws SQLException {
         if (value == null) ps.setNull(index, Types.INTEGER);
         else ps.setLong(index, value);
+    }
+
+    public static Long safeGetLong(ResultSet rs, int index) throws SQLException {
+        long l = rs.getLong(index);
+        if (rs.wasNull()) {
+            return null;
+        }
+        return l;
     }
 }

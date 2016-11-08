@@ -17,6 +17,10 @@ public class CheckInInformation {
     private Long cateringStaffId;
     private Long roomServiceStaffId;
 
+    public CheckInInformation() {
+        this(-1, 0, null, null, -1, -1, -1, -1, null, null);
+    }
+
     public CheckInInformation(long id, Integer currentOcupancy, Date checkinTime, Date checkoutTime,
                               long billingInformationId, long hotelId, long roomNumber, long customerId,
                               Long cateringStaffId, Long roomServiceStaffId) {

@@ -1,0 +1,15 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<title layout:fragment="page-title">WolfVilla | Edit Service</title>
+<section layout:fragment="page-content">
+    <h1>Edit Service <small>ID: <span th:text="${service.id}"></span></small></h1>
+    <form method="post" th:action="@{|/services/edit/${service.id}|}">
+        <section th:include="services/_serviceform :: serviceform"></section>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a th:href="@{/services}" class="btn btn-info">Cancel</a>
+    </form>
+</section>
+
+</html>

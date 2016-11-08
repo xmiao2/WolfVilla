@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+    <section th:fragment="serviceform">
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input id="description" name="description" class="form-control" type="text" th:value="${service.description}" />
+        </div>
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input id="price" name="price" class="form-control" type="text" th:value="${service.price}" />
+        </div>
+        <div class="form-group">
+            <label for="staffId">Staff Id</label>
+            <input id="staffId" name="staffId" class="form-control" type="text" th:value="${service.staffId}" />
+        </div>
+        <div class="form-group">
+            <label for="checkinID">Checkin ID</label>
+            <input id="checkinID" name="checkinID" class="form-control" type="text" th:value="${service.checkinID}" />
+        </div>
+    </section>
+
+</html>
