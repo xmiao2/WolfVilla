@@ -1,0 +1,22 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<title layout:fragment="page-title">WolfVilla | Delete Staff</title>
+<section layout:fragment="page-content">
+    <h1>Delete Staff <small>ID: <span th:text="${staff.id}"></span></small></h1>
+    <h3>Are you sure you want to delete the follow staff?</h3>
+    <form method="POST" th:action="@{|/staff/delete/${staff.id}|}" th:object="${staff}">
+        <section th:include="staff/_staffform :: staffform"></section>
+        <button type="submit" class="btn btn-danger">Yes</button>
+        <a th:href="@{/staff}" class="btn btn-info">Cancel</a>
+    </form>
+</section>
+
+<section layout:fragment="page-scripts">
+    <script>
+         $("input[type='text'], select").prop("disabled", "disabled");
+    </script>
+</section>
+
+</html>

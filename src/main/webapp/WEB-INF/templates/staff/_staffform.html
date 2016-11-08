@@ -1,0 +1,49 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<section th:fragment="staffform">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name" name="name" class="form-control" type="text" th:field="*{name}" />
+    </div>
+    <div class="form-group">
+        <label for="hotelId">Hotel ID</label>
+        <input id="hotelId" name="hotelId" class="form-control" type="text" th:field="*{hotelId}" />
+    </div>
+    <div class="form-group">
+        <label for="title">Title</label>
+        <select id="title" name="title" class="selectpicker" data-width="100%" th:field="*{titleDepartment.title}">
+            <option value="admin">Admin</option>
+            <option value="manager">Manager</option>
+            <option value="front desk representative">Front Desk Representative</option>
+            <option value="room service staff">Room Service Staff</option>
+            <option value="catering staff">Catering Staff</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="ssn">SSN</label>
+        <input id="ssn" name="ssn" class="form-control" type="text" th:field="*{ssn}" />
+    </div>
+    <div class="form-group">
+        <label for="age">Age</label>
+        <input id="age" name="age" class="form-control" type="text" th:field="*{age}" />
+    </div>
+    <div class="form-group">
+        <label for="gender">Gender</label>
+        <select id="gender" name="gender" class="selectpicker" data-width="100%" th:field="*{gender}">
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="address">Address</label>
+        <input id="address" name="address" class="form-control" type="text" th:field="*{address}" />
+    </div>
+    <div class="form-group">
+        <label for="phoneNumber">Phone Number</label>
+        <input id="phoneNumber" name="phoneNumber" class="form-control" type="text" th:field="*{phoneNumber}" />
+    </div>
+</section>
+
+</html>

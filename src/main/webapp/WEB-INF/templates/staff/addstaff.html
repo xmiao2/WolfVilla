@@ -1,0 +1,15 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<title layout:fragment="page-title">WolfVilla | Edit Staff</title>
+<section layout:fragment="page-content">
+    <h1>Add New Staff</h1>
+    <form method="post" th:action="@{/staff/new}" th:object="${staff}">
+        <section th:include="staff/_staffform :: staffform"></section>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a th:href="@{/staff}" class="btn btn-info">Cancel</a>
+    </form>
+</section>
+
+</html>
