@@ -12,6 +12,9 @@ public class Service {
     private long staffId;
     private long checkinID;
 
+    public Service() {
+        this(-1, "", 0, -1, -1);
+    }
     public Service(long id, String description, double price, long staffId, long checkinID) {
         this.id = id;
         this.description = description;

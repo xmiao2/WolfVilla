@@ -1,6 +1,9 @@
 package edu.ncsu.csc440.teamk.wolfvilla.dao;
 
 import edu.ncsu.csc440.teamk.wolfvilla.model.*;
+import edu.ncsu.csc440.teamk.wolfvilla.util.DBConnection;
+import edu.ncsu.csc440.teamk.wolfvilla.util.TestEnvironmentSetter;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.sql.Date;
@@ -11,6 +14,13 @@ import static org.junit.Assert.*;
  * Created by Joshua on 10/27/2016.
  */
 public class ServicesDAOTest {
+
+    @BeforeClass
+    public static void setupClass() throws Exception {
+        DBConnection.enableTestMode();
+        TestEnvironmentSetter.setUp();
+    }
+
     @Test
     public void getCheckInServiceCost() throws Exception {
         CheckInInformation checkIn = new CheckInInformation(

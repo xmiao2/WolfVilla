@@ -1,0 +1,28 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+    <section th:fragment="billingform">
+        <div class="form-group">
+            <label for="billingAddress">Billing Address</label>
+            <input id="billingAddress" name="billingAddress" class="form-control" type="text" th:value="${billing.billingAddress}" />
+        </div>
+        <div class="form-group">
+            <label for="ssn">Social Security Number</label>
+            <input id="ssn" name="ssn" class="form-control" type="text" th:value="${billing.ssn}" />
+        </div>
+        <div class="form-group">
+            <label for="paymentMethod">Payment Method</label>
+            <input id="paymentMethod" name="paymentMethod" class="form-control" type="text" th:value="${billing.paymentMethod}" />
+        </div>
+        <div class="form-group">
+            <label for="cardNumber">Card Number</label>
+            <input id="cardNumber" name="cardNumber" class="form-control" type="text" th:value="${billing.cardNumber}" />
+        </div>
+        <div class="form-group">
+            <label for="expirationDate">Expiration Date</label>
+            <input id="expirationDate" name="expirationDate" class="form-control" type="text" th:value="${billing.expirationDate}" />
+        </div>
+    </section>
+
+</html>

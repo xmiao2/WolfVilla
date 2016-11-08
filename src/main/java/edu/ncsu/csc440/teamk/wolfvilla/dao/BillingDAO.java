@@ -66,7 +66,7 @@ public class BillingDAO {
     }
 
 
-    public static BillingInformation retrieveBillingInformation(long checkinId, BillingInformation billInfo)
+    public static BillingInformation retrieveBillingInformation(long checkinId)
             throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(

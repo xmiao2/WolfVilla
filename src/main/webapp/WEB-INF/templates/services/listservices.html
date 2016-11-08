@@ -1,0 +1,45 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<title layout:fragment="page-title">WolfVilla | Services</title>
+
+<section layout:fragment="page-content">
+    <h1>
+        Services
+        <a th:href="@{/services/new}" class="btn btn-success btn-xs">Add New Service</a>
+    </h1>
+
+    <table class="cell-border stripe" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Staff ID</th>
+            <th>Check In ID</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="service : ${services}">
+            <td th:text="${service.id}"></td>
+            <td th:text="${service.description}">test</td>
+            <td th:text="${service.price}">test</td>
+            <td th:text="${service.staffId}">test</td>
+            <td th:text="${service.checkinID}">test</td>
+            <td><a th:href="@{|/services/${service.id}|}" th:text="Edit"></a><br/>
+                <a th:href="@{|/services/delete/${service.id}|}" th:text="Delete"></a></td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<section layout:fragment="page-scripts">
+    <script>
+        $(function(){
+            $("table").dataTable();
+        });
+    </script>
+</section>
+
+</html>

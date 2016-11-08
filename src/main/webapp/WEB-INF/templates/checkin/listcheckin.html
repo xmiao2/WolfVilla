@@ -1,0 +1,56 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<title layout:fragment="page-title">WolfVilla | Checkin</title>
+
+<section layout:fragment="page-content">
+    <h1>
+        Checkins
+        <a th:href="@{/checkin/new}" class="btn btn-success btn-xs">Add New Checkin</a>
+    </h1>
+
+    <table class="cell-border stripe" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Occupancy</th>
+            <th>Checkin Time</th>
+            <th>Checkout Time</th>
+            <th>Hotel ID</th>
+            <th>Room Number</th>
+            <th>Customer ID</th>
+            <th>Catering Staff</th>
+            <th>Service Staff</th>
+            <th>Checkin Actions</th>
+            <th>Billing Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="checkin : ${checkins}">
+            <td th:text="${checkin.id}"></td>
+            <td th:text="${checkin.currentOcupancy}"></td>
+            <td th:text="${checkin.checkinTime}"></td>
+            <td th:text="${checkin.checkoutTime}"></td>
+            <td th:text="${checkin.hotelId}"></td>
+            <td th:text="${checkin.roomNumber}"></td>
+            <td th:text="${checkin.customerId}"></td>
+            <td th:text="${checkin.cateringStaffId}"></td>
+            <td th:text="${checkin.roomServiceStaffId}"></td>
+            <td><a th:href="@{|/checkin/${checkin.id}|}" th:text="Edit"></a><br/>
+                <a th:href="@{|/checkin/delete/${checkin.id}|}" th:text="Delete"></a></td>
+            <td><a th:href="@{|/checkin/editbilling/${checkin.id}|}">Edit Billing</a></td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<section layout:fragment="page-scripts">
+    <script>
+        $(function(){
+            $("table").dataTable();
+        });
+    </script>
+</section>
+
+</html>

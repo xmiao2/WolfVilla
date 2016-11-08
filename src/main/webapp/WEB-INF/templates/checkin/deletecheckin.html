@@ -1,0 +1,22 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<title layout:fragment="page-title">WolfVilla | Delete Checkin</title>
+<section layout:fragment="page-content">
+    <h1>Delete Checkin <small>ID: <span th:text="${checkin.id}"></span></small></h1>
+    <h3>Are you sure you want to delete the follow Checkin?</h3>
+    <form method="POST" th:action="@{|/checkin/delete/${checkin.id}|}">
+        <section th:include="checkin/_checkinform :: checkinform"></section>
+        <button type="submit" class="btn btn-danger">Yes</button>
+        <a th:href="@{/checkin}" class="btn btn-info">Cancel</a>
+    </form>
+</section>
+
+<section layout:fragment="page-scripts">
+    <script>
+        $("input[type='text']").prop("disabled", "disabled");
+    </script>
+</section>
+
+</html>

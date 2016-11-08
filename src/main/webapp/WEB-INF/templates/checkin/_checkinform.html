@@ -1,0 +1,40 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+    <section th:fragment="checkinform">
+        <div class="form-group">
+            <label for="currentOcupancy">Current Occupancy</label>
+            <input id="currentOcupancy" name="currentOcupancy" class="form-control" type="text" th:value="${checkin.currentOcupancy}" />
+        </div>
+        <div class="form-group">
+            <label for="checkinTime">Checkin Time(YEAR-MM-DD)</label>
+            <input id="checkinTime" name="checkinTime" class="form-control" type="text" th:value="${checkin.checkinTime}" />
+        </div>
+        <div class="form-group">
+            <label for="checkoutTime">Checkout Time(YEAR-MM-DD)</label>
+            <input id="checkoutTime" name="checkoutTime" class="form-control" type="text" th:value="${checkin.checkoutTime}" />
+        </div>
+        <div class="form-group">
+            <label for="hotelId">Hotel Id</label>
+            <input id="hotelId" name="hotelId" class="form-control" type="text" th:value="${checkin.hotelId}" />
+        </div>
+        <div class="form-group">
+            <label for="roomNumber">Room Number</label>
+            <input id="roomNumber" name="roomNumber" class="form-control" type="text" th:value="${checkin.roomNumber}" />
+        </div>
+        <div class="form-group">
+            <label for="customerId">Customer ID</label>
+            <input id="customerId" name="customerId" class="form-control" type="text" th:value="${checkin.customerId}" />
+        </div>
+        <div class="form-group">
+            <label for="cateringStaffId">Assigned Catering Staff</label>
+            <input id="cateringStaffId" name="cateringStaffId" class="form-control" type="text" th:value="${checkin.cateringStaffId}" />
+        </div>
+        <div class="form-group">
+            <label for="roomServiceStaffId">Assigned Room Service Staff</label>
+            <input id="roomServiceStaffId" name="roomServiceStaffId" class="form-control" type="text" th:value="${checkin.roomServiceStaffId}" />
+        </div>
+    </section>
+
+</html>

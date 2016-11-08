@@ -13,6 +13,10 @@ public class BillingInformation {
     private String cardNumber;
     private Date expirationDate;
 
+    public BillingInformation() {
+        this(-1, "", "", "", "", null);
+    }
+
     public BillingInformation(long id, String billingAddress, String ssn,
                               String paymentMethod, String cardNumber, Date expirationDate) {
         this.id = id;

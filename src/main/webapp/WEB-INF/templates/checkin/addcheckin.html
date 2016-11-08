@@ -1,0 +1,22 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<title layout:fragment="page-title">WolfVilla | Add Checkin</title>
+<section layout:fragment="page-content">
+    <h1>Add New Checkin</h1>
+    <form method="post" th:action="@{/checkin/new}">
+        <div class="panel panel-default">
+            <div class="panel-heading">Checkin Information</div>
+            <div class="panel-body"><section th:include="checkin/_checkinform :: checkinform"></section></div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Billing Information</div>
+            <div class="panel-body"><section th:include="checkin/_billingform :: billingform"></section></div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a th:href="@{/services}" class="btn btn-info">Cancel</a>
+    </form>
+</section>
+
+</html>
