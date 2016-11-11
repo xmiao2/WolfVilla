@@ -6,6 +6,7 @@ package edu.ncsu.csc440.teamk.wolfvilla.model;
 public class Hotel {
 
     private long id;
+    private Long manager;
     private String address;
     private String name;
     private String phoneNumber;
@@ -15,11 +16,12 @@ public class Hotel {
     }
 
     public Hotel(String address, String name, String phoneNumber) {
-        this(-1L, address, name, phoneNumber);
+        this(-1L,  null, address, name, phoneNumber);
     }
 
-    public Hotel(long id, String address, String name, String phoneNumber) {
+    public Hotel(long id, Long manager, String address, String name, String phoneNumber) {
         this.id = id;
+        this.manager = manager;
         this.address = address;
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -55,5 +57,13 @@ public class Hotel {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Long getManager() {
+        return manager;
+    }
+
+    public void setManager(Long manager) {
+        this.manager = manager;
     }
 }

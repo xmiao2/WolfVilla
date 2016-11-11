@@ -2,6 +2,7 @@ package edu.ncsu.csc440.teamk.wolfvilla.dao;
 
 import edu.ncsu.csc440.teamk.wolfvilla.model.Hotel;
 import edu.ncsu.csc440.teamk.wolfvilla.util.DBConnection;
+import edu.ncsu.csc440.teamk.wolfvilla.util.SQLTypeTranslater;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,10 +15,36 @@ import java.util.List;
  * Created by Joshua on 10/25/2016.
  */
 public class HotelDAO {
+
+    public static void assignHotelManager(long hotelId, long managerId) throws SQLException, ClassNotFoundException {
+        try (Connection connection = DBConnection.getConnection()) {
+            connection.setAutoCommit(false);
+            //Prepare relevant SQL insert statements
+            try (PreparedStatement stmt1 = connection.prepareStatement(
+                    "UPDATE hotels SET manager = NULL WHERE manager = ?");
+                 PreparedStatement stmt2 = connection.prepareStatement(
+                         "UPDATE hotels SET manager = ? WHERE id = ?")) {
+                //Populate the first prepared statement's values and then execute it
+                stmt1.setLong(1, managerId);
+                stmt1.executeUpdate();
+                stmt2.setLong(1, managerId);
+                stmt2.setLong(2, hotelId);
+                stmt2.executeUpdate();
+                connection.commit();
+            } catch (Exception e) {
+                connection.rollback();
+                throw e;
+                // Always revert the status of the connection back to always auto-committing
+            } finally {
+                connection.setAutoCommit(true);
+            }
+        }
+    }
+
     public static long createHotel (Hotel hotel) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
-                     "INSERT INTO hotels VALUES(hotel_seq.nextval, ?, ?, ?)",  new int[]{1})) {
+                     "INSERT INTO hotels VALUES(hotel_seq.nextval, null, ?, ?, ?)",  new int[]{1})) {
             stmt.setString(1, hotel.getAddress());
             stmt.setString(2, hotel.getName());
             stmt.setString(3, hotel.getPhoneNumber());
@@ -79,6 +106,6 @@ public class HotelDAO {
     }
 
     private static Hotel convertToHotel(ResultSet rs) throws SQLException {
-        return new Hotel(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4));
+        return new Hotel(rs.getLong(1), SQLTypeTranslater.getLongOrNull(rs, 2), rs.getString(3), rs.getString(4), rs.getString(5));
     }
 }

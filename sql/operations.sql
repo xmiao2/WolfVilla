@@ -85,7 +85,7 @@ WHERE id = @hotel_id;
 
 /*createHotel*/
 INSERT INTO hotels 
-VALUES(hotel_seq.nextval, @address, @name, @phone_number);
+VALUES(hotel_seq.nextval, NULL, @address, @name, @phone_number);
 
 /*updateHotel*/
 UPDATE hotels 
@@ -126,12 +126,14 @@ UPDATE checkin_information
 SET checkout_time = @checkout_time
 WHERE id = @checking_event_id;
 
-/* assignManager(manage_id, hotel_id) */
-DELETE FROM manager
-WHERE hotel_id = @hotel_id;
+/* assignManager(manager_id, hotel_id) */
+UPDATE hotels
+SET manager_id = NULL
+WHERE manager_id = @manager_id;
 
-INSERT INTO manager
-VALUES(@manager_id, @hotel_id);
+UPDATE hotels
+SET manager_id = manager_id
+WHERE id = @hotel_id;
 
 /* addService */
 INSERT INTO services

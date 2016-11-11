@@ -14,20 +14,24 @@
         <thead>
         <tr>
             <th>ID</th>
+            <th>Manager</th>
             <th>Name</th>
             <th>Address</th>
             <th>Phone Number</th>
             <th>Actions</th>
+            <th>Switch manager</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="hotel : ${hotels}">
             <td th:text="${hotel.id}"></td>
+            <td th:text="${hotel.manager}">test</td>
             <td th:text="${hotel.name}">test</td>
             <td th:text="${hotel.address}">test</td>
             <td th:text="${hotel.phoneNumber}">test</td>
             <td><a th:href="@{|/hotels/${hotel.id}|}" th:text="Edit"></a><br/>
                 <a th:href="@{|/hotels/delete/${hotel.id}|}" th:text="Delete"></a></td>
+            <td><a th:href="@{|/hotels/editmanager/${hotel.id}|}" th:text="Edit"></a></td>
         </tr>
         </tbody>
     </table>
