@@ -33,6 +33,13 @@ public class SQLTypeTranslater {
         else ps.setLong(index, value);
     }
 
+    public static void setDateOrNull(PreparedStatement ps, int index, Date value) throws SQLException {
+        if (value == null) {
+            ps.setNull(index, Types.INTEGER);
+        }
+        else ps.setDate(index, value);
+    }
+
     public static Long getLongOrNull(ResultSet rs, int index) throws SQLException {
         Long l = rs.getLong(index);
         return rs.wasNull() ? null : l;
@@ -47,7 +54,7 @@ public class SQLTypeTranslater {
         if (input == null || input.equals("")) {
             return null;
         }
-        DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         return new Date(df.parse(input).getTime());
     }
 }

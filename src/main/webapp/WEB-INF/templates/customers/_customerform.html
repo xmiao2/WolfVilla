@@ -1,0 +1,28 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<section th:fragment="customerform">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name" name="name" class="form-control" type="text" th:value="${customer.name}" />
+    </div>
+    <div class="form-group">
+        <label for="gender">Gender</label>
+        <input id="gender" name="gender" class="form-control" type="text" th:value="${customer.gender}" />
+    </div>
+    <div class="form-group">
+        <label for="phoneNumber">Phone Number</label>
+        <input id="phoneNumber" name="phoneNumber" class="form-control" type="text" th:value="${customer.phoneNumber}" />
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" name="email" class="form-control" type="text" th:value="${customer.email}" />
+    </div>
+    <div class="form-group">
+        <label for="address">Address</label>
+        <input id="address" name="address" class="form-control" type="text" th:value="${customer.address}" />
+    </div>
+</section>
+
+</html>
