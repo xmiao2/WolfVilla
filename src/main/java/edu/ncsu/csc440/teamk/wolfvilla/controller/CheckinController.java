@@ -2,13 +2,11 @@ package edu.ncsu.csc440.teamk.wolfvilla.controller;
 
 import edu.ncsu.csc440.teamk.wolfvilla.dao.BillingDAO;
 import edu.ncsu.csc440.teamk.wolfvilla.dao.CheckInDAO;
-import edu.ncsu.csc440.teamk.wolfvilla.dao.HotelDAO;
-import edu.ncsu.csc440.teamk.wolfvilla.dao.ServicesDAO;
 import edu.ncsu.csc440.teamk.wolfvilla.model.BillingInformation;
 import edu.ncsu.csc440.teamk.wolfvilla.model.CheckInInformation;
-import edu.ncsu.csc440.teamk.wolfvilla.model.Service;
 import edu.ncsu.csc440.teamk.wolfvilla.model.Staff;
 import edu.ncsu.csc440.teamk.wolfvilla.util.FlashMessage;
+import edu.ncsu.csc440.teamk.wolfvilla.util.SQLTypeTranslater;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 
 import static edu.ncsu.csc440.teamk.wolfvilla.util.FlashMessage.MESSAGE;
@@ -48,8 +46,8 @@ public class CheckinController {
     @RequestMapping(method = RequestMethod.POST, value = "/new")
     public ModelAndView addCheckin(RedirectAttributes redir,
                                    @RequestParam("currentOcupancy") Integer currentOcupancy,
-                                   @RequestParam("checkinTime") Date checkinTime,
-                                   @RequestParam(value = "checkoutTime", required = false) Date checkoutTime,
+                                   @RequestParam("checkinTime") String checkinTime,
+                                   @RequestParam(value = "checkoutTime", required = false) String checkoutTime,
                                    @RequestParam("hotelId") long hotelId,
                                    @RequestParam("roomNumber") long roomNumber,
                                    @RequestParam("customerId") long customerId,
@@ -59,11 +57,13 @@ public class CheckinController {
                                    @RequestParam("ssn") String ssn,
                                    @RequestParam("paymentMethod") String paymentMethod,
                                    @RequestParam("cardNumber") String cardNumber,
-                                   @RequestParam("expirationDate") Date expirationDate)
-            throws SQLException, ClassNotFoundException {
-        CheckInInformation checkin = new CheckInInformation(-1, currentOcupancy, checkinTime, checkoutTime, -1,
+                                   @RequestParam("expirationDate") String expirationDate)
+            throws SQLException, ClassNotFoundException, ParseException {
+        CheckInInformation checkin = new CheckInInformation(-1, currentOcupancy, SQLTypeTranslater.stringToDate(checkinTime),
+                SQLTypeTranslater.stringToDate(checkoutTime), -1,
                 hotelId,roomNumber,customerId,cateringStaffId,roomServiceStaffId);
-        BillingInformation billing = new BillingInformation(-1, billingAddress, ssn, paymentMethod, cardNumber, expirationDate);
+        BillingInformation billing = new BillingInformation(-1, billingAddress, ssn, paymentMethod, cardNumber,
+                SQLTypeTranslater.stringToDate(expirationDate));
         long id = CheckInDAO.addCheckIn(checkin, billing);
         ModelAndView mv = new ModelAndView("redirect:/checkin");
         redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Added Service (ID=%d)", id)));
@@ -89,14 +89,15 @@ public class CheckinController {
     public ModelAndView editCheckinById(RedirectAttributes redir,
                                         @PathVariable("id") Long id,
                                         @RequestParam("currentOcupancy") Integer currentOcupancy,
-                                        @RequestParam("checkinTime") Date checkinTime,
-                                        @RequestParam(value = "checkoutTime", required = false) Date checkoutTime,
+                                        @RequestParam("checkinTime") String checkinTime,
+                                        @RequestParam(value = "checkoutTime", required = false) String checkoutTime,
                                         @RequestParam("hotelId") long hotelId,
                                         @RequestParam("roomNumber") long roomNumber,
                                         @RequestParam("customerId") long customerId,
                                         @RequestParam(value = "cateringStaffId", required = false) Long cateringStaffId,
-                                        @RequestParam(value = "roomServiceStaffId", required = false) Long roomServiceStaffId) throws SQLException, ClassNotFoundException {
-        CheckInInformation checkin = new CheckInInformation(id, currentOcupancy, checkinTime, checkoutTime, -1,
+                                        @RequestParam(value = "roomServiceStaffId", required = false) Long roomServiceStaffId) throws SQLException, ClassNotFoundException, ParseException {
+        CheckInInformation checkin = new CheckInInformation(id, currentOcupancy, SQLTypeTranslater.stringToDate(checkinTime),
+                SQLTypeTranslater.stringToDate(checkoutTime), -1,
                 hotelId,roomNumber,customerId,cateringStaffId,roomServiceStaffId);
         CheckInDAO.updateCheckIn(checkin);
         redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Edited Service (ID=%d)", checkin.getId())));
@@ -110,8 +111,9 @@ public class CheckinController {
                                         @RequestParam("ssn") String ssn,
                                         @RequestParam("paymentMethod") String paymentMethod,
                                         @RequestParam("cardNumber") String cardNumber,
-                                        @RequestParam("expirationDate") Date expirationDate) throws SQLException, ClassNotFoundException {
-        BillingInformation billing = new BillingInformation(-1, billingAddress, ssn, paymentMethod, cardNumber, expirationDate);
+                                        @RequestParam("expirationDate") String expirationDate) throws SQLException, ClassNotFoundException, ParseException {
+        BillingInformation billing = new BillingInformation(-1, billingAddress, ssn, paymentMethod, cardNumber,
+                SQLTypeTranslater.stringToDate(expirationDate));
         BillingDAO.updateBillingInformation(id, billing);
         redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Edited Service (ID=%d)", id)));
         return new ModelAndView("redirect:/checkin");

@@ -1,9 +1,9 @@
 package edu.ncsu.csc440.teamk.wolfvilla.util;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class SQLTypeTranslater {
     public static Character stringToChar(String s) {
@@ -41,5 +41,13 @@ public class SQLTypeTranslater {
     public static Integer getIntOrNull(ResultSet rs, int index) throws SQLException {
         Integer i = rs.getInt(index);
         return rs.wasNull() ? null : i;
+    }
+
+    public static Date stringToDate(String input) throws ParseException {
+        if (input == null || input.equals("")) {
+            return null;
+        }
+        DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+        return new Date(df.parse(input).getTime());
     }
 }

@@ -20,14 +20,14 @@ public class HotelDAOTest {
 
     @Test
     public void createHotel() throws Exception {
-        Hotel h1 = new Hotel(-1L, "Test room", "test", "3336668888");
+        Hotel h1 = new Hotel(-1L, null, "Test room", "test", "3336668888");
         long id = HotelDAO.createHotel(h1);
 
         Hotel h2 = HotelDAO.getHotelById(id);
 
         assertEquals(h1, h2);
 
-        Hotel h3 = new Hotel(id, "Test room", "proof", "3336668888");
+        Hotel h3 = new Hotel(id, null, "Test room", "proof", "3336668888");
         HotelDAO.updateHotel(h3);
 
         Hotel h4 = HotelDAO.getHotelById(id);

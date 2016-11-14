@@ -18,6 +18,7 @@ DROP SEQUENCE services_seq;
 
 CREATE TABLE hotels (
   id int PRIMARY KEY,
+  manager int,
   address varchar(128),
   name varchar(32),
   phone_number varchar(10)
@@ -31,7 +32,7 @@ CREATE TABLE title_department(
 CREATE TABLE staff (
   id int PRIMARY KEY,
   name varchar(32),
-  title varchar(32) NOT NULL REFERENCES title_department(title),
+  title varchar(32) NOT NULL REFERENCES title_department(title) ON DELETE CASCADE,
   ssn varchar(9),
   age int,
   gender char(1),
@@ -40,10 +41,7 @@ CREATE TABLE staff (
   hotel_id NOT NULL CONSTRAINT fk_staff_hotel_id REFERENCES hotels(id)
 );
 
-CREATE TABLE managers (
-  id int PRIMARY KEY REFERENCES staff(id),
-  hotel_id NOT NULL UNIQUE CONSTRAINT fk_managers_hotel_id REFERENCES hotels(id)
-);
+ALTER TABLE hotels ADD (CONSTRAINT manager_is_staff FOREIGN KEY (manager) REFERENCES staff(id) ON DELETE CASCADE);
 
 CREATE TABLE room_categories (
   category_name varchar(32),
@@ -109,10 +107,10 @@ CREATE SEQUENCE billing_information_seq MINVALUE 0 START WITH 0;
 CREATE SEQUENCE customer_seq MINVALUE 0 START WITH 0;
 CREATE SEQUENCE services_seq MINVALUE 0 START WITH 0;
 
-INSERT INTO hotels VALUES (hotel_seq.nextval, '1011 Wolfvilla Dr. Raleigh NC, 27613', 'WolfVilla Raleigh', '9195550100');
-INSERT INTO hotels VALUES (hotel_seq.nextval, '900 W. WolfVilla St. Charlotte NC, 27613', 'WolfVilla Charlotte', '7045550101');
-INSERT INTO hotels VALUES (hotel_seq.nextval, '301 Wolfvilla Rd. Greensboro NC, 27613', 'WolfVilla Greensboro', '3365550102');
-INSERT INTO hotels VALUES (hotel_seq.nextval, '166 E. Wolfvilla Ave. Wilmington NC, 27613', 'WolfVilla Wilmington', '9105550103');
+INSERT INTO hotels VALUES (hotel_seq.nextval, null, '1011 Wolfvilla Dr. Raleigh NC, 27613', 'WolfVilla Raleigh', '9195550100');
+INSERT INTO hotels VALUES (hotel_seq.nextval, null, '900 W. WolfVilla St. Charlotte NC, 27613', 'WolfVilla Charlotte', '7045550101');
+INSERT INTO hotels VALUES (hotel_seq.nextval, null, '301 Wolfvilla Rd. Greensboro NC, 27613', 'WolfVilla Greensboro', '3365550102');
+INSERT INTO hotels VALUES (hotel_seq.nextval, null, '166 E. Wolfvilla Ave. Wilmington NC, 27613', 'WolfVilla Wilmington', '9105550103');
 
 INSERT INTO title_department VALUES('admin', 'admin');
 INSERT INTO title_department VALUES('manager', 'management');
@@ -135,10 +133,10 @@ INSERT INTO staff VALUES (staff_seq.nextval, 'Veronica Vinkle', 'service staff',
 INSERT INTO staff VALUES (staff_seq.nextval, 'Robert Anderson', 'service staff', '001398250', 29, 'M', '135 Zipster Rd, Raleigh, NC 27613',  '9191232043',2);
 INSERT INTO staff VALUES (staff_seq.nextval, 'Katie Ferguson', 'service staff', '456745656', 23, 'F', '102 Sailer Drive, Raleigh, NC 27614', '9191232044', 3);
 
-INSERT INTO managers VALUES (0, 0);
-INSERT INTO managers VALUES (1, 1);
-INSERT INTO managers VALUES (2, 2);
-INSERT INTO managers VALUES (3, 3);
+UPDATE hotels SET manager = 2 WHERE id = 0;
+UPDATE hotels SET manager = 3 WHERE id = 1;
+UPDATE hotels SET manager = 4 WHERE id = 2;
+UPDATE hotels SET manager = 5 WHERE id = 3;
 
 INSERT INTO room_categories VALUES ('Economy', 1, 100);
 INSERT INTO room_categories VALUES ('Economy', 2, 115);

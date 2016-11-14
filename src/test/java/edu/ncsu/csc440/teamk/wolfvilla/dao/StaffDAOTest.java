@@ -21,7 +21,7 @@ public class StaffDAOTest {
 
     @Test
     public void retrieveStaff() throws Exception {
-        long id = HotelDAO.createHotel( new Hotel(-1L, "Test room", "test", "3336668888"));
+        long id = HotelDAO.createHotel( new Hotel(-1L, null, "Test room", "test", "3336668888"));
 
         Staff s1 = new Staff(-1L, "Tim", "caterer", "000112222", 12, 'F', "Place", "3336664444", id);
         Staff s2 = new Staff(-1L, "Kim", "caterer", "000112222", 12, 'M', "Place", "3336664444", id);

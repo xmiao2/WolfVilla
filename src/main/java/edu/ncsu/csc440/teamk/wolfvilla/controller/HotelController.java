@@ -29,6 +29,21 @@ public class HotelController {
         return new ModelAndView("hotels/addhotel", "hotel", new Hotel());
     }
 
+
+    @RequestMapping(method = RequestMethod.GET, value = "editmanager/{id}")
+    public ModelAndView getChangeManager(@PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
+        return new ModelAndView("hotels/editmanager", "id", id);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "editmanager/{hotelId}")
+    public ModelAndView changeManager(RedirectAttributes redir,
+                                      @PathVariable("hotelId") Long hotelId,
+                                      @RequestParam("manager") Long managerId) throws SQLException, ClassNotFoundException {
+        HotelDAO.assignHotelManager(hotelId, managerId);
+        redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Edited Hotel (ID=%d)", hotelId)));
+        return new ModelAndView("redirect:/hotels");
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/new")
     public ModelAndView addHotel(RedirectAttributes redir,
                                  @RequestParam("name") String name,
@@ -53,7 +68,7 @@ public class HotelController {
                                       @RequestParam("name") String name,
                                       @RequestParam("phoneNumber") String phoneNumber,
                                       @RequestParam("address") String address) throws SQLException, ClassNotFoundException {
-        Hotel hotel = new Hotel(id, address, name, phoneNumber);
+        Hotel hotel = new Hotel(id, null, address, name, phoneNumber);
         HotelDAO.updateHotel(hotel);
         redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Edited Hotel (ID=%d)", hotel.getId())));
         return new ModelAndView("redirect:/hotels");

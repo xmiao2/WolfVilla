@@ -41,9 +41,19 @@ public class CheckInDAO {
         }
     }
 
+    /**
+     * Generate a new checkin_information entry in the database
+     * @param checkIn CheckInInformation model that holds the checkin data
+     * @param billing BillingInformation model that holds the billing data
+     * @return newID the generated primary key of the checkin entry if the transaction was completed successfully
+     * @throws SQLException if improper values are passed
+     * @throws ClassNotFoundException if the compiler cannot locate the relevant JDBC files
+     */
     public static long addCheckIn(CheckInInformation checkIn, BillingInformation billing) throws SQLException, ClassNotFoundException {
+        //Attempt to instantiate a connection and disable autocommit functionalities
         try (Connection connection = DBConnection.getConnection()) {
             connection.setAutoCommit(false);
+            //Prepare relevant SQL insert statements
             try (PreparedStatement stmt1 = connection.prepareStatement(
                      "INSERT INTO billing_information \n" +
                              "VALUES(billing_information_seq.nextval, ?, ?, ?, ?, ?)",
@@ -51,6 +61,7 @@ public class CheckInDAO {
              PreparedStatement stmt2 = connection.prepareStatement(
                      "INSERT INTO checkin_information VALUES(checkin_information_seq.nextval , ?, " +
                              "?, ?, ?, ?, ?, ?, ?, ?)",  new int[]{1})) {
+                //Populate the first prepared statement's values and then execute it
                 stmt1.setString(1, billing.getBillingAddress());
                 stmt1.setString(2, billing.getSsn());
                 stmt1.setString(3, billing.getPaymentMethod());
@@ -58,12 +69,14 @@ public class CheckInDAO {
                 stmt1.setDate(5, billing.getExpirationDate());
                 stmt1.executeUpdate();
 
+                //Store primary key SQL generated for the new billing information
                 long billingId = 0L;
                 try (ResultSet ID = stmt1.getGeneratedKeys()) {
                     ID.next();
                     billingId = ID.getLong(1);
                 }
 
+                //Populate the second prepared statement and then execute it
                 stmt2.setInt(1, checkIn.getCurrentOcupancy());
                 stmt2.setDate(2, checkIn.getCheckinTime());
                 stmt2.setDate(3, checkIn.getCheckoutTime());
@@ -75,6 +88,9 @@ public class CheckInDAO {
                 SQLTypeTranslater.setLongOrNull(stmt2, 9, checkIn.getRoomServiceStaffId());
 
                 stmt2.executeUpdate();
+
+                //Check to see if the second statement went through properly. If yes, commit
+                // and return the newID of the generate check in event
                 try (ResultSet ID = stmt2.getGeneratedKeys()) {
                     ID.next();
                     long newId = ID.getLong(1);
@@ -82,9 +98,11 @@ public class CheckInDAO {
                     connection.commit();
                     return newId;
                 }
+            // If anything fails along the line, rollback the changes to the database and throw an exception
             } catch (Exception e) {
                 connection.rollback();
                 throw e;
+            // Always revert the status of the connection back to always auto-committing
             } finally {
                 connection.setAutoCommit(true);
             }
