@@ -30,8 +30,7 @@ import static edu.ncsu.csc440.teamk.wolfvilla.util.FlashMessage.MESSAGE;
 public class CheckinController {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView index(HttpServletRequest request) throws SQLException, ClassNotFoundException {
-        Staff user = (Staff)request.getSession().getAttribute("user");
-        List<CheckInInformation> checkins = CheckInDAO.listCheckIn(user.getHotelId());
+        List<CheckInInformation> checkins = CheckInDAO.listCheckIn();
         return new ModelAndView("checkin/listcheckin", "checkins", checkins);
     }
 
@@ -41,6 +40,13 @@ public class CheckinController {
         mv.addObject("checkin", new CheckInInformation());
         mv.addObject("billing", new BillingInformation());
         return mv;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/checkout/{id}")
+    public ModelAndView checkOut(RedirectAttributes redir,
+                                 @PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
+        redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Checked Out (ID=%d), Price=%f", id, CheckInDAO.checkOut(id))));
+        return new ModelAndView("redirect:/checkin");
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/new")
