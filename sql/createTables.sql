@@ -85,7 +85,7 @@ CREATE TABLE checkin_information (
   billing_information_id int UNIQUE NOT NULL REFERENCES billing_information(id) ON DELETE CASCADE,
   hotel_id int NOT NULL,
   room_number int NOT NULL,
-  customer_id int NOT NULL REFERENCES customers(id),
+  customer_id int NOT NULL REFERENCES customers(id) ON DELETE CASCADE,
   catering_staff_id int REFERENCES staff(id),
   room_service_staff_id int REFERENCES staff(id),
   CONSTRAINT fk_hotel_room FOREIGN KEY (hotel_id, room_number) REFERENCES rooms(hotel_id, room_number),
@@ -96,8 +96,8 @@ CREATE TABLE services (
   id int primary key,
   description varchar(64),
   price binary_float,
-  staff_id int NOT NULL CONSTRAINT fk_services_staff_id REFERENCES staff(id),
-  checkin_id NOT NULL CONSTRAINT fk_services_checkin_id REFERENCES checkin_information(id)
+  staff_id int NOT NULL CONSTRAINT fk_services_staff_id REFERENCES staff(id) ON DELETE CASCADE,
+  checkin_id NOT NULL CONSTRAINT fk_services_checkin_id REFERENCES checkin_information(id) ON DELETE CASCADE
 );
 
 CREATE SEQUENCE hotel_seq MINVALUE 0 START WITH 0;
