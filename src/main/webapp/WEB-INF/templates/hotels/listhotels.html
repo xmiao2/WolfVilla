@@ -26,8 +26,9 @@
             <td th:text="${hotel.name}">test</td>
             <td th:text="${hotel.address}">test</td>
             <td th:text="${hotel.phoneNumber}">test</td>
-            <td><a th:href="@{|/hotels/${hotel.id}|}" th:text="Edit"></a><br/>
-                <a th:href="@{|/hotels/delete/${hotel.id}|}" th:text="Delete"></a></td>
+            <td><a th:href="@{|/hotels/${hotel.id}|}">Edit</a><br/>
+                <a th:href="@{|/hotels/delete/${hotel.id}|}">Delete</a><br/>
+                <a th:href="@{|/hotels/${hotel.id}/rooms|}">List Rooms</a></td>
         </tr>
         </tbody>
     </table>

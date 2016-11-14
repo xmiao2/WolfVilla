@@ -1,7 +1,9 @@
 package edu.ncsu.csc440.teamk.wolfvilla.controller;
 
 import edu.ncsu.csc440.teamk.wolfvilla.dao.HotelDAO;
+import edu.ncsu.csc440.teamk.wolfvilla.dao.RoomDAO;
 import edu.ncsu.csc440.teamk.wolfvilla.model.Hotel;
+import edu.ncsu.csc440.teamk.wolfvilla.model.Room;
 import edu.ncsu.csc440.teamk.wolfvilla.util.FlashMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -68,5 +70,59 @@ public class HotelController {
         HotelDAO.deleteHotel(id);
         redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Deleted Hotel (ID=%d)", id)));
         return new ModelAndView("redirect:/hotels");
+    }
+    @RequestMapping(method = RequestMethod.GET, value = "{id}/rooms")
+    public ModelAndView listRoomsById(ModelAndView mv, @PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
+        List<Room> rooms = RoomDAO.listRooms(id);
+        mv.setViewName("rooms/listrooms");
+        mv.addObject("rooms", rooms);
+        mv.addObject("hotelId", id);
+        return mv;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "{id}/rooms/new")
+    public ModelAndView addRoom(@PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
+        Room room = new Room();
+        room.setHotelId(id);
+        return new ModelAndView("rooms/addroom", "room", room);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "{id}/rooms/new")
+    public ModelAndView addRoom(RedirectAttributes redir, @PathVariable("id") Long id,
+                                     @ModelAttribute("room") Room room) throws SQLException, ClassNotFoundException {
+        room.setHotelId(id);
+        RoomDAO.createRoom(room);
+        redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Added Room (Room Number=%d)", room.getRoomNumber())));
+        return new ModelAndView(String.format("redirect:/hotels/%d/rooms", id));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "{id}/rooms/{roomNumber}")
+    public ModelAndView editRoom(@PathVariable("id") Long id, @PathVariable("roomNumber") Integer roomNumber) throws SQLException, ClassNotFoundException {
+        Room room = RoomDAO.getRoom(id, roomNumber);
+        return new ModelAndView("rooms/editroom", "room", room);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "{id}/rooms/edit/{roomNumber}")
+    public ModelAndView editRoomById(RedirectAttributes redir, @PathVariable("id") Long id,
+                                     @PathVariable("roomNumber") Integer roomNumber, @ModelAttribute("room") Room room) throws SQLException, ClassNotFoundException {
+        room.setHotelId(id);
+        RoomDAO.updateRoom(room);
+        redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Edited Room (Room Number=%d)", roomNumber)));
+        return new ModelAndView(String.format("redirect:/hotels/%d/rooms", id));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "{id}/rooms/delete/{roomNumber}")
+    public ModelAndView deleteRoom(@PathVariable("id") Long id,
+                                     @PathVariable("roomNumber") Integer roomNumber) throws SQLException, ClassNotFoundException {
+        Room room = RoomDAO.getRoom(id, roomNumber);
+        return new ModelAndView("rooms/deleteroom", "room", room);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "{id}/rooms/delete/{roomNumber}")
+    public ModelAndView deleteRoom(RedirectAttributes redir, @PathVariable("id") Long id,
+                                   @PathVariable("roomNumber") Integer roomNumber) throws SQLException, ClassNotFoundException {
+        RoomDAO.deleteRoom(id, roomNumber);
+        redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Deleted Room (Room Number=%d)", roomNumber)));
+        return new ModelAndView(String.format("redirect:/hotels/%d/rooms", id));
     }
 }

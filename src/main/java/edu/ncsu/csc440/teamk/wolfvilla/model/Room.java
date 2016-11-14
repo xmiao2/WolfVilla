@@ -4,13 +4,19 @@ package edu.ncsu.csc440.teamk.wolfvilla.model;
  * Created by Adac on 10/24/2016.
  */
 public class Room {
-    private Long id;
+    private Long hotelId;
     private Integer roomNumber;
     private String categoryName;
     private int maxOccupancy;
 
-    public Long getId() {
-        return id;
+    public Room() {
+    }
+
+    public Room(Long hotelId, Integer roomNumber, String categoryName, int maxOccupancy) {
+        this.hotelId = hotelId;
+        this.roomNumber = roomNumber;
+        this.categoryName = categoryName;
+        this.maxOccupancy = maxOccupancy;
     }
 
     public Integer getRoomNumber() {
@@ -25,10 +31,6 @@ public class Room {
         return maxOccupancy;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setRoomNumber(Integer roomNumber) {
         this.roomNumber = roomNumber;
     }
@@ -41,10 +43,11 @@ public class Room {
         this.maxOccupancy = maxOccupancy;
     }
 
-    public Room(Long id, Integer roomNumber, String categoryName, int maxOccupancy) {
-        this.id = id;
-        this.roomNumber = roomNumber;
-        this.categoryName = categoryName;
-        this.maxOccupancy = maxOccupancy;
+    public Long getHotelId() {
+        return hotelId;
+    }
+
+    public void setHotelId(Long hotelId) {
+        this.hotelId = hotelId;
     }
 }
