@@ -38,7 +38,10 @@
             <td th:text="${checkin.cateringStaffId}"></td>
             <td th:text="${checkin.roomServiceStaffId}"></td>
             <td><a th:href="@{|/checkin/${checkin.id}|}" th:text="Edit"></a><br/>
-                <a th:href="@{|/checkin/delete/${checkin.id}|}" th:text="Delete"></a></td>
+                <a th:href="@{|/checkin/delete/${checkin.id}|}" th:text="Delete"></a>
+                <div th:if="${checkin.checkoutTime} == null" th:remove="tag"><br/>
+                    <a th:href="@{|/checkin/checkout/${checkin.id}|}" th:text="CheckOut"></a>
+                </div></td>
             <td><a th:href="@{|/checkin/editbilling/${checkin.id}|}">Edit Billing</a></td>
         </tr>
         </tbody>
