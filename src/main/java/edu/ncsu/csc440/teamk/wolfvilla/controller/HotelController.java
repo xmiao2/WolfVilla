@@ -1,6 +1,7 @@
 package edu.ncsu.csc440.teamk.wolfvilla.controller;
 
 import edu.ncsu.csc440.teamk.wolfvilla.dao.HotelDAO;
+import edu.ncsu.csc440.teamk.wolfvilla.dao.ReportDAO;
 import edu.ncsu.csc440.teamk.wolfvilla.dao.RoomDAO;
 import edu.ncsu.csc440.teamk.wolfvilla.model.Hotel;
 import edu.ncsu.csc440.teamk.wolfvilla.model.Room;
@@ -139,5 +140,14 @@ public class HotelController {
         RoomDAO.deleteRoom(id, roomNumber);
         redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Deleted Room (Room Number=%d)", roomNumber)));
         return new ModelAndView(String.format("redirect:/hotels/%d/rooms", id));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "{id}/rooms/all_available")
+    public ModelAndView getAllAvailablerooms(ModelAndView mv, @PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
+        List<Room> rooms = ReportDAO.reportAllAvailable(id);
+        mv.setViewName("rooms/all_available");
+        mv.addObject("hotelId", id);
+        mv.addObject("rooms", rooms);
+        return mv;
     }
 }

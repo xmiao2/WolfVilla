@@ -2,15 +2,11 @@
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layouts/layout">
 
-<title layout:fragment="page-title">WolfVilla | Rooms</title>
-
+<title layout:fragment="page-title">WolfVilla | All Available Rooms</title>
 <section layout:fragment="page-content">
-    <h1>
-        Rooms <small>(Hotel ID: <span th:text="${hotelId}"></span>)</small>
-        <a th:href="@{|/hotels/${hotelId}/rooms/new|}" class="btn btn-success btn-xs">Add New Room</a>
-        <a th:href="@{|/hotels/${hotelId}/rooms/all_available|}" class="btn btn-info btn-xs">Filter Available Rooms</a>
-    </h1>
-
+    <h1>All Available Rooms <small>(Hotel ID: <span th:text="${hotelId}"></span>)</small>
+    <a th:href="@{|/hotels/${hotelId}/rooms/new|}" class="btn btn-success btn-xs">Add New Room</a>
+    <a th:href="@{|/hotels/${hotelId}/rooms|}" class="btn btn-info btn-xs">List All Rooms</a></h1>
     <table class="cell-border stripe" cellspacing="0" width="100%">
         <thead>
         <tr>

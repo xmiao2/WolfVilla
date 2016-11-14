@@ -21,11 +21,26 @@ import static edu.ncsu.csc440.teamk.wolfvilla.dao.StaffDAO.convertToStaff;
  * Created by Adam on 10/31/2016.
  */
 public class ReportDAO {
+    public static List<Room> reportAllAvailable(long hotelId) throws SQLException, ClassNotFoundException {
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(
+                     "SELECT *\n" +
+                     "FROM rooms \n" +
+                     "WHERE hotel_id = ? AND room_number NOT IN (SELECT room_number \n" +
+                     "FROM checkin_information \n" +
+                     "WHERE checkin_information.hotel_id = hotel_id AND checkout_time IS NULL)")){
+
+            stmt.setLong(1, hotelId);
+            ResultSet rs = stmt.executeQuery();
+            return convertRoomList(rs);
+        }
+    }
+
     public static List<Room> reportAvailable(String category, Date startDate, Date endDate, long hotelId, int occupants) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT *\n" +
                      "FROM rooms \n" +
-                     "WHERE hotel_id = ? AND max_occupancy > ? AND category_name = ? AND room_number NOT IN (SELECT room_number \n" +
+                     "WHERE hotel_id = ? AND max_occupancy >= ? AND category_name = ? AND room_number NOT IN (SELECT room_number \n" +
                      "FROM checkin_information \n" +
                      "WHERE checkin_information.hotel_id = hotel_id AND ( ? < checkin_time OR checkout_time IS NULL) AND checkin_time < ?)")){
 
