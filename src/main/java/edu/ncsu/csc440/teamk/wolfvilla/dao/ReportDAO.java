@@ -90,6 +90,7 @@ public class ReportDAO {
         }
     }
 
+    //TODO: Make transaction
     public static double percentOccupied(Date startDate, Date endDate, long hotelId) throws SQLException, ClassNotFoundException {
         int occupiedRooms;
         int totalRooms = 1;
