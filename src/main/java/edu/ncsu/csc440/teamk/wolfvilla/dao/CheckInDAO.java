@@ -132,7 +132,7 @@ public class CheckInDAO {
         }
     }
 
-    public static double checkOut(long id) throws SQLException, ClassNotFoundException {
+    public static double checkOut(long id, Date date) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection()) {
             connection.setAutoCommit(false);
             try (PreparedStatement getServicePrice = connection.prepareStatement(
@@ -148,7 +148,11 @@ public class CheckInDAO {
                          "SELECT extract(day from (checkout_time - checkin_time)) FROM checkin_information WHERE id = ?");
                  PreparedStatement setCheckOutDate = connection.prepareStatement(
                          "UPDATE checkin_information SET checkout_time=? WHERE id=?")) {
-                setCheckOutDate.setDate(1, new Date(new java.util.Date().getTime()));
+                if (date == null) {
+                    setCheckOutDate.setDate(1, new Date(new java.util.Date().getTime()));
+                } else {
+                    setCheckOutDate.setDate(1, date);
+                }
                 setCheckOutDate.setLong(2, id);
                 setCheckOutDate.executeUpdate();
 
@@ -170,7 +174,6 @@ public class CheckInDAO {
                     rs.next();
                     time = rs.getInt(1);
                 }
-
 
                 connection.commit();
                 return services + roomRate * time;

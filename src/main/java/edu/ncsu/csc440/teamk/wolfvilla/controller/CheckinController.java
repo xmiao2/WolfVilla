@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import static edu.ncsu.csc440.teamk.wolfvilla.util.FlashMessage.MESSAGE;
@@ -43,9 +44,19 @@ public class CheckinController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/checkout/{id}")
-    public ModelAndView checkOut(RedirectAttributes redir,
+    public ModelAndView getCheckOut(RedirectAttributes redir,
                                  @PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
-        redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Checked Out (ID=%d), Price=%f", id, CheckInDAO.checkOut(id))));
+        ModelAndView mv = new ModelAndView("checkin/checkout");
+        mv.addObject("id", id);
+        mv.addObject("checkout", new java.sql.Date(new java.util.Date().getTime()));
+        return mv;
+    }
+    @RequestMapping(method = RequestMethod.POST, value = "/checkout/{id}")
+    public ModelAndView checkOut(RedirectAttributes redir,
+                                 @PathVariable("id") Long id,
+                                 @RequestParam("checkout") String date) throws SQLException, ClassNotFoundException, ParseException {
+        redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS,
+                String.format("Checked Out (ID=%d), Price=%f", id, CheckInDAO.checkOut(id, SQLTypeTranslater.stringToDate(date)))));
         return new ModelAndView("redirect:/checkin");
     }
 
