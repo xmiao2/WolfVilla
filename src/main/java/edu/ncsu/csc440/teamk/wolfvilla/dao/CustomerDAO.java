@@ -16,6 +16,14 @@ import java.util.List;
  * Created by Adam on 10/31/2016.
  */
 public class CustomerDAO {
+    /**
+     * Create a new customer in database.
+     *
+     * @param customer Customer to create
+     * @return generated id of Customer
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static long createCustomer (Customer customer) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
@@ -34,6 +42,13 @@ public class CustomerDAO {
         }
     }
 
+    /**
+     * Delete customer of the given id.
+     *
+     * @param customerID customer id to delete
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void deleteCustomer(long customerID) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("DELETE FROM customers WHERE id = ?")) {
@@ -42,6 +57,13 @@ public class CustomerDAO {
         }
     }
 
+    /**
+     * Update a given customer.
+     *
+     * @param customer customer to update
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void updateCustomer (Customer customer) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
@@ -56,6 +78,14 @@ public class CustomerDAO {
         }
     }
 
+    /**
+     * Retrieve a customer by id.
+     *
+     * @param id customer id
+     * @return customer from the given id
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static Customer getCustomer(long id) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT * FROM customers WHERE id = ?");) {
@@ -68,6 +98,12 @@ public class CustomerDAO {
         }
     }
 
+    /**
+     * @param id id of hotel
+     * @return list of cutomers from hotel id
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static List<Customer> listCustomers(long id) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT *\n" +
@@ -85,6 +121,11 @@ public class CustomerDAO {
         }
     }
 
+    /**
+     * @param rs resultset from customer queries
+     * @return list of customer from given resultset
+     * @throws SQLException
+     */
     private static List<Customer> convertCustomerList(ResultSet rs) throws SQLException {
         ArrayList<Customer> toReturn = new ArrayList<Customer>();
         while(rs.next()) {
@@ -93,9 +134,13 @@ public class CustomerDAO {
         return toReturn;
     }
 
+    /**
+     * @param rs resultset from customer queries
+     * @return Customer object from given resultset
+     * @throws SQLException
+     */
     private static Customer convertToCustomer(ResultSet rs) throws SQLException {
         //Check to make sure it works
         return new Customer(rs.getLong(1), rs.getString(2), SQLTypeTranslater.stringToChar(rs.getString(3)), rs.getString(4), rs.getString(5), rs.getString(6));
     }
-
 }
