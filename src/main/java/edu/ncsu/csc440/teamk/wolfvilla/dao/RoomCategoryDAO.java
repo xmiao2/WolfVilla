@@ -11,7 +11,12 @@ import java.sql.SQLException;
  * Created by Edward on 11/6/16.
  */
 public class RoomCategoryDAO {
-
+    /**
+     * Create a room category in the database based on given object
+     * @param roomCategory room category object to add
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void createRoomCategory(RoomCategory roomCategory) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
@@ -26,6 +31,12 @@ public class RoomCategoryDAO {
         }
     }
 
+    /**
+     * Update a room category in the database based on given object
+     * @param roomCategory room category object to update
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void updateRoomCategory(RoomCategory roomCategory) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
@@ -41,6 +52,12 @@ public class RoomCategoryDAO {
         }
     }
 
+    /**
+     * Delete a room category in the database based on given object
+     * @param roomCategory room category object to delete
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void deleteRoomCategory(RoomCategory roomCategory) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
