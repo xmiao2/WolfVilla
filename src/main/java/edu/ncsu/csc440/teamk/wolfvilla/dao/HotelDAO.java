@@ -16,6 +16,14 @@ import java.util.List;
  */
 public class HotelDAO {
 
+    /**
+     * Assign a manager to hotel.
+     *
+     * @param hotelId id of hotel
+     * @param managerId manager id to assign the hotel
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void assignHotelManager(long hotelId, long managerId) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection()) {
             connection.setAutoCommit(false);
@@ -41,6 +49,14 @@ public class HotelDAO {
         }
     }
 
+    /**
+     * Add a hotel tuple in the database.
+     *
+     * @param hotel hotel to add
+     * @return generated id of the hotel
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static long createHotel (Hotel hotel) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
@@ -57,6 +73,13 @@ public class HotelDAO {
         }
     }
 
+    /**
+     * Delete a hotel based on id.
+     *
+     * @param hotelID hotel id
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void deleteHotel(long hotelID) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("DELETE FROM hotels WHERE id = ?")) {
@@ -65,6 +88,13 @@ public class HotelDAO {
         }
     }
 
+    /**
+     * Update a hotel based on given object in database.
+     *
+     * @param hotel hotel to modify
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void updateHotel (Hotel hotel) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
@@ -77,6 +107,11 @@ public class HotelDAO {
         }
     }
 
+    /**
+     * @return list of hotel in the database
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static List<Hotel> getHotels() throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT * FROM hotels");
@@ -85,6 +120,12 @@ public class HotelDAO {
         }
     }
 
+    /**
+     * @param id id of hotel
+     * @return hotel based on given id
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static Hotel getHotelById(long id) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT * FROM hotels WHERE id = ?");) {
@@ -97,6 +138,11 @@ public class HotelDAO {
         }
     }
 
+    /**
+     * @param rs result set containing queries of Hotels
+     * @return List of hotels based on result set
+     * @throws SQLException
+     */
     private static List<Hotel> convertHotelList(ResultSet rs) throws SQLException {
         ArrayList<Hotel> toReturn = new ArrayList<Hotel>();
         while(rs.next()) {
@@ -105,6 +151,11 @@ public class HotelDAO {
         return toReturn;
     }
 
+    /**
+     * @param rs result set containing queries of hotels
+     * @return Hotel based on result set
+     * @throws SQLException
+     */
     private static Hotel convertToHotel(ResultSet rs) throws SQLException {
         return new Hotel(rs.getLong(1), SQLTypeTranslater.getLongOrNull(rs, 2), rs.getString(3), rs.getString(4), rs.getString(5));
     }
