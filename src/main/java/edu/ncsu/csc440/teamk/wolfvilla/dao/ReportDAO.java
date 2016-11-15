@@ -16,11 +16,16 @@ import java.sql.Date;
 
 import static edu.ncsu.csc440.teamk.wolfvilla.dao.StaffDAO.convertToStaff;
 
-
 /**
  * Created by Adam on 10/31/2016.
  */
 public class ReportDAO {
+    /**
+     * @param hotelId hotel id
+     * @return report all available hotels based on hotel id
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static List<Room> reportAllAvailable(long hotelId) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
@@ -36,6 +41,16 @@ public class ReportDAO {
         }
     }
 
+    /**
+     * @param category room category
+     * @param startDate checkin start date
+     * @param endDate checkin end date
+     * @param hotelId hotel id
+     * @param occupants number of occupants
+     * @return all available rooms based on the given parameters
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static List<Room> reportAvailable(String category, Date startDate, Date endDate, long hotelId, int occupants) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT *\n" +
@@ -54,6 +69,14 @@ public class ReportDAO {
         }
     }
 
+    /**
+     * @param startDate start date of checkin
+     * @param endDate end date of checkin
+     * @param hotelId hotel id
+     * @return list of room numbers that are occupied
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static List<Integer> reportOccupied(Date startDate, Date endDate, long hotelId) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT room_number \n" +
@@ -73,6 +96,14 @@ public class ReportDAO {
         }
     }
 
+    /**
+     * @param startDate start date of checkin
+     * @param endDate end date of checkin
+     * @param hotelId hotel id
+     * @return list of rooms that are unoccupied
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static List<Room> reportUnoccupanied(Date startDate, Date endDate, long hotelId) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT *\n" +
@@ -90,6 +121,14 @@ public class ReportDAO {
         }
     }
 
+    /**
+     * @param startDate start date of checkin
+     * @param endDate end date of checkin
+     * @param hotelId hotel id
+     * @return list of customers occupying rooms based on give hotel and time range
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static List<Customer> reportOccupants(Date startDate, Date endDate, long hotelId) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT * \n" +
@@ -105,6 +144,14 @@ public class ReportDAO {
         }
     }
 
+    /**
+     * @param startDate start date of checkin
+     * @param endDate end date of checkin
+     * @param hotelId hotel id
+     * @return percentage of rooms occupied in the hotel
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     //TODO: Make transaction
     public static double percentOccupied(Date startDate, Date endDate, long hotelId) throws SQLException, ClassNotFoundException {
         int occupiedRooms;
@@ -142,6 +189,12 @@ public class ReportDAO {
         return occupiedRooms / (totalRooms + 0.0);
     }
 
+    /**
+     * @param jobTitle job title of staff
+     * @return list of staff with the given title
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static List<Staff> getStaffByRole(String jobTitle) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT *\n" +
@@ -155,6 +208,13 @@ public class ReportDAO {
         }
     }
 
+    /**
+     * @param jobTitle job title of staff
+     * @param hotelId hotel id
+     * @return list of staff by job title and hotel id
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static List<Staff> getHotelStaffByRole(String jobTitle, long hotelId) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT *\n" +
@@ -168,6 +228,12 @@ public class ReportDAO {
         }
     }
 
+    /**
+     * @param staffId id of staff
+     * @return list of unique customers served by the staff
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static List<Customer> getCustomersOfStaff(long staffId) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT *\n" +
@@ -182,6 +248,11 @@ public class ReportDAO {
         }
     }
 
+    /**
+     * @param rs result set containing list of room queries
+     * @return List of room objects
+     * @throws SQLException
+     */
     private static List<Room> convertRoomList(ResultSet rs) throws SQLException {
         ArrayList<Room> toReturn = new ArrayList<Room>();
         while(rs.next()) {
@@ -190,10 +261,20 @@ public class ReportDAO {
         return toReturn;
     }
 
+    /**
+     * @param rs result set containing list of room queries
+     * @return room object
+     * @throws SQLException
+     */
     private static Room convertToRoom(ResultSet rs) throws SQLException {
         return new Room(rs.getLong(1), (Integer)rs.getInt(2), rs.getString(3), rs.getInt(4));
     }
 
+    /**
+     * @param rs Result set containing list of customer queries
+     * @return list of customer objects
+     * @throws SQLException
+     */
     private static List<Customer> convertCustomerList(ResultSet rs) throws SQLException {
         ArrayList<Customer> toReturn = new ArrayList<Customer>();
         while(rs.next()) {
@@ -202,11 +283,21 @@ public class ReportDAO {
         return toReturn;
     }
 
+    /**
+     * @param rs result set containing list of customer queries
+     * @return customer object
+     * @throws SQLException
+     */
     private static Customer convertToCustomer(ResultSet rs) throws SQLException {
         return new Customer(rs.getLong(1), rs.getString(2), SQLTypeTranslater.stringToChar(rs.getString(3)), rs.getString(4),
                 rs.getString(5), rs.getString(6));
     }
 
+    /**
+     * @param rs result set containing list of staff queries
+     * @return list of staff objects
+     * @throws SQLException
+     */
     private static List<Staff> convertStaffList(ResultSet rs) throws SQLException {
         ArrayList<Staff> toReturn = new ArrayList<Staff>();
         while(rs.next()) {
