@@ -25,7 +25,7 @@
         <tr th:each="service : ${services}">
             <td th:text="${service.id}"></td>
             <td th:text="${service.description}">test</td>
-            <td th:text="${service.price}">test</td>
+            <td th:text="${#numbers.formatDecimal(service.price, 0, 2)}">test</td>
             <td th:text="${service.staffId}">test</td>
             <td th:text="${service.checkinID}">test</td>
             <td><a th:href="@{|/services/${service.id}|}" th:text="Edit"></a><br/>
