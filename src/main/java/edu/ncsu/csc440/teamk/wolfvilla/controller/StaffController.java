@@ -16,23 +16,44 @@ import java.util.List;
 
 import static edu.ncsu.csc440.teamk.wolfvilla.util.FlashMessage.MESSAGE;
 
+/**
+ * Staff controller class that handles routing requests
+ */
 @Controller
 @RequestMapping("/staff")
 public class StaffController {
+    /**
+     * @return view containing list of staff
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView index() throws SQLException, ClassNotFoundException {
         List<Staff> staff = StaffDAO.retrieveAllStaff();
         return new ModelAndView("staff/liststaff", "staff", staff);
     }
 
+    /**
+     * @return view containing option to create a new staff
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/new")
     public ModelAndView requestAddStaff() throws SQLException, ClassNotFoundException {
         return new ModelAndView("staff/addstaff", "staff", new Staff());
     }
 
+    /**
+     * Handle a request to create new staff.
+     *
+     * @param redir redirect attribute of Spring
+     * @param staff staff to create
+     * @return redirected view to index page
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/new")
-    public ModelAndView addStaff(HttpServletRequest request,
-                                 RedirectAttributes redir,
+    public ModelAndView addStaff(RedirectAttributes redir,
                                  @ModelAttribute Staff staff) throws SQLException, ClassNotFoundException {
         long id = StaffDAO.addStaff(staff);
         ModelAndView mv = new ModelAndView("redirect:/staff");
@@ -40,12 +61,27 @@ public class StaffController {
         return mv;
     }
 
+    /**
+     * @param id id of staff
+     * @return view containing options to edit staff
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET, value = "{id}")
     public ModelAndView getHotelById(@PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
         Staff staff = StaffDAO.retrieveStaff(id);
         return new ModelAndView("staff/editstaff", "staff", staff);
     }
 
+    /**
+     * Handles a request to edit a staff.
+     *
+     * @param redir redirect attribute of Spring
+     * @param staff staff to edit
+     * @return redirected view to index page
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.POST, value = "edit/{id}")
     public ModelAndView editHotelById(RedirectAttributes redir, @ModelAttribute Staff staff) throws SQLException, ClassNotFoundException {
         StaffDAO.updateStaff(staff);
@@ -53,12 +89,27 @@ public class StaffController {
         return new ModelAndView("redirect:/staff");
     }
 
+    /**
+     * @param id id of the hotel to delete
+     * @return view containing option to delete a stff
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET, value = "delete/{id}")
     public ModelAndView requestDeleteHotelById(@PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
         Staff staff = StaffDAO.retrieveStaff(id);
         return new ModelAndView("staff/deletestaff", "staff", staff);
     }
 
+    /**
+     * Handles a request to delete a staff.
+     *
+     * @param redir redirect attribute of Spring
+     * @param id id of staff
+     * @return redirected view to index page
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.POST, value = "delete/{id}")
     public ModelAndView deleteHotelById(RedirectAttributes redir, @PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
         StaffDAO.deleteStaff(id);
@@ -66,7 +117,12 @@ public class StaffController {
         return new ModelAndView("redirect:/staff");
     }
 
-
+    /**
+     * @param id id of staff
+     * @return a list of customers the staff is serving
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET, value = "{id}/customers")
     public ModelAndView getCustomerByStaff(@PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
         List<Customer> customers = ReportDAO.getCustomersOfStaff(id);
