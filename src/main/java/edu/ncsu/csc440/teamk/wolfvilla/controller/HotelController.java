@@ -16,26 +16,54 @@ import java.util.List;
 
 import static edu.ncsu.csc440.teamk.wolfvilla.util.FlashMessage.MESSAGE;
 
+/**
+ * Controller for Hotel related pages.
+ */
 @Controller
 @RequestMapping("/hotels")
 public class HotelController {
+    /**
+     * @return view containing list of hotels
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView index() throws SQLException, ClassNotFoundException {
         List<Hotel> hotels = HotelDAO.getHotels();
         return new ModelAndView("hotels/listhotels", "hotels", hotels);
     }
 
+    /**
+     * @return view containing options to add hotel
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/new")
     public ModelAndView requestAddHotel() throws SQLException, ClassNotFoundException {
         return new ModelAndView("hotels/addhotel", "hotel", new Hotel());
     }
 
-
+    /**
+     * @param id id of hotel
+     * @return view containing options to assign manager to hotel
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET, value = "editmanager/{id}")
     public ModelAndView getChangeManager(@PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
         return new ModelAndView("hotels/editmanager", "id", id);
     }
 
+    /**
+     * Assign a new manager to a given hotel.
+     *
+     * @param redir redirect attribute in Spring framework
+     * @param hotelId hotel id
+     * @param managerId manager id to be assigned to the hotel
+     * @return redirected view containing list of hotels once manager is assigned
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.POST, value = "editmanager/{hotelId}")
     public ModelAndView changeManager(RedirectAttributes redir,
                                       @PathVariable("hotelId") Long hotelId,
@@ -45,6 +73,17 @@ public class HotelController {
         return new ModelAndView("redirect:/hotels");
     }
 
+    /**
+     * Add a given hotel to database.
+     *
+     * @param redir redirect attribute in Spring framework
+     * @param name name of hotel
+     * @param phoneNumber phone number of hotel
+     * @param address address of hotel
+     * @return redirected view of list of hotels
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/new")
     public ModelAndView addHotel(RedirectAttributes redir,
                                  @RequestParam("name") String name,
@@ -57,12 +96,30 @@ public class HotelController {
         return mv;
     }
 
+    /**
+     * @param id id of hotel
+     * @return view containing options to modify hotel attributes
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET, value = "{id}")
     public ModelAndView getHotelById(@PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
         Hotel hotel = HotelDAO.getHotelById(id);
         return new ModelAndView("hotels/edithotel", "hotel", hotel);
     }
 
+    /**
+     * Modifies hotel by the given values.
+     *
+     * @param redir redirect attribute in Spring framework
+     * @param id id of hotel
+     * @param name name of hotel
+     * @param phoneNumber phone number of hotel
+     * @param address address of hotel
+     * @return redirected view of hotel
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.POST, value = "edit/{id}")
     public ModelAndView editHotelById(RedirectAttributes redir,
                                       @PathVariable("id") Long id,
@@ -75,18 +132,41 @@ public class HotelController {
         return new ModelAndView("redirect:/hotels");
     }
 
+    /**
+     * @param id id of hotel
+     * @return view containing confirmation to delete hotel
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET, value = "delete/{id}")
     public ModelAndView requestDeleteHotelById(@PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
         Hotel hotel = HotelDAO.getHotelById(id);
         return new ModelAndView("hotels/deletehotel", "hotel", hotel);
     }
 
+    /**
+     * Removes a hotel of a given id.
+     *
+     * @param redir redirect attribute in Spring framework
+     * @param id id of hotel
+     * @return redirected view containing a list of hotels
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.POST, value = "delete/{id}")
     public ModelAndView deleteHotelById(RedirectAttributes redir, @PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
         HotelDAO.deleteHotel(id);
         redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Deleted Hotel (ID=%d)", id)));
         return new ModelAndView("redirect:/hotels");
     }
+
+    /**
+     * @param mv ModelView object in Spring framework
+     * @param id id of hotel
+     * @return view containing a list of rooms by the given hotel
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET, value = "{id}/rooms")
     public ModelAndView listRoomsById(ModelAndView mv, @PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
         List<Room> rooms = RoomDAO.listRooms(id);
@@ -96,6 +176,12 @@ public class HotelController {
         return mv;
     }
 
+    /**
+     * @param id id of hotel
+     * @return view containing adding a new room
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET, value = "{id}/rooms/new")
     public ModelAndView addRoom(@PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
         Room room = new Room();
@@ -103,6 +189,16 @@ public class HotelController {
         return new ModelAndView("rooms/addroom", "room", room);
     }
 
+    /**
+     * Adds a new room from given form attributes.
+     *
+     * @param redir redirect attribute in Spring framework
+     * @param id id of hotel
+     * @param room room object constructed from form attributes
+     * @return view containing list of rooms contained in given hotel
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.POST, value = "{id}/rooms/new")
     public ModelAndView addRoom(RedirectAttributes redir, @PathVariable("id") Long id,
                                      @ModelAttribute("room") Room room) throws SQLException, ClassNotFoundException {
@@ -112,12 +208,30 @@ public class HotelController {
         return new ModelAndView(String.format("redirect:/hotels/%d/rooms", id));
     }
 
+    /**
+     * @param id id of hotel
+     * @param roomNumber room number of room
+     * @return view containing options to edit room
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET, value = "{id}/rooms/{roomNumber}")
     public ModelAndView editRoom(@PathVariable("id") Long id, @PathVariable("roomNumber") Integer roomNumber) throws SQLException, ClassNotFoundException {
         Room room = RoomDAO.getRoom(id, roomNumber);
         return new ModelAndView("rooms/editroom", "room", room);
     }
 
+    /**
+     * Edit room from the given form attributes.
+     *
+     * @param redir redirect attribute in Spring framework
+     * @param id id of hotel
+     * @param roomNumber room number of room
+     * @param room room object constructed from form attributes
+     * @return redirected view containing list of rooms contained in given hotel
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.POST, value = "{id}/rooms/edit/{roomNumber}")
     public ModelAndView editRoomById(RedirectAttributes redir, @PathVariable("id") Long id,
                                      @PathVariable("roomNumber") Integer roomNumber, @ModelAttribute("room") Room room) throws SQLException, ClassNotFoundException {
@@ -127,6 +241,13 @@ public class HotelController {
         return new ModelAndView(String.format("redirect:/hotels/%d/rooms", id));
     }
 
+    /**
+     * @param id id of hotel
+     * @param roomNumber room number of room
+     * @return view containing options to delete room
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET, value = "{id}/rooms/delete/{roomNumber}")
     public ModelAndView deleteRoom(@PathVariable("id") Long id,
                                      @PathVariable("roomNumber") Integer roomNumber) throws SQLException, ClassNotFoundException {
@@ -134,6 +255,16 @@ public class HotelController {
         return new ModelAndView("rooms/deleteroom", "room", room);
     }
 
+    /**
+     * Delete a room based on given hotel id and room number.
+     *
+     * @param redir redirect attribute in Spring framework
+     * @param id id of hotel
+     * @param roomNumber room number of room
+     * @return redirected view containing list of rooms contained in given hotel
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.POST, value = "{id}/rooms/delete/{roomNumber}")
     public ModelAndView deleteRoom(RedirectAttributes redir, @PathVariable("id") Long id,
                                    @PathVariable("roomNumber") Integer roomNumber) throws SQLException, ClassNotFoundException {
@@ -142,6 +273,13 @@ public class HotelController {
         return new ModelAndView(String.format("redirect:/hotels/%d/rooms", id));
     }
 
+    /**
+     * @param mv ModelView object in Spring framework
+     * @param id id of hotel
+     * @return view containing all available rooms of the given hotel
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET, value = "{id}/rooms/all_available")
     public ModelAndView getAllAvailablerooms(ModelAndView mv, @PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
         List<Room> rooms = ReportDAO.reportAllAvailable(id);
