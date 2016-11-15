@@ -16,6 +16,12 @@ import static edu.ncsu.csc440.teamk.wolfvilla.util.SQLTypeTranslater.getIntOrNul
  */
 public class StaffDAO {
 
+    /**
+     * Updates the staff based on the given object.
+     * @param staff staff object to update
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void updateStaff(Staff staff) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(
@@ -35,6 +41,13 @@ public class StaffDAO {
         }
     }
 
+    /**
+     * Adds the given staff to the database.
+     * @param staff staff to add
+     * @return generated id of the staff
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static long addStaff(Staff staff) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(
@@ -56,6 +69,13 @@ public class StaffDAO {
         }
     }
 
+    /**
+     * Gets the staff based on given id from database.
+     * @param staffID id of the staff to retrieve
+     * @return Staff object
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static Staff retrieveStaff(long staffID) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
                 PreparedStatement stmt = connection.prepareStatement("Select * From staff s, title_department t WHERE id = ? AND s.title = t.title") ) {
@@ -68,6 +88,12 @@ public class StaffDAO {
         }
     }
 
+    /**
+     * Deletes the staff of the given ID from database.
+     * @param staffID id of staff
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void deleteStaff(long staffID) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
                  PreparedStatement stmt = connection.prepareStatement("DELETE FROM staff WHERE id = ?")) {
@@ -76,6 +102,12 @@ public class StaffDAO {
         }
     }
 
+    /**
+     * Gets all staff from the database.
+     * @return a list of Staff objects
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static List<Staff> retrieveAllStaff() throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT * FROM staff s, title_department t WHERE s.title = t.title")) {
@@ -85,6 +117,13 @@ public class StaffDAO {
         }
     }
 
+    /**
+     * Gets all staff from the database based on given hotel id.
+     * @param hotelID a list of Staff objects belonging to a hotel
+     * @return hotel id
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static List<Staff> retrieveStaffByHotel(long hotelID) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
                 PreparedStatement stmt = connection.prepareStatement("SELECT * FROM staff s, title_department t WHERE hotel_id = ? AND s.title = t.title")) {
@@ -95,7 +134,13 @@ public class StaffDAO {
         }
     }
 
-
+    /**
+     * @param hotelID hotel id
+     * @param title title of staff
+     * @return all the staff from database based on given hotel id and title name
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static List<Staff> retrieveStaffByTitle(long hotelID, String title) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
                 PreparedStatement stmt = connection.prepareStatement("SELECT * FROM staff s, title_department t WHERE hotel_id = ? AND title = ? AND s.title = t.title")) {
@@ -107,6 +152,12 @@ public class StaffDAO {
         }
     }
 
+    /**
+     * Converts result set to Staff object.
+     * @param rs result set containing staff queries
+     * @return list of staff by result set
+     * @throws SQLException
+     */
     private static List<Staff> convertStaffList(ResultSet rs) throws SQLException {
         ArrayList<Staff> toReturn = new ArrayList<Staff>();
         while(rs.next()) {
@@ -115,6 +166,11 @@ public class StaffDAO {
         return toReturn;
     }
 
+    /**
+     * @param rs result set containing staff queries
+     * @return staff object based on result set
+     * @throws SQLException
+     */
     public static Staff convertToStaff(ResultSet rs) throws SQLException {
         TitleDepartment titleDepartment = new TitleDepartment(rs.getString(3), rs.getString(11));
         return new Staff(rs.getLong(1), rs.getString(2), titleDepartment,
