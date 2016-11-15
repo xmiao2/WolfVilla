@@ -1,6 +1,8 @@
 package edu.ncsu.csc440.teamk.wolfvilla.controller;
 
+import edu.ncsu.csc440.teamk.wolfvilla.dao.ReportDAO;
 import edu.ncsu.csc440.teamk.wolfvilla.dao.StaffDAO;
+import edu.ncsu.csc440.teamk.wolfvilla.model.Customer;
 import edu.ncsu.csc440.teamk.wolfvilla.model.Staff;
 import edu.ncsu.csc440.teamk.wolfvilla.util.FlashMessage;
 import org.springframework.stereotype.Controller;
@@ -62,5 +64,12 @@ public class StaffController {
         StaffDAO.deleteStaff(id);
         redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Deleted Staff (ID=%d)", id)));
         return new ModelAndView("redirect:/staff");
+    }
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "{id}/customers")
+    public ModelAndView getCustomerByStaff(@PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
+        List<Customer> customers = ReportDAO.getCustomersOfStaff(id);
+        return new ModelAndView("staff/viewcustomers", "customers", customers);
     }
 }
