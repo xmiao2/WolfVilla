@@ -56,7 +56,7 @@ public class CheckinController {
                                  @PathVariable("id") Long id,
                                  @RequestParam("checkout") String date) throws SQLException, ClassNotFoundException, ParseException {
         redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS,
-                String.format("Checked Out (ID=%d), Price=%f", id, CheckInDAO.checkOut(id, SQLTypeTranslater.stringToDate(date)))));
+                String.format("Checked Out (ID=%d), Price=%f.2", id, CheckInDAO.checkOut(id, SQLTypeTranslater.stringToDate(date)))));
         return new ModelAndView("redirect:/checkin");
     }
 
@@ -78,12 +78,12 @@ public class CheckinController {
             throws SQLException, ClassNotFoundException, ParseException {
         CheckInInformation checkin = new CheckInInformation(-1, currentOcupancy, SQLTypeTranslater.stringToDate(checkinTime),
                 SQLTypeTranslater.stringToDate(checkoutTime), -1,
-                hotelId,roomNumber,customerId,cateringStaffId,roomServiceStaffId);
+                hotelId, roomNumber, customerId, cateringStaffId, roomServiceStaffId);
         BillingInformation billing = new BillingInformation(-1, billingAddress, ssn, paymentMethod, cardNumber,
                 SQLTypeTranslater.stringToDate(expirationDate));
         long id = CheckInDAO.addCheckIn(checkin, billing);
         ModelAndView mv = new ModelAndView("redirect:/checkin");
-        redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Added Service (ID=%d)", id)));
+        redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Added CheckIn (ID=%d)", id)));
         return mv;
     }
 

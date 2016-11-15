@@ -9,6 +9,13 @@ import java.sql.*;
  * Created by Joshua on 10/30/2016.
  */
 public class BillingDAO {
+    /**
+     * Gets the total bill for a given stay.
+     * @param checkInID the checkinID of the stay to get the bill of.
+     * @return a double of the bill for the given checkinId.
+     * @throws SQLException If the query throws an exception
+     * @throws ClassNotFoundException If DBConnection is cannot load connection.
+     */
     public static double getBillTotal(long checkInID) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection()) {
             connection.setAutoCommit(false);
@@ -52,6 +59,13 @@ public class BillingDAO {
         }
     }
 
+    /**
+     * Updates the billing information associated with the checkin associated with the checkinId.
+     * @param checkinId the id of the checkin associated with the billingInformation to update.
+     * @param billInfo the new information to update the billingInformation to.
+     * @throws SQLException If the query throws an exception
+     * @throws ClassNotFoundException If DBConnection is cannot load connection.
+     */
     public static void updateBillingInformation(long checkinId, BillingInformation billInfo)
             throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
@@ -70,7 +84,13 @@ public class BillingDAO {
         }
     }
 
-
+    /**
+     * Retrieves the billing information associated with a given checkinId
+     * @param checkinId the id of the checkin associated with this billing information.
+     * @return the billing information associated with a given checkinId
+     * @throws SQLException If the query throws an exception
+     * @throws ClassNotFoundException If DBConnection is cannot load connection.
+     */
     public static BillingInformation retrieveBillingInformation(long checkinId)
             throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
