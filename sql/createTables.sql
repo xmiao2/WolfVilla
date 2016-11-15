@@ -1,6 +1,5 @@
 DROP TABLE hotels CASCADE CONSTRAINTS;
 DROP TABLE staff CASCADE CONSTRAINTS;
-DROP TABLE managers CASCADE CONSTRAINTS;
 DROP TABLE rooms CASCADE CONSTRAINTS;
 DROP TABLE room_categories CASCADE CONSTRAINTS;
 DROP TABLE checkin_information CASCADE CONSTRAINTS;
@@ -26,7 +25,7 @@ CREATE TABLE hotels (
 
 CREATE TABLE title_department(
   title varchar(32) PRIMARY KEY,
-  department varchar(32) UNIQUE NOT NULL
+  department varchar(32) NOT NULL
 );
 
 CREATE TABLE staff (
