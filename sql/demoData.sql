@@ -1,5 +1,5 @@
 INSERT INTO hotels
-VALUES (hotel_seq.nextval, '27 Timber Dr, Garner, NC 27529', 'Wolfvilla', '9767281980');
+VALUES (hotel_seq.nextval, NULL, '27 Timber Dr, Garner, NC 27529', 'Wolfvilla', '9767281980');
 
 INSERT INTO title_department
 VALUES('Front Desk representative', 'Administration');
@@ -31,8 +31,9 @@ INSERT INTO staff
 VALUES (staff_seq.nextval, 'Donald J Trump', 'Room Service Staff', '143229088', NULL, 'M',
 '109, Initiative Ct, Raleigh, NC, 27607', '9801871657', 0);
 
-INSERT INTO managers
-VALUES (2, 0);
+UPDATE hotels
+SET manager=2
+WHERE id=0;
 
 INSERT INTO room_categories
 VALUES ('Economy', 2, 150);
