@@ -14,7 +14,12 @@ import java.util.List;
  * Created by Joshua on 10/27/2016.
  */
 public class ServicesDAO {
-
+    /**
+     * Deletes the service with the given serviceID.
+     * @param serviceId the id of the service to delete.
+     * @throws SQLException If the query throws an exception
+     * @throws ClassNotFoundException If DBConnection is cannot load connection.
+     */
     public static void deleteService(long serviceId) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("DELETE FROM services WHERE id = ?")) {
@@ -23,7 +28,12 @@ public class ServicesDAO {
         }
     }
 
-
+    /**
+     * Updates the service with the same id as service to the information in service.
+     * @param service the information to update the service with the same id in the database to.
+     * @throws SQLException If the query throws an exception
+     * @throws ClassNotFoundException If DBConnection is cannot load connection.
+     */
     public static void updateService(Service service) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
@@ -39,6 +49,13 @@ public class ServicesDAO {
         }
     }
 
+    /**
+     * Returns the sum of all service costs associated with a checkin.
+     * @param checkInID the if of the checkin to sum services for.
+     * @return The sum of all services costs associated with a checkInID.
+     * @throws SQLException If the query throws an exception
+     * @throws ClassNotFoundException If DBConnection is cannot load connection.
+     */
     public static double getCheckInServiceCost(long checkInID) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
@@ -52,6 +69,13 @@ public class ServicesDAO {
         }
     }
 
+    /**
+     * Adds a new service with the information in service.
+     * @param service the information of the service to add.
+     * @return the id of the services added.
+     * @throws SQLException If the query throws an exception
+     * @throws ClassNotFoundException If DBConnection is cannot load connection.
+     */
     public static long addService(Service service) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
@@ -69,6 +93,12 @@ public class ServicesDAO {
         }
     }
 
+    /**
+     * @param id the id of the services to retrieve
+     * @return the service associated with the id.
+     * @throws SQLException If the query throws an exception
+     * @throws ClassNotFoundException If DBConnection is cannot load connection.
+     */
     public static Service getService (long id) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
@@ -84,15 +114,25 @@ public class ServicesDAO {
         }
     }
 
+    /**
+     * @return the list of all services.
+     * @throws SQLException If the query throws an exception
+     * @throws ClassNotFoundException If DBConnection is cannot load connection.
+     */
     public static List<Service> getAllServices() throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
                      "SELECT * FROM services")) {
-            return covertToServiceList(stmt.executeQuery());
+            return convertToServiceList(stmt.executeQuery());
         }
     }
 
-    private static List<Service> covertToServiceList(ResultSet rs) throws SQLException {
+    /**
+     * @param rs the result set to get services from.
+     * @return a list of rervices from rs.
+     * @throws SQLException If the query throws an exception
+     */
+    private static List<Service> convertToServiceList(ResultSet rs) throws SQLException {
         List<Service> toReturn = new ArrayList<Service>();
         while (rs.next()) {
             toReturn.add(covertToService(rs));
@@ -100,6 +140,12 @@ public class ServicesDAO {
         return toReturn;
     }
 
+    /**
+     *
+     * @param rs the result set to get a service from.
+     * @return a service from the current row in rs.
+     * @throws SQLException If the query throws an exception
+     */
     private static Service covertToService(ResultSet rs) throws SQLException {
         return new Service(rs.getLong(1), rs.getString(2), rs.getDouble(3), rs.getLong(4), rs.getLong(5));
     }
