@@ -14,6 +14,13 @@ import java.util.List;
  * Created by Edward on 11/6/16.
  */
 public class RoomDAO {
+    /**
+     * @param hotel_id the id of the hotel containing the room to retrieve.
+     * @param roomNumber the number of the room to retrieve.
+     * @return The room with the given roomNumber in the hotel corresponding to the given hotel_id.
+     * @throws SQLException If the query throws an exception
+     * @throws ClassNotFoundException If DBConnection is cannot load connection.
+     */
     public static Room getRoom(Long hotel_id, Integer roomNumber) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
@@ -28,6 +35,13 @@ public class RoomDAO {
         }
     }
 
+    /**
+     * Lists all rooms in the given hotel.
+     * @param hotel_id the id of the hotel to get rooms from.
+     * @return the list of all rooms in the hotel corresponding to the given id.
+     * @throws SQLException If the query throws an exception
+     * @throws ClassNotFoundException If DBConnection is cannot load connection.
+     */
     public static List<Room> listRooms(Long hotel_id) throws SQLException, ClassNotFoundException {
 
         try (Connection connection = DBConnection.getConnection();
@@ -42,6 +56,12 @@ public class RoomDAO {
         }
     }
 
+    /**
+     * Stores the given room in the database, in the given hotel with the given room number.
+     * @param room The room to store, including hotel and room number.
+     * @throws SQLException If the query throws an exception
+     * @throws ClassNotFoundException If DBConnection is cannot load connection.
+     */
     public static void createRoom(Room room) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
@@ -54,6 +74,13 @@ public class RoomDAO {
         }
     }
 
+    /**
+     * Updates the room with the same hotel and room number as the given room to the
+     * same category as the given room.
+     * @param room The room containing the new category, and the room number and hotelid to update.
+     * @throws SQLException If the query throws an exception
+     * @throws ClassNotFoundException If DBConnection is cannot load connection.
+     */
     public static void updateRoom(Room room) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
@@ -68,6 +95,13 @@ public class RoomDAO {
         }
     }
 
+    /**
+     * Deletes the room in the given hotel with the given roomNumber
+     * @param hotelID the id of the hotel containing the room.
+     * @param roomNumber The number of the room to delete.
+     * @throws SQLException If the query throws an exception
+     * @throws ClassNotFoundException If DBConnection is cannot load connection.
+     */
     public static void deleteRoom(Long hotelID, Integer roomNumber) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
@@ -78,6 +112,11 @@ public class RoomDAO {
         }
     }
 
+    /**
+     * @param rs the result set to get rooms from.
+     * @return the list of rooms in this result set.
+     * @throws SQLException If the query throws an exception
+     */
     private static List<Room> convertRoomList(ResultSet rs) throws SQLException {
         ArrayList<Room> toReturn = new ArrayList<Room>();
         while(rs.next()) {
@@ -86,6 +125,12 @@ public class RoomDAO {
         return toReturn;
     }
 
+    /**
+     * Converts the current row of a result set to a room.
+     * @param rs the resultset to get a room from.
+     * @return a Room from the current row in a result set.
+     * @throws SQLException If the query throws an exception
+     */
     private static Room convertToRoom(ResultSet rs) throws SQLException {
         return new Room(rs.getLong(1), rs.getInt(2), rs.getString(3), rs.getInt(4));
     }
