@@ -14,6 +14,9 @@ VALUES('Manager', 'Administration');
 INSERT INTO title_department
 VALUES('Room Service Staff', 'Room Service');
 
+INSERT INTO title_department
+VALUES('Admin', 'admin');
+
 INSERT INTO staff
 VALUES (staff_seq.nextval, 'David D. Clukey', 'Front Desk representative', '409021234',
 NULL, 'M', '106, Cloverdale Ct, Raleigh, NC, 27607', '9801311238', 0);
@@ -30,6 +33,10 @@ VALUES (staff_seq.nextval, 'Todd C. Chen', 'Manager', '132674793', NULL, 'M',
 INSERT INTO staff
 VALUES (staff_seq.nextval, 'Donald J Trump', 'Room Service Staff', '143229088', NULL, 'M',
 '109, Initiative Ct, Raleigh, NC, 27607', '9801871657', 0);
+
+INSERT INTO staff
+VALUES (staff_seq.nextval, 'Admin Power', 'Admin', '143229089', NULL, 'M',
+'110, Initiative Ct, Raleigh, NC, 27608', '9801871659', 0);
 
 UPDATE hotels
 SET manager=2
