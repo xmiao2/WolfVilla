@@ -32,10 +32,18 @@ public class DBConnection {
                 DriverManager.getConnection(JDBC_URL, TEST_USERNAME, TEST_PASSWORD);
     }
 
+    /**
+     * Sets test mode to the boolean value, switching connection credentials in getConnection
+     * from test credentials to production credentials.
+     * @param shouldEnable
+     */
     public static void enableTestMode(boolean shouldEnable) {
         isTesting = shouldEnable;
     }
 
+    /**
+     * Enables test mode, calls enableTestMode(true);
+     */
     public static void enableTestMode() {
         enableTestMode(true);
     }
