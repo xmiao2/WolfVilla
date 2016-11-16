@@ -22,9 +22,11 @@
     <div id="sidebar-wrapper">
         <h1 id="sidebar-brand">WolfVilla</h1>
         <div id="current-user" th:if="${session.user}">
-            <span class="glyphicon glyphicon-user"></span> <span class="current-user-name"
-                                                                 th:text="${session.user.name}"></span> -
+            <span class="glyphicon glyphicon-user"></span>
+            <span class="current-user-name" th:text="${session.user.name}"></span>
+            (ID: <span class="current-user-id" th:text="${session.user.id}"></span>) -
             <span class="current-user-title" th:text="${session.user.title}"></span>
+            of Hotel <span class="current-user-hotel" th:text="${session.user.hotelId}"></span>
         </div>
         <ul>
             <li th:if="${session.user == null}"><a th:href="@{/}">Login</a></li>
@@ -33,7 +35,7 @@
                          th:remove="tag"></section>
                 <section th:if="${session.user.title == 'Front Desk representative'}" th:include="sidebar/_frontdesk-menu :: sidebar-content" th:remove="tag"></section>
                 <section th:if="${session.user.title == 'Manager'}" th:include="sidebar/_manager-menu :: sidebar-content" th:remove="tag"></section>
-                <section th:if="${session.user.title == 'Service Staff'}" th:include="sidebar/_roomservice-menu :: sidebar-content" th:remove="tag"></section>
+                <section th:if="${session.user.title == 'Room Service Staff'}" th:include="sidebar/_roomservice-menu :: sidebar-content" th:remove="tag"></section>
                 <section th:if="${session.user.title == 'Catering Staff'}" th:include="sidebar/_caterservice-menu :: sidebar-content" th:remove="tag"></section>
                 <li><a th:href="@{/logout}">Logout</a></li>
             </section>

@@ -39,7 +39,7 @@
             <td th:text="${staff.address}">address</td>
             <td th:text="${staff.phoneNumber}">phone number</td>
             <td><a th:href="@{|/staff/${staff.id}|}">Edit</a><br/>
-                <a th:href="@{|/staff/${staff.id}/customers|}">View</a><br/>
+                <a th:href="@{|/staff/${staff.id}/customers|}">List Customers</a><br/>
                 <a th:href="@{|/staff/delete/${staff.id}|}">Delete</a></td>
         </tr>
         </tbody>
