@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
  * Created by Joshua on 10/27/2016.
  */
 public class CheckInDAOTest {
-
+/*
     @BeforeClass
     public static void setupClass() throws Exception {
         DBConnection.enableTestMode();
@@ -44,5 +44,5 @@ public class CheckInDAOTest {
 
         CheckInDAO.deleteCheckIn(cid);
     }
-
+*/
 }

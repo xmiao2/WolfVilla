@@ -7,7 +7,7 @@
     <h1>Add New Checkin</h1>
     <form method="post" th:action="@{|/checkin/checkout/${id}|}">
         <div class="form-group">
-            <label for="checkout">Checkout Date (YYYY-MM-DD)</label>
+            <label for="checkout">Checkout Date (YYYY-MM-DD HH:MM:SS)</label>
             <input id="checkout" name="checkout" class="form-control" type="text" th:value="${checkout}" />
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>

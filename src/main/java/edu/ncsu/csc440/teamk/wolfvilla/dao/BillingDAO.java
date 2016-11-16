@@ -11,55 +11,6 @@ import java.sql.*;
  *
  */
 public class BillingDAO {
-    /**
-     * Gets the total bill for a given stay.
-     * @param checkInID the checkinID of the stay to get the bill of.
-     * @return a double of the bill for the given checkinId.
-     * @throws SQLException If the query throws an exception
-     * @throws ClassNotFoundException If DBConnection is cannot load connection.
-     */
-    public static double getBillTotal(long checkInID) throws SQLException, ClassNotFoundException {
-        try (Connection connection = DBConnection.getConnection()) {
-            connection.setAutoCommit(false);
-            try (PreparedStatement getServicePrice = connection.prepareStatement(
-                     "SELECT SUM(price) FROM services WHERE checkin_id = ?");
-                     PreparedStatement getRate = connection.prepareStatement(
-                             "SELECT room_categories.nightly_rate " +
-                                     "FROM room_categories, rooms, checkin_information " +
-                                     "WHERE id = ? AND rooms.hotel_id = checkin_information.hotel_id AND " +
-                                     "checkin_information.room_number = rooms.room_number AND " +
-                                     "room_categories.category_name = rooms.category_name AND " +
-                                     "room_categories.max_occupancy = rooms.max_occupancy");
-                     PreparedStatement getTime = connection.prepareStatement(
-                             "SELECT extract(day from (checkout_time - checkin_time)) FROM checkin_information WHERE id = ?")) {
-                getServicePrice.setLong(1, checkInID);
-                getRate.setLong(1, checkInID);
-                getTime.setLong(1, checkInID);
-                double services = 0;
-                double roomRate = 0;
-                double time = 0;
-                try (ResultSet rs = getServicePrice.executeQuery()) {
-                    rs.next();
-                    services = rs.getDouble(1);
-                }
-                try (ResultSet rs = getRate.executeQuery()) {
-                    rs.next();
-                    roomRate = rs.getDouble(1);
-                }
-                try (ResultSet rs = getTime.executeQuery()) {
-                    rs.next();
-                    time = rs.getInt(1);
-                }
-                connection.commit();
-                return services + roomRate * time;
-            } catch (Exception e) {
-                connection.rollback();
-                throw e;
-            } finally {
-                connection.setAutoCommit(true);
-            }
-        }
-    }
 
     /**
      * Updates the billing information associated with the checkin associated with the checkinId.

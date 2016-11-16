@@ -7,6 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import static org.junit.Assert.*;
 
@@ -24,7 +25,7 @@ public class ServicesDAOTest {
     @Test
     public void getCheckInServiceCost() throws Exception {
         CheckInInformation checkIn = new CheckInInformation(
-                -1L, 1, new Date(2000,10,22), null,
+                -1L, 1, new Timestamp(2000,10,22, 0, 0,0,0), null,
                 -1, 0, 1, 1,
                 null, null
         );

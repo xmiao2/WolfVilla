@@ -59,7 +59,7 @@ public class CheckinController {
     public ModelAndView getCheckOut(@PathVariable("id") Long id)  {
         ModelAndView mv = new ModelAndView("checkin/checkout");
         mv.addObject("id", id);
-        mv.addObject("checkout", new java.sql.Date(new java.util.Date().getTime()));
+        mv.addObject("checkout", new java.sql.Timestamp(new java.util.Date().getTime()));
         return mv;
     }
 
