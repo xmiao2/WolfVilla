@@ -6,12 +6,15 @@ import edu.ncsu.csc440.teamk.wolfvilla.dao.RoomDAO;
 import edu.ncsu.csc440.teamk.wolfvilla.model.Hotel;
 import edu.ncsu.csc440.teamk.wolfvilla.model.Room;
 import edu.ncsu.csc440.teamk.wolfvilla.util.FlashMessage;
+import edu.ncsu.csc440.teamk.wolfvilla.util.SQLTypeTranslater;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 
 import static edu.ncsu.csc440.teamk.wolfvilla.util.FlashMessage.MESSAGE;
@@ -288,4 +291,71 @@ public class HotelController {
         mv.addObject("rooms", rooms);
         return mv;
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "rooms/all_occupied")
+    public ModelAndView getAllOccupiedrooms(ModelAndView mv, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, @RequestParam("hotelId") Long id) throws SQLException, ClassNotFoundException {
+        List<Room> rooms = null;
+        String percent = "";
+        try {
+            rooms = ReportDAO.reportOccupied(SQLTypeTranslater.stringToDate(startDate), SQLTypeTranslater.stringToDate(endDate), id);
+            percent = ReportDAO.percentOccupied(SQLTypeTranslater.stringToDate(startDate), SQLTypeTranslater.stringToDate(endDate), id);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        mv.setViewName("rooms/all_occupied");
+        mv.addObject("hotelId", id);
+        mv.addObject("percent", percent);
+        mv.addObject("rooms", rooms);
+        return mv;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/occupied")
+    public ModelAndView reportOccupied() throws SQLException, ClassNotFoundException {
+        ModelAndView mv = new ModelAndView("hotels/occupied");
+        return mv;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "rooms/all_unoccupied")
+    public ModelAndView getAllUnoccupiedrooms(ModelAndView mv, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, @RequestParam("hotelId") Long id) throws SQLException, ClassNotFoundException {
+        List<Room> rooms = null;
+        String percent = "";
+        try {
+            rooms = ReportDAO.reportUnoccupanied(SQLTypeTranslater.stringToDate(startDate), SQLTypeTranslater.stringToDate(endDate), id);
+            percent = ReportDAO.percentOccupied(SQLTypeTranslater.stringToDate(startDate), SQLTypeTranslater.stringToDate(endDate), id);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        mv.setViewName("rooms/all_unoccupied");
+        mv.addObject("hotelId", id);
+        mv.addObject("percent", percent);
+        mv.addObject("rooms", rooms);
+        return mv;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/unoccupied")
+    public ModelAndView reportUnoccupied() throws SQLException, ClassNotFoundException {
+        ModelAndView mv = new ModelAndView("hotels/unoccupied");
+        return mv;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "rooms/all_availablerooms")
+    public ModelAndView getAllAvailablerooms(ModelAndView mv, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, @RequestParam("hotelId") Long id, @RequestParam("category") String category, @RequestParam("occupancy") int occupancy) throws SQLException, ClassNotFoundException {
+        List<Room> rooms = null;
+        try {
+            rooms = ReportDAO.reportAvailable(category, SQLTypeTranslater.stringToDate(startDate), SQLTypeTranslater.stringToDate(endDate), id, occupancy);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        mv.setViewName("rooms/all_availablerooms");
+        mv.addObject("hotelId", id);
+        mv.addObject("rooms", rooms);
+        return mv;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/available")
+    public ModelAndView reportAvailable() throws SQLException, ClassNotFoundException {
+        ModelAndView mv = new ModelAndView("hotels/available");
+        return mv;
+    }
+
 }

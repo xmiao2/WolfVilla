@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
-admin
 <section th:fragment="sidebar-content">
     <li><a th:href="@{/hotels}">Manage Hotel</a></li>
-    <li><a th:href="@{/hotels}">View Reports</a></li>
+    <li><a th:href="@{/hotels/occupied}">View Occupied Rooms</a></li>
+    <li><a th:href="@{/hotels/unoccupied}">View Unoccupied Rooms</a></li>
+    <li><a th:href="@{/hotels/available}">View Available Rooms</a></li>
+    <li><a th:href="@{/customers/occupants}">View Occupants</a></li>
 </section>
 </html>

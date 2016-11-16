@@ -1,0 +1,20 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<section th:fragment="customerdateform">
+    <div class="form-group">
+        <label for="hotelId">Hotel ID</label>
+        <input id="hotelId" name="hotelId" class="form-control" type="text"  />
+    </div>
+    <div class="form-group">
+        <label for="startDate">Start Date (YYYY-MM-DD)</label>
+        <input id="startDate" name="startDate" class="form-control" type="text"  />
+    </div>
+    <div class="form-group">
+        <label for="endDate">End Time (YYYY-MM-DD)</label>
+        <input id="endDate" name="endDate" class="form-control" type="text"  />
+    </div>
+</section>
+
+</html>

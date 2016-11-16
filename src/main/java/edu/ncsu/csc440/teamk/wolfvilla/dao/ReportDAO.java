@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Date;
@@ -30,10 +31,10 @@ public class ReportDAO {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
                      "SELECT *\n" +
-                     "FROM rooms \n" +
-                     "WHERE hotel_id = ? AND room_number NOT IN (SELECT room_number \n" +
-                     "FROM checkin_information \n" +
-                     "WHERE checkin_information.hotel_id = hotel_id AND checkout_time IS NULL)")){
+                             "FROM rooms \n" +
+                             "WHERE hotel_id = ? AND room_number NOT IN (SELECT room_number \n" +
+                             "FROM checkin_information \n" +
+                             "WHERE checkin_information.hotel_id = hotel_id AND checkout_time IS NULL)")) {
 
             stmt.setLong(1, hotelId);
             ResultSet rs = stmt.executeQuery();
@@ -42,10 +43,10 @@ public class ReportDAO {
     }
 
     /**
-     * @param category room category
+     * @param category  room category
      * @param startDate checkin start date
-     * @param endDate checkin end date
-     * @param hotelId hotel id
+     * @param endDate   checkin end date
+     * @param hotelId   hotel id
      * @param occupants number of occupants
      * @return all available rooms based on the given parameters
      * @throws SQLException
@@ -57,7 +58,7 @@ public class ReportDAO {
                      "FROM rooms \n" +
                      "WHERE hotel_id = ? AND max_occupancy >= ? AND category_name = ? AND room_number NOT IN (SELECT room_number \n" +
                      "FROM checkin_information \n" +
-                     "WHERE checkin_information.hotel_id = hotel_id AND ( ? < checkin_time OR checkout_time IS NULL) AND checkin_time < ?)")){
+                     "WHERE checkin_information.hotel_id = hotel_id AND ( ? < checkin_time OR checkout_time IS NULL) AND checkin_time < ?)")) {
 
             stmt.setLong(1, hotelId);
             stmt.setInt(2, occupants);
@@ -65,41 +66,37 @@ public class ReportDAO {
             stmt.setDate(4, startDate);
             stmt.setDate(5, endDate);
             ResultSet rs = stmt.executeQuery();
-            return convertRoomList(rs); //TODO: Return list of objects, see HotelMethod
+            return convertRoomList(rs);
         }
     }
 
     /**
      * @param startDate start date of checkin
-     * @param endDate end date of checkin
-     * @param hotelId hotel id
+     * @param endDate   end date of checkin
+     * @param hotelId   hotel id
      * @return list of room numbers that are occupied
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public static List<Integer> reportOccupied(Date startDate, Date endDate, long hotelId) throws SQLException, ClassNotFoundException {
+    public static List<Room> reportOccupied(Date startDate, Date endDate, long hotelId) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement("SELECT room_number \n" +
-                     "FROM checkin_information \n" +
-                     "WHERE (? < checkout_time OR checkout_time IS NULL) AND TIMESTAMP '2017-01-03  00:00:00' > checkin_time AND hotel_id = ?")){
+             PreparedStatement stmt = connection.prepareStatement("SELECT DISTINCT rooms.* \n" +
+                     "FROM rooms, checkin_information \n" +
+                     "WHERE (checkout_time IS NULL OR ? < checkout_time) AND ? > checkin_time AND checkin_information.hotel_id = ? " +
+                     "AND rooms.hotel_id = checkin_information.hotel_id AND rooms.room_number = checkin_information.room_number ")) {
             stmt.setDate(1, startDate);
-            //stmt.setDate(2, endDate);
-            stmt.setLong(2, hotelId);
+            stmt.setDate(2, endDate);
+            stmt.setLong(3, hotelId);
             ResultSet rs = stmt.executeQuery();
 
-            ArrayList<Integer> toReturn = new ArrayList<Integer>();
-            while(rs.next()) {
-                toReturn.add(rs.getInt(1));
-                //System.out.println(toReturn.get(toReturn.size() - 1));
-            }
-            return toReturn;
+            return RoomDAO.convertRoomList(rs);
         }
     }
 
     /**
      * @param startDate start date of checkin
-     * @param endDate end date of checkin
-     * @param hotelId hotel id
+     * @param endDate   end date of checkin
+     * @param hotelId   hotel id
      * @return list of rooms that are unoccupied
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -111,57 +108,56 @@ public class ReportDAO {
                      "WHERE hotel_id = ? AND room_number NOT IN (SELECT room_number \n" +
                      "FROM checkin_information \n" +
                      "WHERE checkin_information.hotel_id = hotel_id AND ( ? < checkout_time OR checkout_time IS NULL) " +
-                     "AND checkin_time <  ?)")){
+                     "AND checkin_time <  ?)")) {
 
             stmt.setLong(1, hotelId);
             stmt.setDate(2, startDate);
             stmt.setDate(3, endDate);
             ResultSet rs = stmt.executeQuery();
-            return convertRoomList(rs); //TODO: Return list of objects, see HotelMethod
+            return convertRoomList(rs);
         }
     }
 
     /**
      * @param startDate start date of checkin
-     * @param endDate end date of checkin
-     * @param hotelId hotel id
+     * @param endDate   end date of checkin
+     * @param hotelId   hotel id
      * @return list of customers occupying rooms based on give hotel and time range
      * @throws SQLException
      * @throws ClassNotFoundException
      */
     public static List<Customer> reportOccupants(Date startDate, Date endDate, long hotelId) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement("SELECT * \n" +
-                     "FROM checkin_information \n" +
-                     "WHERE (checkout_time IS NULL OR  ? < checkout_time) " +
-                     "AND checkin_time <  ? AND hotel_id = ?")){
+             PreparedStatement stmt = connection.prepareStatement("SELECT DISTINCT customers.* \n" +
+                     "FROM customers, checkin_information \n" +
+                     "WHERE (checkout_time IS NULL OR ? < checkout_time) AND ? > checkin_time AND checkin_information.hotel_id = ? \n" +
+                     "AND customers.id = checkin_information.customer_id")) {
 
             stmt.setDate(1, startDate);
             stmt.setDate(2, endDate);
             stmt.setLong(3, hotelId);
             ResultSet rs = stmt.executeQuery();
-            return convertCustomerList(rs); //TODO: Return list of objects, see HotelMethod
+            return convertCustomerList(rs);
         }
     }
 
     /**
      * @param startDate start date of checkin
-     * @param endDate end date of checkin
-     * @param hotelId hotel id
+     * @param endDate   end date of checkin
+     * @param hotelId   hotel id
      * @return percentage of rooms occupied in the hotel
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    //TODO: Make transaction
-    public static double percentOccupied(Date startDate, Date endDate, long hotelId) throws SQLException, ClassNotFoundException {
+    public static String percentOccupied(Date startDate, Date endDate, long hotelId) throws SQLException, ClassNotFoundException {
         int occupiedRooms;
         int totalRooms = 1;
 
         try (Connection connection = DBConnection.getConnection();
-            PreparedStatement stmt1 = connection.prepareStatement("(SELECT count( DISTINCT room_number) AS room_count \n" +
-                            "FROM checkin_information \n" +
-                            "WHERE (checkout_time IS NULL OR ? < checkout_time) AND " +
-                            "checkin_time < ? AND checkin_information.hotel_id = ?)")){
+             PreparedStatement stmt1 = connection.prepareStatement("(SELECT count( DISTINCT room_number) AS room_count \n" +
+                     "FROM checkin_information \n" +
+                     "WHERE (checkout_time IS NULL OR ? < checkout_time) AND " +
+                     "checkin_time < ? AND checkin_information.hotel_id = ?)")) {
 
             stmt1.setDate(1, startDate);
             stmt1.setDate(2, endDate);
@@ -176,7 +172,7 @@ public class ReportDAO {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt2 = connection.prepareStatement("SELECT count(DISTINCT room_number) AS room_count\n" +
                      "FROM rooms\n" +
-                     "WHERE hotel_id = ?")){
+                     "WHERE hotel_id = ?")) {
 
             stmt2.setLong(1, hotelId);
             ResultSet rs = stmt2.executeQuery();
@@ -186,7 +182,8 @@ public class ReportDAO {
             //System.out.println(totalRooms);
         }
 
-        return occupiedRooms / (totalRooms + 0.0);
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format((occupiedRooms / (totalRooms + 0.0)) * 100) + "%";
     }
 
     /**
@@ -199,7 +196,7 @@ public class ReportDAO {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT *\n" +
                      "FROM staff, title_department\n" +
-                             "WHERE title_department.title = ? AND staff.title = ?")){
+                     "WHERE title_department.title = ? AND staff.title = ?")) {
 
             stmt.setString(1, jobTitle);
             stmt.setString(2, jobTitle);
@@ -211,7 +208,7 @@ public class ReportDAO {
 
     /**
      * @param jobTitle job title of staff
-     * @param hotelId hotel id
+     * @param hotelId  hotel id
      * @return list of staff by job title and hotel id
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -220,7 +217,7 @@ public class ReportDAO {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT *\n" +
                      "FROM staff, title_department\n" +
-                     "WHERE title_department.title = ? AND staff.title = ? AND hotel_id = ?")){
+                     "WHERE title_department.title = ? AND staff.title = ? AND hotel_id = ?")) {
 
             stmt.setString(1, jobTitle);
             stmt.setString(2, jobTitle);
@@ -242,7 +239,7 @@ public class ReportDAO {
                      "FROM CUSTOMERS\n" +
                      "WHERE id IN(SELECT DISTINCT customer_id\n" +
                      "FROM services, checkin_information \n" +
-                     "WHERE staff_id = ? AND checkin_id = checkin_information.id)")){
+                     "WHERE staff_id = ? AND checkin_id = checkin_information.id)")) {
 
             stmt.setLong(1, staffId);
             ResultSet rs = stmt.executeQuery();
@@ -257,7 +254,7 @@ public class ReportDAO {
      */
     private static List<Room> convertRoomList(ResultSet rs) throws SQLException {
         ArrayList<Room> toReturn = new ArrayList<Room>();
-        while(rs.next()) {
+        while (rs.next()) {
             toReturn.add(convertToRoom(rs));
         }
         return toReturn;
@@ -269,7 +266,7 @@ public class ReportDAO {
      * @throws SQLException
      */
     private static Room convertToRoom(ResultSet rs) throws SQLException {
-        return new Room(rs.getLong(1), (Integer)rs.getInt(2), rs.getString(3), rs.getInt(4));
+        return new Room(rs.getLong(1), (Integer) rs.getInt(2), rs.getString(3), rs.getInt(4));
     }
 
     /**
@@ -279,7 +276,7 @@ public class ReportDAO {
      */
     private static List<Customer> convertCustomerList(ResultSet rs) throws SQLException {
         ArrayList<Customer> toReturn = new ArrayList<Customer>();
-        while(rs.next()) {
+        while (rs.next()) {
             toReturn.add(convertToCustomer(rs));
         }
         return toReturn;
@@ -302,7 +299,7 @@ public class ReportDAO {
      */
     private static List<Staff> convertStaffList(ResultSet rs) throws SQLException {
         ArrayList<Staff> toReturn = new ArrayList<Staff>();
-        while(rs.next()) {
+        while (rs.next()) {
             toReturn.add(convertToStaff(rs));
         }
         return toReturn;

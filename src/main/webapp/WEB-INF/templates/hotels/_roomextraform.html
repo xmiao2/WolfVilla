@@ -1,0 +1,33 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<section th:fragment="roomextraform">
+    <div class="form-group">
+        <label for="hotelId">Hotel ID</label>
+        <input id="hotelId" name="hotelId" class="form-control" type="text"  />
+    </div>
+    <div class="form-group">
+        <label for="category">Category</label>
+        <select id="category" name="category" class="selectpicker" data-width="100%">
+            <option value="Economy">Economy</option>
+            <option value="Deluxe">Deluxe</option>
+            <option value="Executive Suite">Executive Suite</option>
+            <option value="Presidential Suite">Presidential Suite</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="startDate">Start Date (YYYY-MM-DD)</label>
+        <input id="startDate" name="startDate" class="form-control" type="text"  />
+    </div>
+    <div class="form-group">
+        <label for="endDate">End Time (YYYY-MM-DD)</label>
+        <input id="endDate" name="endDate" class="form-control" type="text"  />
+    </div>
+    <div class="form-group">
+        <label for="occupancy">Max Occupancy (Minimum value)</label>
+        <input id="occupancy" name="occupancy" class="form-control" type="text"  />
+    </div>
+</section>
+
+</html>

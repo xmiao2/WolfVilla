@@ -1,0 +1,14 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<title layout:fragment="page-title">WolfVilla | Report Available Rooms</title>
+<section layout:fragment="page-content">
+    <h1>Report Available Rooms</h1>
+    <form method="post" th:action="@{/hotels/rooms/all_availablerooms}">
+        <section th:include="hotels/_roomextraform :: roomextraform"></section>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</section>
+
+</html>

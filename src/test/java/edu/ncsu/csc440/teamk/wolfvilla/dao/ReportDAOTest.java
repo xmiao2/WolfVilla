@@ -35,7 +35,7 @@ public class ReportDAOTest{
         //    System.out.println(availRooms.get(i).getRoomNumber());
         //}
 
-        List<Integer> occupiedRooms = ReportDAO.reportOccupied(new Date(2017-1900, 1-1, 2), new Date(2017-1900, 1-1, 3), 0);
+        List<Room> occupiedRooms = ReportDAO.reportOccupied(new Date(2017-1900, 1-1, 2), new Date(2017-1900, 1-1, 3), 0);
         assertEquals(occupiedRooms.size(),2);
 
         List<Room> unoccupiedRooms = ReportDAO.reportUnoccupanied(new Date(2017-1900, 1-1, 2), new Date(2017-1900, 1-1, 3), 0);
