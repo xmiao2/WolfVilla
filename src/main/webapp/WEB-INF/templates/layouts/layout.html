@@ -29,12 +29,12 @@
         <ul>
             <li th:if="${session.user == null}"><a th:href="@{/}">Login</a></li>
             <section th:if="${session.user}" th:remove="tag">
-                <section th:if="${session.user.title == 'admin'}" th:include="sidebar/_admin-menu :: sidebar-content"
+                <section th:if="${session.user.title == 'Admin'}" th:include="sidebar/_admin-menu :: sidebar-content"
                          th:remove="tag"></section>
-                <section th:if="${session.user.title == 'front desk representative'}" th:include="sidebar/_frontdesk-menu :: sidebar-content" th:remove="tag"></section>
-                <section th:if="${session.user.title == 'manager'}" th:include="sidebar/_manager-menu :: sidebar-content" th:remove="tag"></section>
-                <section th:if="${session.user.title == 'service staff'}" th:include="sidebar/_roomservice-menu :: sidebar-content" th:remove="tag"></section>
-                <section th:if="${session.user.title == 'catering staff'}" th:include="sidebar/_caterservice-menu :: sidebar-content" th:remove="tag"></section>
+                <section th:if="${session.user.title == 'Front Desk Representative'}" th:include="sidebar/_frontdesk-menu :: sidebar-content" th:remove="tag"></section>
+                <section th:if="${session.user.title == 'Manager'}" th:include="sidebar/_manager-menu :: sidebar-content" th:remove="tag"></section>
+                <section th:if="${session.user.title == 'Service Staff'}" th:include="sidebar/_roomservice-menu :: sidebar-content" th:remove="tag"></section>
+                <section th:if="${session.user.title == 'Catering Staff'}" th:include="sidebar/_caterservice-menu :: sidebar-content" th:remove="tag"></section>
                 <li><a th:href="@{/logout}">Logout</a></li>
             </section>
         </ul>

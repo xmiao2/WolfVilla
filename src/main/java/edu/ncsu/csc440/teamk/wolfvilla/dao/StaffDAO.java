@@ -16,6 +16,7 @@ import static edu.ncsu.csc440.teamk.wolfvilla.util.SQLTypeTranslater.getIntOrNul
  */
 public class StaffDAO {
 
+
     /**
      * Updates the staff based on the given object.
      * @param staff staff object to update

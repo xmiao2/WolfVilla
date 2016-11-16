@@ -1,0 +1,53 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<title layout:fragment="page-title">WolfVilla | Staff By Title</title>
+
+<section layout:fragment="page-content">
+    <h1>
+        Staff
+    </h1>
+
+    <table class="cell-border stripe" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Hotel ID</th>
+            <th>Name</th>
+            <th>Title</th>
+            <th>Department</th>
+            <th>SSN</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Address</th>
+            <th>Phone Number</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="staff : ${staff}">
+            <td th:text="${staff.id}">id</td>
+            <td th:text="${staff.hotelId}">id</td>
+            <td th:text="${staff.name}">name</td>
+            <td th:text="${staff.title}">title</td>
+            <td th:text="${staff.department}">department</td>
+            <td th:text="${staff.ssn}">ssn</td>
+            <td th:text="${staff.age}">age</td>
+            <td th:text="${staff.gender}">gender</td>
+            <td th:text="${staff.address}">address</td>
+            <td th:text="${staff.phoneNumber}">phone number</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<section layout:fragment="page-scripts">
+    <script>
+        $(function(){
+            $("table").dataTable();
+        });
+    </script>
+</section>
+
+</html>

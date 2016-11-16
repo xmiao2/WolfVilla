@@ -198,10 +198,11 @@ public class ReportDAO {
     public static List<Staff> getStaffByRole(String jobTitle) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT *\n" +
-                     "FROM staff\n" +
-                     "WHERE title = ?")){
+                     "FROM staff, title_department\n" +
+                             "WHERE title_department.title = ? AND staff.title = ?")){
 
             stmt.setString(1, jobTitle);
+            stmt.setString(2, jobTitle);
             //stmt.setLong(3, hotelId);
             ResultSet rs = stmt.executeQuery();
             return convertStaffList(rs);
@@ -218,11 +219,12 @@ public class ReportDAO {
     public static List<Staff> getHotelStaffByRole(String jobTitle, long hotelId) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT *\n" +
-                     "FROM staff\n" +
-                     "WHERE title = ? AND hotel_id = ?")){
+                     "FROM staff, title_department\n" +
+                     "WHERE title_department.title = ? AND staff.title = ? AND hotel_id = ?")){
 
             stmt.setString(1, jobTitle);
-            stmt.setLong(2, hotelId);
+            stmt.setString(2, jobTitle);
+            stmt.setLong(3, hotelId);
             ResultSet rs = stmt.executeQuery();
             return convertStaffList(rs);
         }

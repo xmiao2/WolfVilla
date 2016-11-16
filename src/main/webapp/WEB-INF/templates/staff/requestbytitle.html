@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<title layout:fragment="page-title">WolfVilla | Retrieve Staff By Title</title>
+<section layout:fragment="page-content">
+    <h1>Add New Staff</h1>
+    <form method="post" th:action="@{/staff/retrievebytitle}">
+        <div class="form-group">
+            <label for="hotel">Hotel ID</label>
+            <input id="hotel" name="hotel" class="form-control" type="text" />
+            <label for="title">Title</label>
+            <select id="title" name="title" class="selectpicker" data-width="100%">
+                <option value="Admin">Admin</option>
+                <option value="Manager">Manager</option>
+                <option value="Front Desk Representative">Front Desk Representative</option>
+                <option value="Service Staff">Service Staff</option>
+                <option value="Catering Staff">Catering Staff</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a th:href="@{/staff}" class="btn btn-info">Cancel</a>
+    </form>
+</section>
+
+</html>

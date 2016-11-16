@@ -29,8 +29,7 @@ public class CheckInDAO {
             throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
             PreparedStatement stmt = connection.prepareStatement(
-                "SELECT customers.id, customers.name, customers.gender, " +
-                        "customers.phone_number, customers.email, customers.address " +
+                "SELECT customers.*" +
                 "FROM checkin_information, customers " +
                 "WHERE (checkout_time IS NULL OR ? < checkout_time) AND " +
                 "checkin_time < ? AND hotel_id = ? AND customers.id = checkin_information.customer_id")) {
