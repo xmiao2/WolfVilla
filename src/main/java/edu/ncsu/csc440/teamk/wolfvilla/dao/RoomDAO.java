@@ -1,6 +1,7 @@
 package edu.ncsu.csc440.teamk.wolfvilla.dao;
 
 import edu.ncsu.csc440.teamk.wolfvilla.model.Room;
+import edu.ncsu.csc440.teamk.wolfvilla.model.RoomCategory;
 import edu.ncsu.csc440.teamk.wolfvilla.util.DBConnection;
 
 import java.sql.Connection;
@@ -24,7 +25,8 @@ public class RoomDAO {
     public static Room getRoom(Long hotel_id, Integer roomNumber) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
-                     "SELECT * FROM rooms WHERE hotel_id = ? AND room_number = ?")) {
+                     "SELECT * FROM rooms r, room_categories c WHERE r.max_occupancy = c.max_occupancy AND " +
+                             "r.category_name = c.category_name AND hotel_id = ? AND room_number = ?")) {
 
             stmt.setLong(1, hotel_id);
             stmt.setInt(2, roomNumber);
@@ -46,7 +48,8 @@ public class RoomDAO {
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
-                     "SELECT * FROM rooms WHERE hotel_id = ?")) {
+                     "SELECT * FROM rooms r, room_categories c WHERE r.max_occupancy = c.max_occupancy AND " +
+                             "r.category_name = c.category_name AND hotel_id = ?")) {
 
             stmt.setLong(1, hotel_id);
 
@@ -68,8 +71,8 @@ public class RoomDAO {
                      "INSERT INTO rooms VALUES(?, ?, ?, ?)")) {
             stmt.setLong(1, room.getHotelId());
             stmt.setInt(2, room.getRoomNumber());
-            stmt.setString(3, room.getCategoryName());
-            stmt.setLong(4, room.getMaxOccupancy());
+            stmt.setString(3, room.getCategory().getCategoryName());
+            stmt.setLong(4, room.getCategory().getMaxOccupancy());
             stmt.executeUpdate();
         }
     }
@@ -86,8 +89,8 @@ public class RoomDAO {
              PreparedStatement stmt = connection.prepareStatement(
                      "UPDATE rooms SET category_name = ?, max_occupancy = ? WHERE room_number = ? AND hotel_id = ?")) {
 
-            stmt.setString(1, room.getCategoryName());
-            stmt.setLong(2, room.getMaxOccupancy());
+            stmt.setString(1, room.getCategory().getCategoryName());
+            stmt.setLong(2, room.getCategory().getMaxOccupancy());
             stmt.setInt(3, room.getRoomNumber());
             stmt.setLong(4, room.getHotelId());
 
@@ -132,6 +135,7 @@ public class RoomDAO {
      * @throws SQLException If the query throws an exception
      */
     private static Room convertToRoom(ResultSet rs) throws SQLException {
-        return new Room(rs.getLong(1), rs.getInt(2), rs.getString(3), rs.getInt(4));
+        RoomCategory cat = new RoomCategory(rs.getString(5), rs.getInt(6), rs.getDouble(7));
+        return new Room(rs.getLong(1), rs.getInt(2), cat);
     }
 }

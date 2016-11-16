@@ -79,7 +79,7 @@ public class CheckinController {
                                  @RequestParam("checkout") String date)
             throws SQLException, ClassNotFoundException, ParseException {
         redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS,
-                String.format("Checked Out (ID=%d), Price=%f.2", id, CheckInDAO.checkOut(id, SQLTypeTranslater.stringToDate(date)))));
+                String.format("Checked Out (ID=%d), Price=$%.2f", id, CheckInDAO.checkOut(id, SQLTypeTranslater.stringToDate(date)))));
         return new ModelAndView("redirect:/checkin");
     }
 

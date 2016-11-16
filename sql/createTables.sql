@@ -17,7 +17,7 @@ DROP SEQUENCE services_seq;
 
 CREATE TABLE hotels (
   id int PRIMARY KEY,
-  manager int,
+  manager int UNIQUE,
   address varchar(128),
   name varchar(32),
   phone_number varchar(10)

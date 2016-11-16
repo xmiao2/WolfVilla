@@ -30,15 +30,16 @@ public class ReportDAO {
     public static List<Room> reportAllAvailable(long hotelId) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(
-                     "SELECT *\n" +
-                             "FROM rooms \n" +
-                             "WHERE hotel_id = ? AND room_number NOT IN (SELECT room_number \n" +
+                     "SELECT * FROM rooms r, room_categories c " +
+                             "WHERE r.max_occupancy = c.max_occupancy AND " +
+                             "r.category_name = c.category_name AND  " +
+                             "hotel_id = ? AND room_number NOT IN (SELECT room_number \n" +
                              "FROM checkin_information \n" +
                              "WHERE checkin_information.hotel_id = hotel_id AND checkout_time IS NULL)")) {
 
             stmt.setLong(1, hotelId);
             ResultSet rs = stmt.executeQuery();
-            return convertRoomList(rs);
+            return RoomDAO.convertRoomList(rs);
         }
     }
 
@@ -54,9 +55,11 @@ public class ReportDAO {
      */
     public static List<Room> reportAvailable(String category, Date startDate, Date endDate, long hotelId, int occupants) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement("SELECT *\n" +
-                     "FROM rooms \n" +
-                     "WHERE hotel_id = ? AND max_occupancy >= ? AND category_name = ? AND room_number NOT IN (SELECT room_number \n" +
+             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM " +
+                     "rooms r, room_categories c WHERE r.max_occupancy = c.max_occupancy AND " +
+                     "r.category_name = c.category_name AND  hotel_id = ? AND " +
+                     "r.max_occupancy >= ? AND r.category_name = ? AND " +
+                     "room_number NOT IN (SELECT room_number \n" +
                      "FROM checkin_information \n" +
                      "WHERE checkin_information.hotel_id = hotel_id AND ( ? < checkin_time OR checkout_time IS NULL) AND checkin_time < ?)")) {
 
@@ -66,7 +69,7 @@ public class ReportDAO {
             stmt.setDate(4, startDate);
             stmt.setDate(5, endDate);
             ResultSet rs = stmt.executeQuery();
-            return convertRoomList(rs);
+            return RoomDAO.convertRoomList(rs);
         }
     }
 
@@ -80,10 +83,12 @@ public class ReportDAO {
      */
     public static List<Room> reportOccupied(Date startDate, Date endDate, long hotelId) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement("SELECT DISTINCT rooms.* \n" +
-                     "FROM rooms, checkin_information \n" +
-                     "WHERE (checkout_time IS NULL OR ? < checkout_time) AND ? > checkin_time AND checkin_information.hotel_id = ? " +
-                     "AND rooms.hotel_id = checkin_information.hotel_id AND rooms.room_number = checkin_information.room_number ")) {
+             PreparedStatement stmt = connection.prepareStatement("SELECT DISTINCT r.*, c.* \n" +
+                     "FROM rooms r, room_categories c, checkin_information \n" +
+                     "WHERE r.max_occupancy = c.max_occupancy AND " +
+                     "r.category_name = c.category_name AND " +
+                     "(checkout_time IS NULL OR ? < checkout_time) AND ? > checkin_time AND checkin_information.hotel_id = ? " +
+                     "AND r.hotel_id = checkin_information.hotel_id AND r.room_number = checkin_information.room_number ")) {
             stmt.setDate(1, startDate);
             stmt.setDate(2, endDate);
             stmt.setLong(3, hotelId);
@@ -103,9 +108,10 @@ public class ReportDAO {
      */
     public static List<Room> reportUnoccupanied(Date startDate, Date endDate, long hotelId) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement("SELECT *\n" +
-                     "FROM rooms \n" +
-                     "WHERE hotel_id = ? AND room_number NOT IN (SELECT room_number \n" +
+             PreparedStatement stmt = connection.prepareStatement("SELECT * " +
+                     "FROM rooms r, room_categories c WHERE r.max_occupancy = c.max_occupancy AND " +
+                     "r.category_name = c.category_name AND hotel_id = ? AND " +
+                     "room_number NOT IN (SELECT room_number \n" +
                      "FROM checkin_information \n" +
                      "WHERE checkin_information.hotel_id = hotel_id AND ( ? < checkout_time OR checkout_time IS NULL) " +
                      "AND checkin_time <  ?)")) {
@@ -114,7 +120,7 @@ public class ReportDAO {
             stmt.setDate(2, startDate);
             stmt.setDate(3, endDate);
             ResultSet rs = stmt.executeQuery();
-            return convertRoomList(rs);
+            return RoomDAO.convertRoomList(rs);
         }
     }
 
@@ -245,28 +251,6 @@ public class ReportDAO {
             ResultSet rs = stmt.executeQuery();
             return convertCustomerList(rs); //TODO: Return list of objects, see HotelMethod
         }
-    }
-
-    /**
-     * @param rs result set containing list of room queries
-     * @return List of room objects
-     * @throws SQLException
-     */
-    private static List<Room> convertRoomList(ResultSet rs) throws SQLException {
-        ArrayList<Room> toReturn = new ArrayList<Room>();
-        while (rs.next()) {
-            toReturn.add(convertToRoom(rs));
-        }
-        return toReturn;
-    }
-
-    /**
-     * @param rs result set containing list of room queries
-     * @return room object
-     * @throws SQLException
-     */
-    private static Room convertToRoom(ResultSet rs) throws SQLException {
-        return new Room(rs.getLong(1), (Integer) rs.getInt(2), rs.getString(3), rs.getInt(4));
     }
 
     /**

@@ -8,41 +8,23 @@ package edu.ncsu.csc440.teamk.wolfvilla.model;
 public class Room {
     private Long hotelId;
     private Integer roomNumber;
-    private String categoryName;
-    private int maxOccupancy;
+    private RoomCategory category;
 
     public Room() {
     }
 
-    public Room(Long hotelId, Integer roomNumber, String categoryName, int maxOccupancy) {
+    public Room(Long hotelId, Integer roomNumber, RoomCategory category) {
         this.hotelId = hotelId;
         this.roomNumber = roomNumber;
-        this.categoryName = categoryName;
-        this.maxOccupancy = maxOccupancy;
+        this.category = category;
     }
 
     public Integer getRoomNumber() {
         return roomNumber;
     }
 
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public int getMaxOccupancy() {
-        return maxOccupancy;
-    }
-
     public void setRoomNumber(Integer roomNumber) {
         this.roomNumber = roomNumber;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-    public void setMaxOccupancy(int maxOccupancy) {
-        this.maxOccupancy = maxOccupancy;
     }
 
     public Long getHotelId() {
@@ -51,5 +33,13 @@ public class Room {
 
     public void setHotelId(Long hotelId) {
         this.hotelId = hotelId;
+    }
+
+    public RoomCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(RoomCategory category) {
+        this.category = category;
     }
 }

@@ -13,14 +13,16 @@
             <th>Room Number</th>
             <th>Category</th>
             <th>Max Occupancy</th>
+            <th>Nightly Rate</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="room : ${rooms}">
             <td th:text="${room.roomNumber}">test</td>
-            <td th:text="${room.categoryName}">test</td>
-            <td th:text="${room.maxOccupancy}">test</td>
+            <td th:text="${room.category.categoryName}">test</td>
+            <td th:text="${room.category.maxOccupancy}">test</td>
+            <td th:text="${room.category.nightlyRate}">test</td>
             <td><a th:href="@{|/hotels/${hotelId}/rooms/${room.roomNumber}|}" th:text="Edit"></a><br/>
                 <a th:href="@{|/hotels/${hotelId}/rooms/delete/${room.roomNumber}|}" th:text="Delete"></a></td>
         </tr>
