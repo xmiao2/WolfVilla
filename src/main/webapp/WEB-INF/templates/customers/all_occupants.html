@@ -1,0 +1,40 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/layout">
+
+<title layout:fragment="page-title">WolfVilla | All Occupants</title>
+<section layout:fragment="page-content">
+    <h1>All Occupants <small>(Hotel ID: <span th:text="${hotelId}"></span>)</small></h1>
+    <table class="cell-border stripe" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Phone Number</th>
+            <th>Address</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="customer : ${customers}">
+            <td th:text="${customer.id}"></td>
+            <td th:text="${customer.name}">test</td>
+            <td th:text="${customer.gender}">test</td>
+            <td th:text="${customer.phoneNumber}">test</td>
+            <td th:text="${customer.address}">test</td>
+            <td th:text="${customer.email}">test</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<section layout:fragment="page-scripts">
+    <script>
+        $(function(){
+            $("table").dataTable();
+        });
+    </script>
+</section>
+
+</html>

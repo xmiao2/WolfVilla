@@ -117,7 +117,7 @@ public class RoomDAO {
      * @return the list of rooms in this result set.
      * @throws SQLException If the query throws an exception
      */
-    private static List<Room> convertRoomList(ResultSet rs) throws SQLException {
+    public static List<Room> convertRoomList(ResultSet rs) throws SQLException {
         ArrayList<Room> toReturn = new ArrayList<Room>();
         while(rs.next()) {
             toReturn.add(convertToRoom(rs));
