@@ -31,7 +31,7 @@
             <section th:if="${session.user}" th:remove="tag">
                 <section th:if="${session.user.title == 'Admin'}" th:include="sidebar/_admin-menu :: sidebar-content"
                          th:remove="tag"></section>
-                <section th:if="${session.user.title == 'Front Desk Representative'}" th:include="sidebar/_frontdesk-menu :: sidebar-content" th:remove="tag"></section>
+                <section th:if="${session.user.title == 'Front Desk representative'}" th:include="sidebar/_frontdesk-menu :: sidebar-content" th:remove="tag"></section>
                 <section th:if="${session.user.title == 'Manager'}" th:include="sidebar/_manager-menu :: sidebar-content" th:remove="tag"></section>
                 <section th:if="${session.user.title == 'Service Staff'}" th:include="sidebar/_roomservice-menu :: sidebar-content" th:remove="tag"></section>
                 <section th:if="${session.user.title == 'Catering Staff'}" th:include="sidebar/_caterservice-menu :: sidebar-content" th:remove="tag"></section>

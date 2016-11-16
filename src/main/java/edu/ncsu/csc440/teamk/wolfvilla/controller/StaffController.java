@@ -34,11 +34,23 @@ public class StaffController {
         return new ModelAndView("staff/liststaff", "staff", staff);
     }
 
+    /**
+     * @return the form to select title and hotel to retrieve by.
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET, value = "retrievebytitle")
     public ModelAndView selectTitleToRetrieveBy() throws SQLException, ClassNotFoundException {
         return new ModelAndView("staff/requestbytitle", "titledepartment", new TitleDepartment("Front Desk representative", null));
     }
 
+    /**
+     * @param title the job title of the staff to retrieve
+     * @param hotel the hotel of staff to retrieve, all hotels if null.
+     * @return all staff in the given hotel (or any if hotel = null), with given job title.
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.POST, value = "retrievebytitle")
     public ModelAndView retrieveByTitle(@RequestParam("title") String title,
                                         @RequestParam("hotel") Long hotel)
