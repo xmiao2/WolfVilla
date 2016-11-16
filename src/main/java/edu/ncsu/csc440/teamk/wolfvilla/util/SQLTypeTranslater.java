@@ -110,6 +110,31 @@ public class SQLTypeTranslater {
      * @return a date with the value represented by input string.
      * @throws ParseException if the string is not null, but not in YEAR-MM-DD format.
      */
+    public static Timestamp stringToTimestamp(String input) throws ParseException {
+        if (input == null || input.equals("")) {
+            return null;
+        }
+        if (input.length() <= 11) {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            return new Timestamp(df.parse(input).getTime());
+        } else if (input.length() <= 20){
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            return new Timestamp(df.parse(input).getTime());
+        } else {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            return new Timestamp(df.parse(input).getTime());
+        }
+    }
+
+    /**
+     * THis one is actually not for SQL, but did not deserve its own file.
+     *
+     * This takes a string as an input from a web form, and converts it to a date.
+     * This is necessary because thymeleaf cannot handle null dates from a form.
+     * @param input the date string to convert to a date object.
+     * @return a date with the value represented by input string.
+     * @throws ParseException if the string is not null, but not in YEAR-MM-DD format.
+     */
     public static Date stringToDate(String input) throws ParseException {
         if (input == null || input.equals("")) {
             return null;

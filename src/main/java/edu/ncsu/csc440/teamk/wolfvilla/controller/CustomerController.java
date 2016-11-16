@@ -1,8 +1,6 @@
 package edu.ncsu.csc440.teamk.wolfvilla.controller;
 
-import edu.ncsu.csc440.teamk.wolfvilla.dao.CheckInDAO;
 import edu.ncsu.csc440.teamk.wolfvilla.dao.CustomerDAO;
-import edu.ncsu.csc440.teamk.wolfvilla.model.CheckInInformation;
 import edu.ncsu.csc440.teamk.wolfvilla.dao.ReportDAO;
 import edu.ncsu.csc440.teamk.wolfvilla.model.Customer;
 import edu.ncsu.csc440.teamk.wolfvilla.util.FlashMessage;
@@ -156,7 +154,7 @@ public class CustomerController {
     public ModelAndView getAllOccupants(ModelAndView mv, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, @RequestParam("hotelId") Long id) throws SQLException, ClassNotFoundException {
         List<Customer> customers = null;
         try {
-            customers = ReportDAO.reportOccupants(SQLTypeTranslater.stringToDate(startDate), SQLTypeTranslater.stringToDate(endDate), id);
+            customers = ReportDAO.reportOccupants(SQLTypeTranslater.stringToTimestamp(startDate), SQLTypeTranslater.stringToTimestamp(endDate), id);
         } catch (ParseException e) {
             e.printStackTrace();
         }

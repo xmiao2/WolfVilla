@@ -79,7 +79,7 @@ public class CheckinController {
                                  @RequestParam("checkout") String date)
             throws SQLException, ClassNotFoundException, ParseException {
         redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS,
-                String.format("Checked Out (ID=%d), Price=$%.2f", id, CheckInDAO.checkOut(id, SQLTypeTranslater.stringToDate(date)))));
+                String.format("Checked Out (ID=%d), Price=$%.2f", id, CheckInDAO.checkOut(id, SQLTypeTranslater.stringToTimestamp(date)))));
         return new ModelAndView("redirect:/checkin");
     }
 
@@ -120,8 +120,8 @@ public class CheckinController {
                                    @RequestParam("cardNumber") String cardNumber,
                                    @RequestParam("expirationDate") String expirationDate)
             throws SQLException, ClassNotFoundException, ParseException {
-        CheckInInformation checkin = new CheckInInformation(-1, currentOcupancy, SQLTypeTranslater.stringToDate(checkinTime),
-                SQLTypeTranslater.stringToDate(checkoutTime), -1,
+        CheckInInformation checkin = new CheckInInformation(-1, currentOcupancy, SQLTypeTranslater.stringToTimestamp(checkinTime),
+                SQLTypeTranslater.stringToTimestamp(checkoutTime), -1,
                 hotelId, roomNumber, customerId, cateringStaffId, roomServiceStaffId);
         BillingInformation billing = new BillingInformation(-1, billingAddress, ssn, paymentMethod, cardNumber,
                 SQLTypeTranslater.stringToDate(expirationDate));
@@ -186,8 +186,8 @@ public class CheckinController {
                                         @RequestParam("customerId") long customerId,
                                         @RequestParam(value = "cateringStaffId", required = false) Long cateringStaffId,
                                         @RequestParam(value = "roomServiceStaffId", required = false) Long roomServiceStaffId) throws SQLException, ClassNotFoundException, ParseException {
-        CheckInInformation checkin = new CheckInInformation(id, currentOcupancy, SQLTypeTranslater.stringToDate(checkinTime),
-                SQLTypeTranslater.stringToDate(checkoutTime), -1,
+        CheckInInformation checkin = new CheckInInformation(id, currentOcupancy, SQLTypeTranslater.stringToTimestamp(checkinTime),
+                SQLTypeTranslater.stringToTimestamp(checkoutTime), -1,
                 hotelId,roomNumber,customerId,cateringStaffId,roomServiceStaffId);
         CheckInDAO.updateCheckIn(checkin);
         redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Edited Service (ID=%d)", checkin.getId())));

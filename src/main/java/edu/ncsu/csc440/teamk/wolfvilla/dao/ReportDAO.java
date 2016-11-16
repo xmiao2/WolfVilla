@@ -6,14 +6,10 @@ import edu.ncsu.csc440.teamk.wolfvilla.model.Staff;
 import edu.ncsu.csc440.teamk.wolfvilla.util.DBConnection;
 import edu.ncsu.csc440.teamk.wolfvilla.util.SQLTypeTranslater;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Date;
 
 import static edu.ncsu.csc440.teamk.wolfvilla.dao.StaffDAO.convertToStaff;
 
@@ -53,7 +49,7 @@ public class ReportDAO {
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public static List<Room> reportAvailable(String category, Date startDate, Date endDate, long hotelId, int occupants) throws SQLException, ClassNotFoundException {
+    public static List<Room> reportAvailable(String category, Timestamp startDate, Timestamp endDate, long hotelId, int occupants) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT * FROM " +
                      "rooms r, room_categories c WHERE r.max_occupancy = c.max_occupancy AND " +
@@ -66,8 +62,8 @@ public class ReportDAO {
             stmt.setLong(1, hotelId);
             stmt.setInt(2, occupants);
             stmt.setString(3, category);
-            stmt.setDate(4, startDate);
-            stmt.setDate(5, endDate);
+            stmt.setTimestamp(4, startDate);
+            stmt.setTimestamp(5, endDate);
             ResultSet rs = stmt.executeQuery();
             return RoomDAO.convertRoomList(rs);
         }
@@ -81,7 +77,7 @@ public class ReportDAO {
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public static List<Room> reportOccupied(Date startDate, Date endDate, long hotelId) throws SQLException, ClassNotFoundException {
+    public static List<Room> reportOccupied(Timestamp startDate, Timestamp endDate, long hotelId) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT DISTINCT r.*, c.* \n" +
                      "FROM rooms r, room_categories c, checkin_information \n" +
@@ -89,8 +85,8 @@ public class ReportDAO {
                      "r.category_name = c.category_name AND " +
                      "(checkout_time IS NULL OR ? < checkout_time) AND ? > checkin_time AND checkin_information.hotel_id = ? " +
                      "AND r.hotel_id = checkin_information.hotel_id AND r.room_number = checkin_information.room_number ")) {
-            stmt.setDate(1, startDate);
-            stmt.setDate(2, endDate);
+            stmt.setTimestamp(1, startDate);
+            stmt.setTimestamp(2, endDate);
             stmt.setLong(3, hotelId);
             ResultSet rs = stmt.executeQuery();
 
@@ -106,7 +102,7 @@ public class ReportDAO {
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public static List<Room> reportUnoccupanied(Date startDate, Date endDate, long hotelId) throws SQLException, ClassNotFoundException {
+    public static List<Room> reportUnoccupanied(Timestamp startDate, Timestamp endDate, long hotelId) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT * " +
                      "FROM rooms r, room_categories c WHERE r.max_occupancy = c.max_occupancy AND " +
@@ -117,8 +113,8 @@ public class ReportDAO {
                      "AND checkin_time <  ?)")) {
 
             stmt.setLong(1, hotelId);
-            stmt.setDate(2, startDate);
-            stmt.setDate(3, endDate);
+            stmt.setTimestamp(2, startDate);
+            stmt.setTimestamp(3, endDate);
             ResultSet rs = stmt.executeQuery();
             return RoomDAO.convertRoomList(rs);
         }
@@ -132,15 +128,15 @@ public class ReportDAO {
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public static List<Customer> reportOccupants(Date startDate, Date endDate, long hotelId) throws SQLException, ClassNotFoundException {
+    public static List<Customer> reportOccupants(Timestamp startDate, Timestamp endDate, long hotelId) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT DISTINCT customers.* \n" +
                      "FROM customers, checkin_information \n" +
                      "WHERE (checkout_time IS NULL OR ? < checkout_time) AND ? > checkin_time AND checkin_information.hotel_id = ? \n" +
                      "AND customers.id = checkin_information.customer_id")) {
 
-            stmt.setDate(1, startDate);
-            stmt.setDate(2, endDate);
+            stmt.setTimestamp(1, startDate);
+            stmt.setTimestamp(2, endDate);
             stmt.setLong(3, hotelId);
             ResultSet rs = stmt.executeQuery();
             return convertCustomerList(rs);
@@ -155,7 +151,7 @@ public class ReportDAO {
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public static String percentOccupied(Date startDate, Date endDate, long hotelId) throws SQLException, ClassNotFoundException {
+    public static String percentOccupied(Timestamp startDate, Timestamp endDate, long hotelId) throws SQLException, ClassNotFoundException {
         int occupiedRooms;
         int totalRooms = 1;
 
@@ -165,8 +161,8 @@ public class ReportDAO {
                      "WHERE (checkout_time IS NULL OR ? < checkout_time) AND " +
                      "checkin_time < ? AND checkin_information.hotel_id = ?)")) {
 
-            stmt1.setDate(1, startDate);
-            stmt1.setDate(2, endDate);
+            stmt1.setTimestamp(1, startDate);
+            stmt1.setTimestamp(2, endDate);
             stmt1.setLong(3, hotelId);
             ResultSet rs = stmt1.executeQuery();
 

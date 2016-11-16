@@ -308,8 +308,8 @@ public class HotelController {
         List<Room> rooms = null;
         String percent = "";
         try {
-            rooms = ReportDAO.reportOccupied(SQLTypeTranslater.stringToDate(startDate), SQLTypeTranslater.stringToDate(endDate), id);
-            percent = ReportDAO.percentOccupied(SQLTypeTranslater.stringToDate(startDate), SQLTypeTranslater.stringToDate(endDate), id);
+            rooms = ReportDAO.reportOccupied(SQLTypeTranslater.stringToTimestamp(startDate), SQLTypeTranslater.stringToTimestamp(endDate), id);
+            percent = ReportDAO.percentOccupied(SQLTypeTranslater.stringToTimestamp(startDate), SQLTypeTranslater.stringToTimestamp(endDate), id);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -349,8 +349,8 @@ public class HotelController {
         List<Room> rooms = null;
         String percent = "";
         try {
-            rooms = ReportDAO.reportUnoccupanied(SQLTypeTranslater.stringToDate(startDate), SQLTypeTranslater.stringToDate(endDate), id);
-            percent = ReportDAO.percentOccupied(SQLTypeTranslater.stringToDate(startDate), SQLTypeTranslater.stringToDate(endDate), id);
+            rooms = ReportDAO.reportUnoccupanied(SQLTypeTranslater.stringToTimestamp(startDate), SQLTypeTranslater.stringToTimestamp(endDate), id);
+            percent = ReportDAO.percentOccupied(SQLTypeTranslater.stringToTimestamp(startDate), SQLTypeTranslater.stringToTimestamp(endDate), id);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -392,7 +392,7 @@ public class HotelController {
     public ModelAndView getAllAvailablerooms(ModelAndView mv, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, @RequestParam("hotelId") Long id, @RequestParam("category") String category, @RequestParam("occupancy") int occupancy) throws SQLException, ClassNotFoundException {
         List<Room> rooms = null;
         try {
-            rooms = ReportDAO.reportAvailable(category, SQLTypeTranslater.stringToDate(startDate), SQLTypeTranslater.stringToDate(endDate), id, occupancy);
+            rooms = ReportDAO.reportAvailable(category, SQLTypeTranslater.stringToTimestamp(startDate), SQLTypeTranslater.stringToTimestamp(endDate), id, occupancy);
         } catch (ParseException e) {
             e.printStackTrace();
         }

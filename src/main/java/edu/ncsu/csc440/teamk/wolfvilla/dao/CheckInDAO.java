@@ -83,9 +83,9 @@ public class CheckInDAO {
                     "WHERE (checkout_time IS NULL OR ? < checkout_time) AND " +
                     "(? IS NULL OR checkin_time < ?) AND hotel_id = ? AND room_number = ?")) {
                 //Make sure no one is already in this room in these times
-                checkOccupants.setDate(1, checkIn.getCheckinTime());
-                checkOccupants.setDate(2, checkIn.getCheckoutTime());
-                checkOccupants.setDate(3, checkIn.getCheckoutTime());
+                checkOccupants.setTimestamp(1, checkIn.getCheckinTime());
+                checkOccupants.setTimestamp(2, checkIn.getCheckoutTime());
+                checkOccupants.setTimestamp(3, checkIn.getCheckoutTime());
                 checkOccupants.setLong(4, checkIn.getHotelId());
                 checkOccupants.setLong(5, checkIn.getRoomNumber());
 
@@ -113,8 +113,8 @@ public class CheckInDAO {
 
                 //Add the information for the new checkin.
                 makeCheckin.setInt(1, checkIn.getCurrentOcupancy());
-                makeCheckin.setDate(2, checkIn.getCheckinTime());
-                makeCheckin.setDate(3, checkIn.getCheckoutTime());
+                makeCheckin.setTimestamp(2, checkIn.getCheckinTime());
+                makeCheckin.setTimestamp(3, checkIn.getCheckoutTime());
                 makeCheckin.setLong(4, billingId);
                 makeCheckin.setLong(5, checkIn.getHotelId());
                 makeCheckin.setLong(6, checkIn.getRoomNumber());
@@ -163,8 +163,8 @@ public class CheckInDAO {
             stmt.setLong(1, checkIn.getHotelId());
             stmt.setLong(2, checkIn.getRoomNumber());
             stmt.setInt(3, checkIn.getCurrentOcupancy());
-            stmt.setDate(4, checkIn.getCheckinTime());
-            stmt.setDate(5, checkIn.getCheckoutTime());
+            stmt.setTimestamp(4, checkIn.getCheckinTime());
+            stmt.setTimestamp(5, checkIn.getCheckoutTime());
             SQLTypeTranslater.setLongOrNull(stmt, 6, checkIn.getCateringStaffId());
             SQLTypeTranslater.setLongOrNull(stmt, 7, checkIn.getRoomServiceStaffId());
 
@@ -182,7 +182,7 @@ public class CheckInDAO {
      * @throws SQLException If the query throws an exception
      * @throws ClassNotFoundException If DBConnection is cannot load connection.
      */
-    public static double checkOut(long id, Date date) throws SQLException, ClassNotFoundException {
+    public static double checkOut(long id, Timestamp date) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection()) {
             connection.setAutoCommit(false);
             try (PreparedStatement getServicePrice = connection.prepareStatement(
@@ -199,9 +199,9 @@ public class CheckInDAO {
                  PreparedStatement setCheckOutDate = connection.prepareStatement(
                          "UPDATE checkin_information SET checkout_time=? WHERE id=?")) {
                 if (date == null) {
-                    setCheckOutDate.setDate(1, new Date(new java.util.Date().getTime()));
+                    setCheckOutDate.setTimestamp(1, new Timestamp(new java.util.Date().getTime()));
                 } else {
-                    setCheckOutDate.setDate(1, date);
+                    setCheckOutDate.setTimestamp(1, date);
                 }
                 setCheckOutDate.setLong(2, id);
                 setCheckOutDate.executeUpdate();
@@ -222,7 +222,7 @@ public class CheckInDAO {
                 }
                 try (ResultSet rs = getTime.executeQuery()) {
                     rs.next();
-                    time = rs.getInt(1);
+                    time = rs.getInt(1) + 1;
                 }
 
                 connection.commit();
@@ -321,7 +321,7 @@ public class CheckInDAO {
      * @throws SQLException If rs throws an exception querying this row.
      */
     private static CheckInInformation convertToCheckIn(ResultSet rs) throws SQLException {
-        return new CheckInInformation(rs.getLong(1), rs.getInt(2), rs.getDate(3), rs.getDate(4),
+        return new CheckInInformation(rs.getLong(1), rs.getInt(2), rs.getTimestamp(3), rs.getTimestamp(4),
         rs.getLong(5), rs.getLong(6), rs.getLong(7), rs.getLong(8),
         SQLTypeTranslater.getLongOrNull(rs, 9), SQLTypeTranslater.getLongOrNull(rs, 10));
     }

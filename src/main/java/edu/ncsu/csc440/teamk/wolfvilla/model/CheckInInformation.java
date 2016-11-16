@@ -1,6 +1,6 @@
 package edu.ncsu.csc440.teamk.wolfvilla.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * Created by Joshua on 10/24/2016.
@@ -10,8 +10,8 @@ import java.sql.Date;
 public class CheckInInformation {
     private long id;
     private Integer currentOcupancy;
-    private Date checkinTime;
-    private Date checkoutTime;
+    private Timestamp checkinTime;
+    private Timestamp checkoutTime;
     private long billingInformationId;
     private long hotelId;
     private long roomNumber;
@@ -20,10 +20,10 @@ public class CheckInInformation {
     private Long roomServiceStaffId;
 
     public CheckInInformation() {
-        this(-1, 0, new Date(new java.util.Date().getTime()), null, -1, -1, -1, -1, null, null);
+        this(-1, 0, new Timestamp(new java.util.Date().getTime()), null, -1, -1, -1, -1, null, null);
     }
 
-    public CheckInInformation(long id, Integer currentOcupancy, Date checkinTime, Date checkoutTime,
+    public CheckInInformation(long id, Integer currentOcupancy, Timestamp checkinTime, Timestamp checkoutTime,
                               long billingInformationId, long hotelId, long roomNumber, long customerId,
                               Long cateringStaffId, Long roomServiceStaffId) {
         this.id = id;
@@ -50,19 +50,19 @@ public class CheckInInformation {
         this.currentOcupancy = currentOcupancy;
     }
 
-    public Date getCheckinTime() {
+    public Timestamp getCheckinTime() {
         return checkinTime;
     }
 
-    public void setCheckinTime(Date checkinTime) {
+    public void setCheckinTime(Timestamp checkinTime) {
         this.checkinTime = checkinTime;
     }
 
-    public Date getCheckoutTime() {
+    public Timestamp getCheckoutTime() {
         return checkoutTime;
     }
 
-    public void setCheckoutTime(Date checkoutTime) {
+    public void setCheckoutTime(Timestamp checkoutTime) {
         this.checkoutTime = checkoutTime;
     }
 
