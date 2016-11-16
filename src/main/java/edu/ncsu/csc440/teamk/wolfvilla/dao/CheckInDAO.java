@@ -60,11 +60,11 @@ public class CheckInDAO {
     }
 
     /**
-     * Generate a new checkin_information entry in the database
-     * @param checkIn CheckInInformation model that holds the checkin data
-     * @param billing BillingInformation model that holds the billing data
+     * Generate a new checkin_information entry in the database, along with an associated billing information.
+     * @param checkIn the checkin information to save to the database.
+     * @param billing the billing information to save associated with the new checkIn.
      * @return newID the generated primary key of the checkin entry if the transaction was completed successfully
-     * @throws SQLException if improper values are passed
+     * @throws SQLException if improper values are passed, or some database error occurs
      * @throws ClassNotFoundException if the compiler cannot locate the relevant JDBC files
      */
     public static long addCheckIn(CheckInInformation checkIn, BillingInformation billing) throws SQLException, ClassNotFoundException {
@@ -72,63 +72,65 @@ public class CheckInDAO {
         try (Connection connection = DBConnection.getConnection()) {
             connection.setAutoCommit(false);
             //Prepare relevant SQL insert statements
-            try (PreparedStatement stmt1 = connection.prepareStatement(
+            try (PreparedStatement makeBilling = connection.prepareStatement(
                      "INSERT INTO billing_information \n" +
                              "VALUES(billing_information_seq.nextval, ?, ?, ?, ?, ?)",
                      new int[]{1});
-             PreparedStatement stmt2 = connection.prepareStatement(
+             PreparedStatement makeCheckin = connection.prepareStatement(
                      "INSERT INTO checkin_information VALUES(checkin_information_seq.nextval , ?, " +
                              "?, ?, ?, ?, ?, ?, ?, ?)",  new int[]{1});
-            PreparedStatement getOccupants = connection.prepareStatement("SELECT * " +
+            PreparedStatement checkOccupants = connection.prepareStatement("SELECT * " +
                     "FROM checkin_information " +
                     "WHERE (checkout_time IS NULL OR ? < checkout_time) AND " +
                     "(? IS NULL OR checkin_time < ?) AND hotel_id = ? AND room_number = ?")) {
-                getOccupants.setDate(1, checkIn.getCheckinTime());
-                getOccupants.setDate(2, checkIn.getCheckoutTime());
-                getOccupants.setDate(3, checkIn.getCheckoutTime());
-                getOccupants.setLong(4, checkIn.getHotelId());
-                getOccupants.setLong(5, checkIn.getRoomNumber());
+                //Make sure no one is already in this room in these times
+                checkOccupants.setDate(1, checkIn.getCheckinTime());
+                checkOccupants.setDate(2, checkIn.getCheckoutTime());
+                checkOccupants.setDate(3, checkIn.getCheckoutTime());
+                checkOccupants.setLong(4, checkIn.getHotelId());
+                checkOccupants.setLong(5, checkIn.getRoomNumber());
 
-                try (ResultSet rs = getOccupants.executeQuery()) {
+                try (ResultSet rs = checkOccupants.executeQuery()) {
+                    //If there is anyone in the room in this time, throw an exception
                     if (rs.next()) {
                         throw new SQLException("Found a conflicting check-in");
                     }
                 }
 
-                //Populate the first prepared statement's values and then execute it
-                stmt1.setString(1, billing.getBillingAddress());
-                stmt1.setString(2, billing.getSsn());
-                stmt1.setString(3, billing.getPaymentMethod());
-                stmt1.setString(4, billing.getCardNumber());
-                stmt1.setDate(5, billing.getExpirationDate());
-                stmt1.executeUpdate();
+                //Add the information to the new billing information.
+                makeBilling.setString(1, billing.getBillingAddress());
+                makeBilling.setString(2, billing.getSsn());
+                makeBilling.setString(3, billing.getPaymentMethod());
+                makeBilling.setString(4, billing.getCardNumber());
+                makeBilling.setDate(5, billing.getExpirationDate());
+                makeBilling.executeUpdate();
 
-                //Store primary key SQL generated for the new billing information
+                //Store primary key SQL generated for the new billing information so it can be given to the new checkin.
                 long billingId = 0L;
-                try (ResultSet ID = stmt1.getGeneratedKeys()) {
+                try (ResultSet ID = makeBilling.getGeneratedKeys()) {
                     ID.next();
                     billingId = ID.getLong(1);
                 }
 
-                //Populate the second prepared statement and then execute it
-                stmt2.setInt(1, checkIn.getCurrentOcupancy());
-                stmt2.setDate(2, checkIn.getCheckinTime());
-                stmt2.setDate(3, checkIn.getCheckoutTime());
-                stmt2.setLong(4, billingId);
-                stmt2.setLong(5, checkIn.getHotelId());
-                stmt2.setLong(6, checkIn.getRoomNumber());
-                stmt2.setLong(7, checkIn.getCustomerId());
-                SQLTypeTranslater.setLongOrNull(stmt2, 8, checkIn.getCateringStaffId());
-                SQLTypeTranslater.setLongOrNull(stmt2, 9, checkIn.getRoomServiceStaffId());
+                //Add the information for the new checkin.
+                makeCheckin.setInt(1, checkIn.getCurrentOcupancy());
+                makeCheckin.setDate(2, checkIn.getCheckinTime());
+                makeCheckin.setDate(3, checkIn.getCheckoutTime());
+                makeCheckin.setLong(4, billingId);
+                makeCheckin.setLong(5, checkIn.getHotelId());
+                makeCheckin.setLong(6, checkIn.getRoomNumber());
+                makeCheckin.setLong(7, checkIn.getCustomerId());
+                SQLTypeTranslater.setLongOrNull(makeCheckin, 8, checkIn.getCateringStaffId());
+                SQLTypeTranslater.setLongOrNull(makeCheckin, 9, checkIn.getRoomServiceStaffId());
 
-                stmt2.executeUpdate();
+                makeCheckin.executeUpdate();
 
-                //Check to see if the second statement went through properly. If yes, commit
-                // and return the newID of the generate check in event
-                try (ResultSet ID = stmt2.getGeneratedKeys()) {
+                //Get the id of the newly created checkin to return
+                try (ResultSet ID = makeCheckin.getGeneratedKeys()) {
                     ID.next();
                     long newId = ID.getLong(1);
 
+                    //if we got to this point, everything happened correctly, commit and return the id of the new checkin.
                     connection.commit();
                     return newId;
                 }

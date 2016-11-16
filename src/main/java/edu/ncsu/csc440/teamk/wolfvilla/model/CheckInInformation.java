@@ -4,6 +4,8 @@ import java.sql.Date;
 
 /**
  * Created by Joshua on 10/24/2016.
+ *
+ * An object to hold all the information about a Check in held in the database.
  */
 public class CheckInInformation {
     private long id;

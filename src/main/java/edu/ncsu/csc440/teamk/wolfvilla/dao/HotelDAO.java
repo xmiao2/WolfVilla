@@ -21,24 +21,27 @@ public class HotelDAO {
      *
      * @param hotelId id of hotel
      * @param managerId manager id to assign the hotel
-     * @throws SQLException
-     * @throws ClassNotFoundException
+     * @throws SQLException If an error occurs setting this hotels manager to managerId
+     * @throws ClassNotFoundException If the JDBC oracle jar cannot be loaded by DBConnection
      */
     public static void assignHotelManager(long hotelId, long managerId) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBConnection.getConnection()) {
             connection.setAutoCommit(false);
             //Prepare relevant SQL insert statements
-            try (PreparedStatement stmt1 = connection.prepareStatement(
+            try (PreparedStatement removeFromOldHotel = connection.prepareStatement(
                     "UPDATE hotels SET manager = NULL WHERE manager = ?");
-                 PreparedStatement stmt2 = connection.prepareStatement(
+                 PreparedStatement addToNewHotel = connection.prepareStatement(
                          "UPDATE hotels SET manager = ? WHERE id = ?")) {
-                //Populate the first prepared statement's values and then execute it
-                stmt1.setLong(1, managerId);
-                stmt1.executeUpdate();
-                stmt2.setLong(1, managerId);
-                stmt2.setLong(2, hotelId);
-                stmt2.executeUpdate();
+                //remove the manager from his last hotel, if he had one.
+                removeFromOldHotel.setLong(1, managerId);
+                removeFromOldHotel.executeUpdate();
+                //Add the manager to his new hotel.
+                addToNewHotel.setLong(1, managerId);
+                addToNewHotel.setLong(2, hotelId);
+                addToNewHotel.executeUpdate();
+                //If we got here, everything worked, commit.
                 connection.commit();
+                // If anything fails along the line, rollback the changes to the database and throw an exception
             } catch (Exception e) {
                 connection.rollback();
                 throw e;

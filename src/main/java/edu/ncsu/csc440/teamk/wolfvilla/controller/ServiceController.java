@@ -22,6 +22,8 @@ import static edu.ncsu.csc440.teamk.wolfvilla.util.FlashMessage.MESSAGE;
 
 /**
  * Created by Joshua on 11/6/2016.
+ *
+ * Controller used to add, edit, and delete services.
  */
 @Controller
 @RequestMapping("/services")

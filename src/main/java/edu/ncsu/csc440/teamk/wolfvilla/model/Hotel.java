@@ -2,6 +2,8 @@ package edu.ncsu.csc440.teamk.wolfvilla.model;
 
 /**
  * Created by Edward on 10/24/16.
+ *
+ * An object to hold all the information about a Hotel held in the database.
  */
 public class Hotel {
 

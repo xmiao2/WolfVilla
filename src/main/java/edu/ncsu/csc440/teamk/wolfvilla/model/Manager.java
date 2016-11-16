@@ -2,6 +2,8 @@ package edu.ncsu.csc440.teamk.wolfvilla.model;
 
 /**
  * Created by Joshua on 10/24/2016.
+ *
+ * An object to hold all the information about a Manager held in the database.
  */
 public class Manager {
     private long id;

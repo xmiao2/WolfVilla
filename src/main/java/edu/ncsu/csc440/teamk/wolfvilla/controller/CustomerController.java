@@ -19,11 +19,19 @@ import static edu.ncsu.csc440.teamk.wolfvilla.util.FlashMessage.MESSAGE;
 
 /**
  * Created by Adac on 11/7/2016.
+ *
+ * Controller for the customers, used to update, delete and add customer information.
  */
 
 @Controller
 @RequestMapping("/customers")
 public class CustomerController {
+    /**
+     * @param request
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView index(HttpServletRequest request) throws SQLException, ClassNotFoundException {
         Staff user = (Staff)request.getSession().getAttribute("user");

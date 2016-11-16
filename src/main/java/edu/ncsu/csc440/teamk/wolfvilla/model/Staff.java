@@ -2,6 +2,8 @@ package edu.ncsu.csc440.teamk.wolfvilla.model;
 
 /**
  * Created by xm on 10/24/16.
+ *
+ * An object to hold all the information about a Staff held in the database.
  */
 public class Staff {
     private long id;

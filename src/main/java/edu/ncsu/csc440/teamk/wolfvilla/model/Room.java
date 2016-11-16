@@ -2,6 +2,8 @@ package edu.ncsu.csc440.teamk.wolfvilla.model;
 
 /**
  * Created by Adac on 10/24/2016.
+ *
+ * An object to hold all the information about a Room held in the database.
  */
 public class Room {
     private Long hotelId;
