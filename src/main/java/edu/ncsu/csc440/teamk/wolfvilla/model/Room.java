@@ -43,4 +43,20 @@ public class Room {
     public void setCategory(RoomCategory category) {
         this.category = category;
     }
+
+    public String getCategoryName() {
+        return category.getCategoryName();
+    }
+
+    public void setCategoryName(String name) {
+        category.setCategoryName(name);
+    }
+
+    public Integer getMaxOccupancy() {
+        return category.getMaxOccupancy();
+    }
+
+    public void setMaxOccupancy(Integer occupancy) {
+        category.setMaxOccupancy(occupancy);
+    }
 }
