@@ -414,6 +414,7 @@ public class HotelController {
         mv.addObject("today", new Date(new java.util.Date().getTime()));
         mv.addObject("tomorrow", new Date(new java.util.Date().getTime() + 86400000));
         mv.addObject("hotelId", user.getHotelId());
+        mv.addObject("occupancy", 1);
         return mv;
     }
 

@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
@@ -170,8 +171,12 @@ public class CustomerController {
      * @throws ClassNotFoundException
      */
     @RequestMapping(method = RequestMethod.GET, value = "/occupants")
-    public ModelAndView reportOccupied() throws SQLException, ClassNotFoundException {
+    public ModelAndView reportOccupied(HttpServletRequest request) throws SQLException, ClassNotFoundException {
         ModelAndView mv = new ModelAndView("customers/occupants");
+        Staff user = (Staff)request.getSession().getAttribute("user");
+        mv.addObject("today", new Date(new java.util.Date().getTime()));
+        mv.addObject("tomorrow", new Date(new java.util.Date().getTime() + 86400000));
+        mv.addObject("hotelId", user.getHotelId());
         return mv;
     }
 }
