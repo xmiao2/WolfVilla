@@ -11,6 +11,7 @@ public class Room {
     private RoomCategory category;
 
     public Room() {
+        category = new RoomCategory();
     }
 
     public Room(Long hotelId, Integer roomNumber, RoomCategory category) {

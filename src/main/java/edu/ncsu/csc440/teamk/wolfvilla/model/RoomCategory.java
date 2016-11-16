@@ -10,6 +10,10 @@ public class RoomCategory {
     private Integer maxOccupancy;
     private double nightlyRate;
 
+    public RoomCategory() {
+
+    }
+
     public RoomCategory(String categoryName, Integer maxOccupancy,
                         double nightly_rate) {
         this.categoryName = categoryName;

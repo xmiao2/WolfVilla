@@ -5,11 +5,11 @@
     <section th:fragment="roomform">
         <div class="form-group">
             <label for="roomNumber">Room Number</label>
-            <input id="roomNumber" name="roomNumber" class="form-control" type="text" th:value="*{roomNumber}" />
+            <input id="roomNumber" name="roomNumber" class="form-control" type="text" th:field="*{roomNumber}" />
         </div>
         <div class="form-group">
             <label for="categoryName">Category</label>
-            <select id="categoryName" name="categoryName" class="selectpicker" data-width="100%" th:field="*{categoryName}">
+            <select id="categoryName" name="categoryName" class="selectpicker" data-width="100%" th:field="*{category.categoryName}">
                 <option value="Economy">Economy</option>
                 <option value="Deluxe">Deluxe</option>
                 <option value="Executive Suite">Executive Suite</option>
@@ -18,7 +18,7 @@
         </div>
         <div class="form-group">
             <label for="maxOccupancy">Max Occupancy</label>
-            <input id="maxOccupancy" name="maxOccupancy" class="form-control" type="text" th:value="*{maxOccupancy}" />
+            <input id="maxOccupancy" name="maxOccupancy" class="form-control" type="text" th:field="*{category.maxOccupancy}" />
         </div>
     </section>
 
