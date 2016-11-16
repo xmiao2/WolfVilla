@@ -4,7 +4,10 @@ import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
+/*
+ * This class contains a consolidated set of methods to handle
+ * translating the results taken from the database into something more easily handled by Java.
+ */
 public class SQLTypeTranslater {
     public static Character stringToChar(String s) {
         if (s == null || s.length() < 1) {

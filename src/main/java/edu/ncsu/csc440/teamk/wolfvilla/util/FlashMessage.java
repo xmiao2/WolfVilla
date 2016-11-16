@@ -1,5 +1,8 @@
 package edu.ncsu.csc440.teamk.wolfvilla.util;
 
+/**
+ * Class which enumerates the states of a Message that can be displayed by the application
+ */
 public class FlashMessage {
     public static final String MESSAGE = "message";
     public enum MessageType {
