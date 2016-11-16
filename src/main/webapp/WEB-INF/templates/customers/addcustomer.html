@@ -5,7 +5,7 @@
 <title layout:fragment="page-title">WolfVilla | Add Customer</title>
     <section layout:fragment="page-content">
     <h1>Add New Customer</h1>
-    <form method="post" th:action="@{/customers/new}">
+    <form method="post" th:action="@{/customers/new}" th:object="${customer}">
         <section th:include="customers/_customerform :: customerform"></section>
         <button type="submit" class="btn btn-primary">Submit</button>
         <a th:href="@{/customers}" class="btn btn-info">Cancel</a>
