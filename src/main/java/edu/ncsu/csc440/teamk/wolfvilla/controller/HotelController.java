@@ -5,6 +5,7 @@ import edu.ncsu.csc440.teamk.wolfvilla.dao.ReportDAO;
 import edu.ncsu.csc440.teamk.wolfvilla.dao.RoomDAO;
 import edu.ncsu.csc440.teamk.wolfvilla.model.Hotel;
 import edu.ncsu.csc440.teamk.wolfvilla.model.Room;
+import edu.ncsu.csc440.teamk.wolfvilla.model.Staff;
 import edu.ncsu.csc440.teamk.wolfvilla.util.FlashMessage;
 import edu.ncsu.csc440.teamk.wolfvilla.util.SQLTypeTranslater;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -324,8 +326,12 @@ public class HotelController {
      * @throws ClassNotFoundException
      */
     @RequestMapping(method = RequestMethod.GET, value = "/occupied")
-    public ModelAndView reportOccupied() throws SQLException, ClassNotFoundException {
+    public ModelAndView reportOccupied(HttpServletRequest request) throws SQLException, ClassNotFoundException {
         ModelAndView mv = new ModelAndView("hotels/occupied");
+        Staff user = (Staff)request.getSession().getAttribute("user");
+        mv.addObject("today", new Date(new java.util.Date().getTime()));
+        mv.addObject("tomorrow", new Date(new java.util.Date().getTime() + 86400000));
+        mv.addObject("hotelId", user.getHotelId());
         return mv;
     }
 
@@ -361,8 +367,12 @@ public class HotelController {
      * @throws ClassNotFoundException
      */
     @RequestMapping(method = RequestMethod.GET, value = "/unoccupied")
-    public ModelAndView reportUnoccupied() throws SQLException, ClassNotFoundException {
+    public ModelAndView reportUnoccupied(HttpServletRequest request) throws SQLException, ClassNotFoundException {
         ModelAndView mv = new ModelAndView("hotels/unoccupied");
+        Staff user = (Staff)request.getSession().getAttribute("user");
+        mv.addObject("today", new Date(new java.util.Date().getTime()));
+        mv.addObject("tomorrow", new Date(new java.util.Date().getTime() + 86400000));
+        mv.addObject("hotelId", user.getHotelId());
         return mv;
     }
 
@@ -398,8 +408,12 @@ public class HotelController {
      * @throws ClassNotFoundException
      */
     @RequestMapping(method = RequestMethod.GET, value = "/available")
-    public ModelAndView reportAvailable() throws SQLException, ClassNotFoundException {
+    public ModelAndView reportAvailable(HttpServletRequest request) throws SQLException, ClassNotFoundException {;
         ModelAndView mv = new ModelAndView("hotels/available");
+        Staff user = (Staff)request.getSession().getAttribute("user");
+        mv.addObject("today", new Date(new java.util.Date().getTime()));
+        mv.addObject("tomorrow", new Date(new java.util.Date().getTime() + 86400000));
+        mv.addObject("hotelId", user.getHotelId());
         return mv;
     }
 
