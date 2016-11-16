@@ -11,7 +11,8 @@ public class RoomCategory {
     private double nightlyRate;
 
     public RoomCategory() {
-
+        categoryName = "Deluxe";
+        maxOccupancy = 1;
     }
 
     public RoomCategory(String categoryName, Integer maxOccupancy,
@@ -31,6 +32,14 @@ public class RoomCategory {
 
     public double getNightlyRate() {
         return nightlyRate;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public void setMaxOccupancy(Integer maxOccupancy) {
+        this.maxOccupancy = maxOccupancy;
     }
 
     public void setNightlyRate(double nightlyRate) {

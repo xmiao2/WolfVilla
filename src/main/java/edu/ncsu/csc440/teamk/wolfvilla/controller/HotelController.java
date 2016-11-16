@@ -204,7 +204,7 @@ public class HotelController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "{id}/rooms/new")
     public ModelAndView addRoom(RedirectAttributes redir, @PathVariable("id") Long id,
-                                     @ModelAttribute("room") Room room) throws SQLException, ClassNotFoundException {
+                                     @ModelAttribute Room room) throws SQLException, ClassNotFoundException {
         room.setHotelId(id);
         RoomDAO.createRoom(room);
         redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Added Room (Room Number=%d)", room.getRoomNumber())));
@@ -237,7 +237,7 @@ public class HotelController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "{id}/rooms/edit/{roomNumber}")
     public ModelAndView editRoomById(RedirectAttributes redir, @PathVariable("id") Long id,
-                                     @PathVariable("roomNumber") Integer roomNumber, @ModelAttribute("room") Room room) throws SQLException, ClassNotFoundException {
+                                     @PathVariable("roomNumber") Integer roomNumber, @ModelAttribute(value = "room") Room room) throws SQLException, ClassNotFoundException {
         room.setHotelId(id);
         RoomDAO.updateRoom(room);
         redir.addFlashAttribute(MESSAGE, new FlashMessage(FlashMessage.MessageType.SUCCESS, String.format("Edited Room (Room Number=%d)", roomNumber)));

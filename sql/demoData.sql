@@ -43,6 +43,18 @@ SET manager=2
 WHERE id=0;
 
 INSERT INTO room_categories
+VALUES ('Economy', 1, 150);
+
+INSERT INTO room_categories
+VALUES ('Executive Suite', 1, 250);
+
+INSERT INTO room_categories
+VALUES ('Deluxe', 1, 350);
+
+INSERT INTO room_categories
+VALUES ('Presidential Suite', 1, 450);
+
+INSERT INTO room_categories
 VALUES ('Economy', 2, 150);
 
 INSERT INTO room_categories
@@ -51,11 +63,38 @@ VALUES ('Executive Suite', 2, 250);
 INSERT INTO room_categories
 VALUES ('Deluxe', 2, 350);
 
+INSERT INTO room_categories
+VALUES ('Presidential Suite', 2, 450);
+
 INSERT INTO rooms
 VALUES(0, 101, 'Economy', 2);
 
 INSERT INTO rooms
 VALUES(0, 201, 'Executive Suite', 2);
+
+INSERT INTO room_categories
+VALUES ('Economy', 3, 150);
+
+INSERT INTO room_categories
+VALUES ('Executive Suite', 3, 250);
+
+INSERT INTO room_categories
+VALUES ('Deluxe', 3, 350);
+
+INSERT INTO room_categories
+VALUES ('Presidential Suite', 3, 450);
+
+INSERT INTO room_categories
+VALUES ('Economy', 4, 150);
+
+INSERT INTO room_categories
+VALUES ('Executive Suite', 4, 250);
+
+INSERT INTO room_categories
+VALUES ('Deluxe', 4, 350);
+
+INSERT INTO room_categories
+VALUES ('Presidential Suite', 4, 450);
 
 INSERT INTO rooms
 VALUES(0, 301, 'Deluxe', 2);
