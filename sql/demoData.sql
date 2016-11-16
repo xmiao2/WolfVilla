@@ -15,7 +15,7 @@ INSERT INTO title_department
 VALUES('Room Service Staff', 'Room Service');
 
 INSERT INTO title_department
-VALUES('Admin', 'admin');
+VALUES('Admin', 'Administration');
 
 INSERT INTO staff
 VALUES (staff_seq.nextval, 'David D. Clukey', 'Front Desk representative', '409021234',
