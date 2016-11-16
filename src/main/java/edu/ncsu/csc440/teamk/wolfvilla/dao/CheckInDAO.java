@@ -14,34 +14,6 @@ import java.util.List;
  * Created by Joshua on 10/27/2016.
  */
 public class CheckInDAO {
-    /**
-     * Reports all customers in the given hotel between startDate and endDate. That is, if
-     * there is any overlap between startDate and EndDate with a given checkin, that customer
-     * is returned.
-     * @param startDate The beginning date in the interval.
-     * @param endDate The ending date in the interval.
-     * @param hotelID The id of the hotel to look for customers in
-     * @returna list of occupants in the given hotel in the given interval.
-     * @throws SQLException If the query throws an exception
-     * @throws ClassNotFoundException If DBConnection is cannot load connection.
-     */
-    public static List<Customer> listOccupants(Date startDate, Date endDate, long hotelID)
-            throws SQLException, ClassNotFoundException {
-        try (Connection connection = DBConnection.getConnection();
-            PreparedStatement stmt = connection.prepareStatement(
-                "SELECT customers.*" +
-                "FROM checkin_information, customers " +
-                "WHERE (checkout_time IS NULL OR ? < checkout_time) AND " +
-                "checkin_time < ? AND hotel_id = ? AND customers.id = checkin_information.customer_id")) {
-            stmt.setDate(1, startDate);
-            stmt.setDate(2, endDate);
-            stmt.setLong(3, hotelID);
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                return convertCustomerList(rs);
-            }
-        }
-    }
 
     /**
      * Deletes the checkin with checkInID.
@@ -270,22 +242,6 @@ public class CheckInDAO {
     }
 
     /**
-     * @param hotelId the hotel to get the check in ins
-     * @return Returns all checkins for a given hotel
-     * @throws SQLException If the query throws an exception
-     * @throws ClassNotFoundException If DBConnection is cannot load connection.
-     */
-    public static List<CheckInInformation> listCheckInByHotel(long hotelId) throws SQLException, ClassNotFoundException {
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(
-                     "SELECT * FROM checkin_information WHERE hotel_id = ?")) {
-            stmt.setLong(1, hotelId);
-            stmt.executeQuery();
-            return convertCheckinList(stmt.executeQuery());
-        }
-    }
-
-    /**
      * @param rs the result set containing a list of check ins.
      * @return A list of checkins contained in rs
      * @throws SQLException if an exception is thrown retrieving customers from rs.
@@ -297,23 +253,6 @@ public class CheckInDAO {
         }
         return toReturn;
     }
-
-    /**
-     * Converts all remaining entries in rs into a list of customers.
-     * @param rs the rs to get cusotmers of
-     * @return a list of customers
-     * @throws SQLException If an SQLException is called retrieving customers from rs.
-     */
-    private static List<Customer> convertCustomerList(ResultSet rs) throws SQLException {
-        ArrayList<Customer> toReturn = new ArrayList<Customer>();
-        while(rs.next()) {
-            toReturn.add(new Customer(rs.getLong(1), rs.getString(2),
-                    SQLTypeTranslater.stringToChar(rs.getString(3)), rs.getString(4),
-                    rs.getString(5), rs.getString(6)));
-        }
-        return toReturn;
-    }
-
     /**
      * This turns the current row in the result set to a checkin.
      * @param rs the resultset.
