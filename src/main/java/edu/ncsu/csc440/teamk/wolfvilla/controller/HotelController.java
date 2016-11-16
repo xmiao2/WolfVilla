@@ -292,6 +292,15 @@ public class HotelController {
         return mv;
     }
 
+    /**
+     * @param mv the model view to return the view through
+     * @param startDate the earliest a stay can be in a room to consider the room "occupied"
+     * @param endDate the latest a stay can be in a room to consider the room "occupied"
+     * @param id the id of the hotel to look for occupied rooms in
+     * @return a page with the list of rooms occupied sometime in the given interval.
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.POST, value = "rooms/all_occupied")
     public ModelAndView getAllOccupiedrooms(ModelAndView mv, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, @RequestParam("hotelId") Long id) throws SQLException, ClassNotFoundException {
         List<Room> rooms = null;
@@ -309,12 +318,26 @@ public class HotelController {
         return mv;
     }
 
+    /**
+     * @return a form for the hotel and interval to get occupation information from.
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/occupied")
     public ModelAndView reportOccupied() throws SQLException, ClassNotFoundException {
         ModelAndView mv = new ModelAndView("hotels/occupied");
         return mv;
     }
 
+    /**
+     * @param mv the model view to return the view through
+     * @param startDate the earliest a stay can be in a room to consider the room "occupied"
+     * @param endDate the latest a stay can be in a room to consider the room "occupied"
+     * @param id the id of the hotel to look for occupied rooms in
+     * @return a page with the list of rooms unoccupied for this entire interval.
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.POST, value = "rooms/all_unoccupied")
     public ModelAndView getAllUnoccupiedrooms(ModelAndView mv, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, @RequestParam("hotelId") Long id) throws SQLException, ClassNotFoundException {
         List<Room> rooms = null;
@@ -332,12 +355,29 @@ public class HotelController {
         return mv;
     }
 
+    /**
+     * @return a form for the hotel and interval to get unoccupation information from.
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/unoccupied")
     public ModelAndView reportUnoccupied() throws SQLException, ClassNotFoundException {
         ModelAndView mv = new ModelAndView("hotels/unoccupied");
         return mv;
     }
 
+    /**
+     * @param mv the model view to return the view through
+     * @param startDate the earliest a stay can be in a room to consider the room "occupied"
+     * @param endDate the latest a stay can be in a room to consider the room "occupied"
+     * @param id the id of the hotel to look for occupied rooms in
+     * @param category the category of rooms considered
+     * @param occupancy the minimum occupancy for rooms considered.
+     * @return a page with the list of rooms unoccupied for this entire interval with the given category
+     *          and at least the given occupancy.
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.POST, value = "rooms/all_availablerooms")
     public ModelAndView getAllAvailablerooms(ModelAndView mv, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, @RequestParam("hotelId") Long id, @RequestParam("category") String category, @RequestParam("occupancy") int occupancy) throws SQLException, ClassNotFoundException {
         List<Room> rooms = null;
@@ -352,6 +392,11 @@ public class HotelController {
         return mv;
     }
 
+    /**
+     * @return a form to enter getAllAvailable room parameters (including date range, category, and max_occupancy).
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/available")
     public ModelAndView reportAvailable() throws SQLException, ClassNotFoundException {
         ModelAndView mv = new ModelAndView("hotels/available");
