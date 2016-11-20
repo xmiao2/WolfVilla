@@ -1,5 +1,12 @@
 # WolfVilla
 CSC440 Final Project
+Implemented via Spring 4, Thymeleaf 3, Boostrap, DataTables.js and Oracle sqlplus
+
+Members:
+Xiaohang Miao (Team Lead, Tech Lead, Sysadmin)
+Joshua Cook (Developer, DBA)
+Edward Gilliam (Developer)
+Adam Crowell (Developer, QA)
 
 ## Environment Setup
 0. Fork this repo and clone to your local machine
